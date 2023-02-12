@@ -16,19 +16,13 @@ const { Server } = require("socket.io");
 const io = new Server(server, { cors: { origin: "*" } });
 
 io.on("connection", (socket: Socket) => {
-  console.log("user connected")
-  console.log(socket.id)
-  socket.on("ping", () => {
-    socket.emit("pong", "pong");
+  console.log("a user connected");
+  socket.on("SET_USER", (user) => {
+    socket.emit("CONFIRM_USER_SET", user);
+    console.log("Le " + user.type + " " + user.name + " est connecté");
   });
-
-  socket.on("setUser", (user)  => {
-    socket.emit("confirmUserSet", user)
-    console.log("Le " + user.type + " " + user.name + " est connecté")
-  })
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
 });
-
