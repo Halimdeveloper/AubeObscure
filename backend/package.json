@@ -7,15 +7,15 @@
     "test": "jest --detectOpenHandles --colors",
     "lint": "eslint src/** tests/** --fix --cache",
     "build": "rimraf ./build && tsc",
-    "start": "ts-node-dev --respawn --transpileOnly src/index.ts",
+    "start": "ts-node-dev --respawn --transpileOnly src/app.ts",
     "start:prod": "npm run build && node ./build/index.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^25.2.1",
-    "@typescript-eslint/eslint-plugin": "^2.26.0",
-    "@typescript-eslint/parser": "^2.26.0",
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "@typescript-eslint/parser": "^5.51.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
