@@ -16,7 +16,7 @@ export default function Home() {
     }
 
     return <div>
-        <h1>Welcom</h1>
+        <h1>Bienvenue dans Aube Obscure</h1>
         <button className="customBtn" onClick={goToPlayer}>Player</button>
         <button className="customBtn" onClick={goToMJ}>MJ</button>
 
