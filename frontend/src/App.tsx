@@ -2,22 +2,35 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './Components/Home'
 import Player from './Components/Player'
 import GameMaster from './Components/GameMaster'
-import './App.css'
-import React from 'react'
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import React, { useState } from 'react'
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { ColorModeContext, useMode } from './theme'
+import Topbar from './Components/global/Topbar'
 
 
 
 function App() {
+  const [theme, colorMode] = useMode();
+  const [isSidebar, setIsSidebar] = useState(true);
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/player" element={<Player />} />
-      <Route path="/gameMaster" element={<GameMaster />} />
-    </Routes>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="app">
+          <main className="content">
+          <Topbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/player" element={<Player />} />
+              <Route path="/gameMaster" element={<GameMaster />} />
+            </Routes>
+          </main>
+        </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
+
+
   );
 }
 
