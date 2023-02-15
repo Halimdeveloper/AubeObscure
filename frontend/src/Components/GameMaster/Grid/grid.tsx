@@ -1,3 +1,4 @@
+import { border } from '@mui/system';
 import React from 'react';
 import styled from 'styled-components';
 import BasicTabs from '../../BasicTabs/BasicTabs';
@@ -39,8 +40,9 @@ const MainGrid: React.FC<Props> = (props: Props) => {
     <StyledMainGrid>
       <StyledDiv style={{ 
         gridArea: '1 / 1 / 6 / 3',
-        backgroundColor: 'cyan',
+        backgroundColor: '#141b2d',
         transformOrigin: 'left',
+        borderTop: '1px inset',
       }}>
         {props.players.map((player: any) => {
           return (<li key={player.firstName + player.lastName}>{player.firstName} {player.lastName}</li>)
@@ -54,12 +56,14 @@ const MainGrid: React.FC<Props> = (props: Props) => {
       }} />
       <StyledDiv style={{ 
         gridArea: '1 / 3 / 5 / 4',
-        backgroundColor: 'blue'
+        backgroundColor: 'blue',
+        borderTop: '1px inset',
       }} />
       <StyledDiv style={{ 
         gridArea: '1 / 4 / 6 / 6',
         backgroundColor: 'red',
         transformOrigin: 'right',
+        borderTop: '1px inset',
       }} />
     </StyledMainGrid>
   );

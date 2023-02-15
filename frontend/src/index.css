@@ -65,3 +65,24 @@ body,
   font-size: 0.9rem;
   border: 1px solid black;
 }
+.heart {
+  background-color: #fff;
+  width: 50px;
+  height: 50px;
+  position: relative;
+  transform: rotate(45deg);
+}
+.heart::before, .heart::after {
+  content: "";
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  position: absolute;
+  border-radius: 50%;
+}
+.heart::before {
+  left: -25px;
+}
+.heart::after {
+  top: -25px;
+}
