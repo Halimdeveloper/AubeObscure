@@ -1,5 +1,6 @@
 import React from "react";
-import MainGrid from "./ButtonRow/grid";
+import MainGrid from "./Grid/grid";
+import BasicGrid from "./Grid/grid";
 
 interface Props {
     players: Array<{
@@ -47,7 +48,7 @@ export default function gameMaster() {
 
 
     return (
-
+            // <BasicGrid />
         <MainGrid players={players}/>
 
     )
