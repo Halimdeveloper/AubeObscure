@@ -6,7 +6,11 @@ import React, { useState } from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Topbar from "./Components/global/Topbar";
-import CharactersContext from "./Context/CharactersContext";
+import CharactersContext from "./Contexts/CharactersContext";
+import SocketContext from "./Contexts/SocketContext";
+import { socket } from "./Sockets";
+
+
 
 
 function App() {
@@ -24,21 +28,23 @@ function App() {
       userCharacter,
       setUserCharacter,
     }}>
-      <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <div className="app">
-            <main className="content">
-              <Topbar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/player" element={<Player />} />
-                <Route path="/gameMaster" element={<GameMaster />} />
-              </Routes>
-            </main>
-          </div>
-        </ThemeProvider>
-      </ColorModeContext.Provider>
+      <SocketContext.Provider value={socket}> //TODO voir pourquoi ya des erreurs 
+        <ColorModeContext.Provider value={colorMode}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <div className="app">
+              <main className="content">
+                <Topbar />
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/player" element={<Player />} />
+                  <Route path="/gameMaster" element={<GameMaster />} />
+                </Routes>
+              </main>
+            </div>
+          </ThemeProvider>
+        </ColorModeContext.Provider>
+      </SocketContext.Provider>
     </CharactersContext.Provider>
   );
 }
