@@ -1,4 +1,5 @@
-import React from "react";
+import Button from '@mui/material/Button';
+import React, { useEffect } from "react";
 import Heart from "../Heart/Heart";
 import MainGrid from "./Grid/grid";
 import BasicGrid from "./Grid/grid";
@@ -47,8 +48,22 @@ export default function gameMaster() {
         console.log(event.target.value);
     }
 
+    function triggerHit() {
+        console.log("hit")
+    }
+
+
     return (
+        <div>
+
+            <Button type="submit" color="secondary" variant="contained" onClick={triggerHit}>
+                -1 pdv
+            </Button>
             <MainGrid players={players} />
+
+
+
+        </div>
     )
 }
 
