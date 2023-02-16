@@ -5,7 +5,7 @@ body,
 #root,
 .app,
 .content {
-  height: 100%;
+  height: 100%; 
   width: 100%;
   font-family: 'Source Sans Pro', sans-serif;
 }
@@ -38,6 +38,9 @@ body,
   text-align: center;
   display: inline-block;
   background: #282a34;
+  position: relative;
+  bottom: 2rem;
+  left: 5rem;
   color: #fff;
   padding: 1rem 1rem 2rem 1rem;
 }
@@ -66,17 +69,17 @@ body,
   border: 1px solid black;
 }
 .heart {
-  background-color: #fff;
-  width: 50px;
-  height: 50px;
+  background-color: red;
+  width: 40px;
+  height: 40px;
   position: relative;
   transform: rotate(45deg);
 }
 .heart::before, .heart::after {
   content: "";
-  width: 50px;
-  height: 50px;
-  background-color: #fff;
+  width: 40px;
+  height: 40px;
+  background-color: red;
   position: absolute;
   border-radius: 50%;
 }
@@ -85,4 +88,20 @@ body,
 }
 .heart::after {
   top: -25px;
+}
+
+.heart-value {
+  position: absolute;
+  transform: rotate(-45deg);
+  left: -16px;
+  top: -6px;
+  z-index: 1;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.center-heart {
+  position: relative;
+  left:0.5rem;
+  top:3.5rem;
 }

@@ -2,6 +2,7 @@ import { border } from '@mui/system';
 import React from 'react';
 import styled from 'styled-components';
 import BasicTabs from '../../BasicTabs/BasicTabs';
+import Heart from '../../Heart/Heart';
 
 interface Props {
     players: Array<{
@@ -12,34 +13,26 @@ interface Props {
 }
 
 const StyledMainGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-  height: 100%;
+ display: grid;
+grid-template-columns: repeat(2, 1fr);
+grid-template-rows: 15fr 1fr;
+grid-column-gap: 0px;
+grid-row-gap: 0px;
+  height: calc(100vh - 69px);
   width: 100%;
-  transition: all 0.5s ease-in-out;
 `;
 
 const StyledDiv = styled.div`
-  &:hover {
-    transform: scaleX(1.5);
-    box-shadow: 0px 0px 10px 2px #000000;
-  }
+grid-template-rows: (10fr, 1fr);
 `;
 
 const StyledStaticDiv = styled.div`
-    transform: scaleX(1.5);
-    box-shadow: 0px 0px 10px 2px #000000;
-  }
 `;
-
 const MainGrid: React.FC<Props> = (props: Props) => {
   return (
     <StyledMainGrid>
       <StyledDiv style={{ 
-        gridArea: '1 / 1 / 6 / 3',
+        gridArea: '1 / 1 / 2 / 2',
         backgroundColor: '#141b2d',
         transformOrigin: 'left',
         borderTop: '1px inset',
@@ -48,21 +41,16 @@ const MainGrid: React.FC<Props> = (props: Props) => {
           return (<li key={player.firstName + player.lastName}>{player.firstName} {player.lastName}</li>)
         })}
         <BasicTabs />
+        
       </StyledDiv>
       <StyledStaticDiv style={{ 
-        gridArea: '5 / 3 / 6 / 4',
-        backgroundColor: 'yellow',
+        gridArea: '2 / 1 / 3 / 3',
+        backgroundColor: 'grey',
         zIndex: 1,
       }} />
       <StyledDiv style={{ 
-        gridArea: '1 / 3 / 5 / 4',
-        backgroundColor: 'blue',
-        borderTop: '1px inset',
-      }} />
-      <StyledDiv style={{ 
-        gridArea: '1 / 4 / 6 / 6',
-        backgroundColor: 'red',
-        transformOrigin: 'right',
+        gridArea: '1 / 2 / 2 / 3',
+        backgroundColor: 'black',
         borderTop: '1px inset',
       }} />
     </StyledMainGrid>

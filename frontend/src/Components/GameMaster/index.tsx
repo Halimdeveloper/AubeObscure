@@ -1,4 +1,5 @@
 import React from "react";
+import Heart from "../Heart/Heart";
 import MainGrid from "./Grid/grid";
 import BasicGrid from "./Grid/grid";
 
@@ -46,11 +47,8 @@ export default function gameMaster() {
         console.log(event.target.value);
     }
 
-
     return (
-            // <BasicGrid />
-        <MainGrid players={players}/>
-
+            <MainGrid players={players} />
     )
 }
 
