@@ -16,7 +16,7 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
-
+  
   return (
     <div
       role="tabpanel"
@@ -56,8 +56,9 @@ export default function BasicTabs() {
               onChange={handleChange} 
               aria-label="basic tabs example">
           <Tab label="Stats"  {...a11yProps(0)} />
-          <Tab label="Inventaire" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Equipement" {...a11yProps(1)} />
+          <Tab label="Armes" {...a11yProps(2)} />
+          <Tab label="Autres" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0} >
@@ -68,10 +69,13 @@ export default function BasicTabs() {
         <Stat title={'Sagesse'} value={10} addition={+0} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        LA CEINTURE EN OR
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        LA GROSSE EPEE CACHE
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        LA TORCHE DE FEU
       </TabPanel>
     </Box>
   );
