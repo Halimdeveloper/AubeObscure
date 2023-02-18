@@ -1,5 +1,6 @@
 
 import PlayerDashBoard from "../../Components/PlayerDashBoard";
+import ToolBar from "../../Components/ToolBar";
 import "./style.css";
 
 export default function PlayerScene() {
@@ -33,7 +34,9 @@ export default function PlayerScene() {
         <PlayerDashBoard />
       </div>
       <div className="eventsBoard"/>
-      <div className="footer"/>
+      <div className="footer">
+        <ToolBar />
+      </div>
     </div>
     );
 }

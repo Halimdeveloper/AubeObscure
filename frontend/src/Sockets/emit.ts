@@ -16,3 +16,7 @@ export const getQueueLength = () => {
 export const removeUserFromQueue = () => {
   socket.emit("removeUserFromQueue");
 };
+
+export const getTripleDiceScore = () => {
+  socket.emit("GET_TRIPLEDICE");
+};

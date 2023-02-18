@@ -2,6 +2,7 @@ import express from "express";
 import { Socket } from "socket.io";
 import setupRoutes from "../routes";
 import { Character } from "./models/Character";
+import { getTripleDiceScore } from "./function/Dice"
 
 const app = express();
 const http = require("http");
@@ -45,4 +46,13 @@ io.on("connection", (socket: Socket) => {
     socket.emit("CHARACTERS", characters);
     console.log("EMIT CHARACTERS");
   });
+
+  let Allresult: Array<string>=[]
+  socket.on("GET_TRIPLEDICE", () => {
+    
+    const result = getTripleDiceScore()
+    Allresult.push(result)
+    console.log("TRIPLEDICE hit", Allresult);
+    socket.emit("TRIPLEDICE", Allresult);
+  })
 });

@@ -25,12 +25,14 @@ function App() {
     life: 0,
     lifeMax: 0,
   });
+  const [dices, setDices] = useState([]);
+
   const navigate = useNavigate()
 
 
 
   useEffect(() => {
-    initSockets(navigate)
+    initSockets(navigate, dices, setDices)
   }, [[initSockets]])
 
 
@@ -39,12 +41,13 @@ function App() {
       userCharacter,
       setUserCharacter,
     }}>
-      <SocketContext.Provider value={socket}>
+      <SocketContext.Provider value={socket} >
         <ColorModeContext.Provider value={colorMode}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <div className="app">
               <main className="content">
+              {dices}
                 <Topbar />
                 <Routes>
                   <Route path="/" element={<Home />} />

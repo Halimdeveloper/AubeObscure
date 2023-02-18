@@ -1,5 +1,6 @@
 import { socket } from ".";
-export const socketEvents = (navigate: any) => {
+
+export const socketEvents = (navigate: any, dices: any, setDices: any) => {
   socket.on("connect", () => {
     console.log("Socket is connected: " + socket.connected);
   });
@@ -16,4 +17,10 @@ export const socketEvents = (navigate: any) => {
       navigate("/gameMaster");
     }
   });
+
+  socket.on("TRIPLEDICE", (resultDice) => {
+    setDices(resultDice)
+    console.log("TRIPLEDICE " + resultDice);
+  });
+  
 };
