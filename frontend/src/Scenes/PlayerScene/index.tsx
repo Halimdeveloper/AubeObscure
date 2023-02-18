@@ -1,10 +1,9 @@
 
-import { Box } from "@mui/material";
-import React from "react";
-import MainGrid from "../../Components/GameMaster/Grid/grid";
-import PlayerCharacters from "../../Components/PlayerCharacters";
+import PlayerDashBoard from "../../Components/PlayerDashBoard";
+import "./style.css";
 
 export default function PlayerScene() {
+
     type Player = {
         firstName: string
         lastName: string
@@ -28,11 +27,13 @@ export default function PlayerScene() {
     }]
 
     return (
-        <grid> 
 
-
-            
-
-        </grid>
+<div className='mainGrid'>
+      <div className="playerDashBoard">
+        <PlayerDashBoard />
+      </div>
+      <div className="eventsBoard"/>
+      <div className="footer"/>
+    </div>
     );
 }

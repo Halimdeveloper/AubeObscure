@@ -39,7 +39,7 @@ function App() {
       userCharacter,
       setUserCharacter,
     }}>
-      <SocketContext.Provider value={socket}> //TODO voir pourquoi ya des erreurs
+      <SocketContext.Provider value={socket}>
         <ColorModeContext.Provider value={colorMode}>
           <ThemeProvider theme={theme}>
             <CssBaseline />

@@ -8,9 +8,10 @@ export default function PlayerCharacters() {
 
 
   return (
-    <Box>
+    <div className="playersCharacters">
       <h1>All Characters</h1>
-    </Box>
+    </div>
+
   )
 }
 

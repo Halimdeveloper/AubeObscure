@@ -1,0 +1,9 @@
+.playerInfosContainer {
+    display: flex;
+    height:80%;
+}
+.leftView  {
+    
+    height: 100%;
+}
+

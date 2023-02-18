@@ -1,0 +1,32 @@
+.mainGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 15fr 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  height: calc(100vh - 69px);
+  width: 100%;
+
+
+}
+
+.playerDashBoard {
+  grid-area: 1 / 1 / 2 / 2;
+  background-color: #141b2d;
+  transform-origin: left;
+  border-top: 0.2rem inset;
+  grid-template-rows: (10fr, 1fr);
+}
+
+.eventsBoard {
+  grid-area: 1 / 2 / 2 / 3;
+  background-color: black;
+  border-top: 0.2rem inset;
+  grid-template-rows: (10fr, 1fr);
+}
+
+.footer {
+  grid-area: 2 / 1 / 3 / 3;
+  background-color: grey;
+  z-index: 1;
+}
