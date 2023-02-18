@@ -17,7 +17,7 @@ server.listen(PORT, () => {
 const { Server } = require("socket.io");
 const io = new Server(server, { cors: { origin: "*" } });
 
-let characters: Character = {
+const characters: Character = {
   firstName: "Pierre",
   lastName: "TheBoss",
   life: 20,
@@ -47,7 +47,7 @@ io.on("connection", (socket: Socket) => {
     console.log("EMIT CHARACTERS");
   });
 
-  let Allresult: Array<string>=[]
+  const Allresult: Array<string>=[]
   socket.on("GET_TRIPLEDICE", () => {
     
     const result = getTripleDiceScore()
