@@ -1,9 +1,5 @@
 import { socket } from ".";
-import { useNavigate } from "react-router-dom";
-
-// const navigate = useNavigate();
-
-export const socketEvents = () => {
+export const socketEvents = (navigate: any) => {
   socket.on("connect", () => {
     console.log("Socket is connected: " + socket.connected);
   });
@@ -14,12 +10,10 @@ export const socketEvents = () => {
 
   socket.on("CONFIRM_USER_SET", (user) => {
     if (user.type === "Player") {
-      //   navigate("/player");
-      console.log("User is a player");
+      navigate("/player");
     }
-    if (user.type === "GM   ") {
-      //   navigate("/gameMaster");
-      console.log("User is a GM");
+    if (user.type === "GM") {
+      navigate("/gameMaster");
     }
   });
 };
