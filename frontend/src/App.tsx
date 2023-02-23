@@ -47,7 +47,6 @@ function App() {
             <CssBaseline />
             <div className="app">
               <main className="content">
-              {dices}
                 <Topbar />
                 <Routes>
                   <Route path="/" element={<Home />} />
