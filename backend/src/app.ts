@@ -1,8 +1,12 @@
-import express from "express";
+import express, { response } from "express";
 import { Socket } from "socket.io";
 import setupRoutes from "../routes";
 import { getTripleDiceScore } from "./function/Dice";
-import type { PlayerCharacter } from "./models/characters/PlayerCharacter";
+import {
+  PlayerCharacter,
+  UserNameEnum,
+} from "./models/characters/PlayerCharacter";
+import { User } from "./models/User";
 
 const app = express();
 const http = require("http");
@@ -26,20 +30,25 @@ const characters: Array<PlayerCharacter> = [
     maxHealth: 30,
     class: "warrior",
     stats: {
-      address: 10,
-      fights: 10,
+      agility: 10,
+      fighting: 10,
       erudition: 10,
       toughness: 10,
       survival: 10,
     },
+    userName: UserNameEnum.Halim,
   },
 ];
 
 io.on("connection", (socket: Socket) => {
   console.log("a user connected");
-  socket.on("SET_USER", (user) => {
-    socket.emit("CONFIRM_USER_SET", user);
-    console.log("Le " + user.type + " " + user.name + " est connecté");
+  socket.on("SET_USER", (user: User) => {
+    const response = {
+      users: characters,
+      currentUser: user,
+    };
+    socket.emit("CONFIRM_USER_SET", response);
+    console.log("Le " + user.role + " " + user.name + " est connecté");
   });
 
   socket.on("disconnect", () => {

@@ -1,14 +1,15 @@
+/* eslint-disable no-unused-vars */
 import { PlayerCharacter } from "./characters/PlayerCharacter";
 
 export enum RoleEnum {
-  Player = "Player",
-  GM = "GM",
+  Player,
+  GM,
 }
 
 export enum UserNameEnum {
-  Halim = "Halim",
-  Pierre = "Pierre",
-  Matthieu = "Matthieu",
+  Halim,
+  Pierre,
+  Matthieu,
 }
 
 export type User = {

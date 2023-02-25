@@ -1,13 +1,17 @@
 import { socket } from ".";
+import { Character } from "../models/characters/Character";
+import { User, RoleEnum } from "../models/User";
 
 export const socketEvents = (
   navigate: any,
   dices: any,
   setDices: any,
-  players: any,
-  setPlayers: any,
-  characters: any,
-  setCharacters: any
+  users: User[],
+  setUsers: any,
+  characters: Character[],
+  setCharacters: any,
+  currentCharacter: User,
+  setCurrentCharacter: any
 ) => {
   socket.on("connect", () => {
     console.log("Socket is connected: " + socket.connected);
@@ -17,11 +21,12 @@ export const socketEvents = (
     console.log("Socket is disconnected: " + !socket.connected);
   });
 
-  socket.on("CONFIRM_USER_SET", (user) => {
-    if (user.type === "Player") {
+  socket.on("CONFIRM_USER_SET", (response) => {
+    
+    if (response.currentUser.role === RoleEnum.Player) {
       navigate("/player");
     }
-    if (user.type === "GM") {
+    if (response.currentUser.role === RoleEnum.GM) {
       navigate("/gameMaster");
     }
   });
