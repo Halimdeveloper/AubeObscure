@@ -1,0 +1,10 @@
+.gameHistory {
+    width: 40vh;
+    background-color: green;
+}
+
+.historyBox {
+    background-color: grey;
+    overflow: scroll;
+    height: 67vh;
+}
