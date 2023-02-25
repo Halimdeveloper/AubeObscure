@@ -8,11 +8,9 @@ import { StyledEngineProvider } from '@mui/material/styles'
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
     <BrowserRouter>
       <StyledEngineProvider injectFirst>
         <App />
       </StyledEngineProvider>
     </BrowserRouter>
-  </React.StrictMode>
 )

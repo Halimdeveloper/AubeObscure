@@ -8,39 +8,34 @@ import { ColorModeContext, useMode } from "./theme";
 import Topbar from "./Components/global/Topbar";
 import CharactersContext from "./Contexts/CharactersContext";
 import SocketContext from "./Contexts/SocketContext";
-import { socket, initSockets } from "./Sockets";
 import PlayerScene from "./Scenes/PlayerScene";
 import GameMasterScene from "./Scenes/GameMasterScene";
-
-
-
+import { PlayerCharacter } from "./models/characters/PlayerCharacter";
+import DicesContext from "./Contexts/DicesContext";
+import { useDiceStore } from "./stores/DiceStore";
+import { usePlayerStore } from "./stores/PlayerStore";
+import { socketEvents } from "./Sockets/events";
+import { socket } from "./Sockets";
 
 
 function App() {
+
   const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  const [userCharacter, setUserCharacter] = useState({
-    firstName: "",
-    lastName: "",
-    life: 0,
-    lifeMax: 0,
-  });
-  const [dices, setDices] = useState([]);
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const initSockets = (navigate: any) => {
+    
+    const dices = useDiceStore((state:any) => state.dices);
+    const setDices = useDiceStore((state:any) => state.setDices);
+    const players = usePlayerStore((state:any) => state.players);
+    const setPlayers = usePlayerStore((state:any) => state.setPlayers);
 
-
-
-  useEffect(() => {
-    initSockets(navigate, dices, setDices)
-  }, [[initSockets]])
-
+    socketEvents(navigate, dices, setDices, players, setPlayers);
+  };
+  
+initSockets(navigate);
 
   return (
-    <CharactersContext.Provider value={{
-      userCharacter,
-      setUserCharacter,
-    }}>
       <SocketContext.Provider value={socket} >
         <ColorModeContext.Provider value={colorMode}>
           <ThemeProvider theme={theme}>
@@ -58,7 +53,6 @@ function App() {
           </ThemeProvider>
         </ColorModeContext.Provider>
       </SocketContext.Provider>
-    </CharactersContext.Provider>
   );
 }
 

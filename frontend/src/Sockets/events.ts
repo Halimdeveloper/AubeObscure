@@ -1,6 +1,6 @@
 import { socket } from ".";
 
-export const socketEvents = (navigate: any, dices: any, setDices: any) => {
+export const socketEvents = (navigate: any, dices: any, setDices: any, players:any, setPlayers:any) => {
   socket.on("connect", () => {
     console.log("Socket is connected: " + socket.connected);
   });
