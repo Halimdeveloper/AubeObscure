@@ -11,7 +11,7 @@ export default function Home() {
 
 
 
-    const sendNamePlayerToServer = (user: User) => {
+    const sendNamePlayerToServer = (user: any) => {
         setCurrentUser(user)
     }
 
