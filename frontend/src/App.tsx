@@ -36,7 +36,6 @@ function App() {
 initSockets(navigate);
 
   return (
-      <SocketContext.Provider value={socket} >
         <ColorModeContext.Provider value={colorMode}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -52,7 +51,6 @@ initSockets(navigate);
             </div>
           </ThemeProvider>
         </ColorModeContext.Provider>
-      </SocketContext.Provider>
   );
 }
 
