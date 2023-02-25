@@ -1,6 +1,14 @@
 import { socket } from ".";
 
-export const socketEvents = (navigate: any, dices: any, setDices: any, players:any, setPlayers:any) => {
+export const socketEvents = (
+  navigate: any,
+  dices: any,
+  setDices: any,
+  players: any,
+  setPlayers: any,
+  characters: any,
+  setCharacters: any
+) => {
   socket.on("connect", () => {
     console.log("Socket is connected: " + socket.connected);
   });
@@ -19,8 +27,10 @@ export const socketEvents = (navigate: any, dices: any, setDices: any, players:a
   });
 
   socket.on("TRIPLEDICE", (resultDice) => {
-    setDices(resultDice)
-    console.log("TRIPLEDICE " + resultDice);
+    setDices(resultDice);
   });
-  
+
+  socket.on("CHARACTERS", (characters) => {
+    setCharacters(characters);
+  });
 };

@@ -20,3 +20,7 @@ export const removeUserFromQueue = () => {
 export const getTripleDiceScore = () => {
   socket.emit("GET_TRIPLEDICE");
 };
+
+export const getCharaters = () => {
+  socket.emit("GET_CHARACTERS");
+};
