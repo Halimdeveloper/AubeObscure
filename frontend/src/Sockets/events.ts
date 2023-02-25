@@ -3,15 +3,15 @@ import { Character } from "../models/characters/Character";
 import { User, RoleEnum } from "../models/User";
 
 export const socketEvents = (
-  navigate: any,
+  navigate: (arg0: string) => void,
   dices: any,
-  setDices: any,
+  setDices: (arg0: any) => void,
   users: User[],
-  setUsers: any,
+  setUsers: (arg0: any) => void,
+  currentUser: User,
+  setCurrentUser: (arg0: any) => void,
   characters: Character[],
-  setCharacters: any,
-  currentCharacter: User,
-  setCurrentCharacter: any
+  setCharacters: (arg0: any) => void
 ) => {
   socket.on("connect", () => {
     console.log("Socket is connected: " + socket.connected);
@@ -22,7 +22,9 @@ export const socketEvents = (
   });
 
   socket.on("CONFIRM_USER_SET", (response) => {
-    
+    setUsers(response.users);
+    setCurrentUser(response.currentUser);
+
     if (response.currentUser.role === RoleEnum.Player) {
       navigate("/player");
     }

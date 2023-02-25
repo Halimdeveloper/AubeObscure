@@ -7,6 +7,8 @@ import { useDiceStore } from "./stores/DiceStore";
 import { useUserStore } from "./stores/UserStore";
 import { socketEvents } from "./Sockets/events";
 import { useCharacterStore } from "./stores/CharacterStore";
+import { User } from "./models/User";
+import { Character } from "./models/characters/Character";
 
 
 function App() {
@@ -22,21 +24,23 @@ function App() {
   const setCharacters = useCharacterStore((state: any) => state.setCharacters);
 
   const initSockets = (
-    navigate: any,
+    navigate: (arg0: string) => void,
     dices: any,
-    setDices: any,
-    users: any,
-    setUsers: any,
-    characters: any,
-    setCharacters: any,
-    currentUser: any,
-    setCurrentUser: any
+    setDices: (arg0: any) => void,
+    users: User[],
+    setUsers: (arg0: any) => void,
+    currentUser: User,
+    setCurrentUser: (arg0: any) => void,
+    characters: Character[],
+    setCharacters: (arg0: any) => void
   ) => {
-    socketEvents(navigate, dices, setDices, users, setUsers, characters, setCharacters, currentUser, setCurrentUser);
+    socketEvents(navigate, dices, setDices, users, setUsers, currentUser, setCurrentUser, characters, setCharacters);
   };
   useEffect(() => {
-    initSockets(navigate, dices, setDices, users, setUsers, characters, setCharacters, currentUser, setCurrentUser);
-  }, []);
+    initSockets(navigate, dices, setDices, users, setUsers, currentUser, setCurrentUser, characters, setCharacters);
+  }, [
+    navigate, dices, setDices, users, setUsers, currentUser, setCurrentUser, characters, setCharacters
+  ]);
 
   return (
     <div className="app">

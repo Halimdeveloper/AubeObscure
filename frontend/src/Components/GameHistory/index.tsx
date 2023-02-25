@@ -8,7 +8,8 @@ import { useUserStore } from "../../stores/UserStore";
 export default function GameHistory() {
   // Dans votre composant qui a besoin d'accéder aux données de "dices"
   const dices = useDiceStore((state: any) => state.dices);
-  const user = useUserStore((state: any) => state.user);
+  const currentUser = useUserStore((state: any) => state.currentUser);
+  
 
   return (
     <div className="gameHistory">
@@ -17,7 +18,7 @@ export default function GameHistory() {
       <Container className="historyBox" maxWidth="sm" disableGutters={true}>
         {dices.map((dice: Array<string>, index: number) => (
           <React.Fragment key={index}>
-            {user.name} obtient le jet {dice}
+            {currentUser.name} obtient le jet {dice}
             {/* TODO: changer le player en réel input et ne pas le print quand dice n'est pas encore print */}
             <br />
           </React.Fragment>

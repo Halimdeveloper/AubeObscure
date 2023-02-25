@@ -2,14 +2,14 @@
 import { PlayerCharacter } from "./characters/PlayerCharacter";
 
 export enum RoleEnum {
-  Player,
-  GM,
+  Player = "Player",
+  GM = "GM",
 }
 
 export enum UserNameEnum {
-  Halim,
-  Pierre,
-  Matthieu,
+  Halim = "Halim",
+  Pierre = "Pierre",
+  Matthieu = "Matthieu",
 }
 
 export type User = {
