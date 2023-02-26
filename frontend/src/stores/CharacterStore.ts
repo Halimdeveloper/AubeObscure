@@ -1,8 +1,17 @@
 import { create } from "zustand";
+import { devtools, persist } from "zustand/middleware";
 import { Character } from "../models/characters/Character";
 
-// Store pour les données de personnages
-export const useCharacterStore = create((set) => ({
-  characters: [],
-  setCharacters: (characters: Character[]) => set({ characters }),
-}));
+export const useCharacterStore = create()(
+  devtools(
+    persist(
+      (set) => ({
+        characters: [],
+        setCharacters: (characters: Character[]) => set({ characters }),
+      }),
+      {
+        name: "User-storage",
+      }
+    )
+  )
+);
