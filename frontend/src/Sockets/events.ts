@@ -23,7 +23,6 @@ export const socketEvents = (
   });
 
   socket.on("CONFIRM_USER_SET", (response) => {
-    setUsers(response.users);
     setCurrentUser(response.currentUser);
 
     if (response.currentUser.role === RoleEnum.Player) {

@@ -3,11 +3,13 @@ import { Socket } from "socket.io";
 import setupRoutes from "../routes";
 import { getTripleDiceScore } from "./function/getDice";
 import {
+  FamilyEnum,
   PlayerCharacter,
   UserNameEnum,
 } from "./models/characters/PlayerCharacter";
 import { DiceResult } from "./models/Dice";
 import { User } from "./models/User";
+import { getRandomCharacter } from "./function/getRandomCharacter";
 
 const app = express();
 const http = require("http");
@@ -22,31 +24,21 @@ server.listen(PORT, () => {
 const { Server } = require("socket.io");
 const io = new Server(server, { cors: { origin: "*" } });
 
-const characters: Array<PlayerCharacter> = [
-  {
-    id: 1,
-    firstName: "Pierre",
-    lastName: "TheBoss",
-    health: 20,
-    maxHealth: 30,
-    class: "warrior",
-    stats: {
-      agility: 10,
-      fighting: 10,
-      erudition: 10,
-      toughness: 10,
-      survival: 10,
-    },
-    userName: UserNameEnum.Halim,
-  },
-];
+const characters: Array<PlayerCharacter> = [];
 const DicesResults: DiceResult[] = [];
 
 io.on("connection", (socket: Socket) => {
   console.log("a user connected");
   socket.on("SET_USER", (user: User) => {
+    const aliveCharacters = characters.filter(
+      (character) => character.health > 0 && character.userName == user.name
+    );
+    if (aliveCharacters.length > 1) {
+      throw new Error("Plus d'un personnage est vivant pour cet utilisateur");
+    } else if (aliveCharacters.length === 0) {
+      characters.push(getRandomCharacter(user));
+    }
     const response = {
-      users: characters,
       currentUser: user,
     };
     socket.emit("CONFIRM_USER_SET", response);
