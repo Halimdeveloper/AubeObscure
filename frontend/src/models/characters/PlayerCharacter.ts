@@ -7,6 +7,7 @@ export interface PlayerCharacter extends Character {
     agility: number;
     fighting: number;
     erudition: number;
+    influence: number;
     toughness: number;
     survival: number;
   };
