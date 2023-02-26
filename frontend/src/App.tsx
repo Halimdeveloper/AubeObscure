@@ -4,8 +4,11 @@ import { useEffect } from "react";
 import PlayerScene from "./Scenes/PlayerScene";
 import GameMasterScene from "./Scenes/GameMasterScene";
 import { useDiceStore } from "./stores/DiceStore";
-import { usePlayerStore } from "./stores/PlayerStore";
+import { useUserStore } from "./stores/UserStore";
 import { socketEvents } from "./Sockets/events";
+import { useCharacterStore } from "./stores/CharacterStore";
+import { User } from "./models/User";
+import { Character } from "./models/characters/Character";
 
 
 function App() {
@@ -13,21 +16,31 @@ function App() {
   const navigate = useNavigate();
   const dices = useDiceStore((state: any) => state.dices);
   const setDices = useDiceStore((state: any) => state.setDices);
-  const players = usePlayerStore((state: any) => state.players);
-  const setPlayers = usePlayerStore((state: any) => state.setPlayers);
+  const users = useUserStore((state: any) => state.users);
+  const setUsers = useUserStore((state: any) => state.setUsers);
+  const currentUser = useUserStore((state: any) => state.currentUser);
+  const setCurrentUser = useUserStore((state: any) => state.setCurrentUser);
+  const characters = useCharacterStore((state: any) => state.characters);
+  const setCharacters = useCharacterStore((state: any) => state.setCharacters);
 
   const initSockets = (
-    navigate: any,
+    navigate: (arg0: string) => void,
     dices: any,
-    setDices: any,
-    players: any,
-    setPlayers: any
+    setDices: (arg0: any) => void,
+    users: User[],
+    setUsers: (arg0: any) => void,
+    currentUser: User,
+    setCurrentUser: (arg0: any) => void,
+    characters: Character[],
+    setCharacters: (arg0: any) => void
   ) => {
-    socketEvents(navigate, dices, setDices, players, setPlayers);
+    socketEvents(navigate, dices, setDices, users, setUsers, currentUser, setCurrentUser, characters, setCharacters);
   };
   useEffect(() => {
-    initSockets(navigate, dices, setDices, players, setPlayers);
-  }, []);
+    initSockets(navigate, dices, setDices, users, setUsers, currentUser, setCurrentUser, characters, setCharacters);
+  }, [
+    navigate, dices, setDices, users, setUsers, currentUser, setCurrentUser, characters, setCharacters
+  ]);
 
   return (
     <div className="app">

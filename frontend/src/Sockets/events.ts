@@ -1,6 +1,19 @@
 import { socket } from ".";
+import { Character } from "../models/characters/Character";
+import { DiceResult } from "../models/Dice";
+import { User, RoleEnum } from "../models/User";
 
-export const socketEvents = (navigate: any, dices: any, setDices: any, players:any, setPlayers:any) => {
+export const socketEvents = (
+  navigate: (arg0: string) => void,
+  dices: any,
+  setDices: (arg0: any) => void,
+  users: User[],
+  setUsers: (arg0: any) => void,
+  currentUser: User,
+  setCurrentUser: (arg0: any) => void,
+  characters: Character[],
+  setCharacters: (arg0: any) => void
+) => {
   socket.on("connect", () => {
     console.log("Socket is connected: " + socket.connected);
   });
@@ -9,18 +22,23 @@ export const socketEvents = (navigate: any, dices: any, setDices: any, players:a
     console.log("Socket is disconnected: " + !socket.connected);
   });
 
-  socket.on("CONFIRM_USER_SET", (user) => {
-    if (user.type === "Player") {
+  socket.on("CONFIRM_USER_SET", (response) => {
+    setUsers(response.users);
+    setCurrentUser(response.currentUser);
+
+    if (response.currentUser.role === RoleEnum.Player) {
       navigate("/player");
     }
-    if (user.type === "GM") {
+    if (response.currentUser.role === RoleEnum.GM) {
       navigate("/gameMaster");
     }
   });
 
-  socket.on("TRIPLEDICE", (resultDice) => {
-    setDices(resultDice)
-    console.log("TRIPLEDICE " + resultDice);
+  socket.on("TRIPLEDICE", (resultDice: DiceResult[]) => {
+    setDices(resultDice);
   });
-  
+
+  socket.on("CHARACTERS", (characters) => {
+    setCharacters(characters);
+  });
 };

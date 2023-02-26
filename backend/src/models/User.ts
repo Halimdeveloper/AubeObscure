@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { PlayerCharacter } from "./characters/PlayerCharacter";
 
 export enum RoleEnum {

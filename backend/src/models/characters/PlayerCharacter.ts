@@ -1,5 +1,11 @@
-import { UserNameEnum } from "../User";
+/* eslint-disable no-unused-vars */
 import { Character } from "./Character";
+
+export enum UserNameEnum {
+  Halim,
+  Pierre,
+  Matthieu,
+}
 
 export interface PlayerCharacter extends Character {
   class: string;
