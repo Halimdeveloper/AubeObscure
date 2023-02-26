@@ -1,11 +1,12 @@
 import express, { response } from "express";
 import { Socket } from "socket.io";
 import setupRoutes from "../routes";
-import { getTripleDiceScore } from "./function/Dice";
+import { getTripleDiceScore } from "./function/getDice";
 import {
   PlayerCharacter,
   UserNameEnum,
 } from "./models/characters/PlayerCharacter";
+import { DiceResult } from "./models/Dice";
 import { User } from "./models/User";
 
 const app = express();
@@ -39,6 +40,7 @@ const characters: Array<PlayerCharacter> = [
     userName: UserNameEnum.Halim,
   },
 ];
+const DicesResults: DiceResult[] = [];
 
 io.on("connection", (socket: Socket) => {
   console.log("a user connected");
@@ -62,17 +64,16 @@ io.on("connection", (socket: Socket) => {
   });
 
   socket.on("HIT", () => {
-    characters.health -= 1;
+    // characters.health -= 1;
     console.log("HIT");
     socket.emit("CHARACTERS", characters);
     console.log("EMIT CHARACTERS");
   });
 
-  const Allresult: Array<string> = [];
-  socket.on("GET_TRIPLEDICE", () => {
-    const result = getTripleDiceScore();
-    Allresult.push(result);
-    console.log("TRIPLEDICE hit", Allresult);
-    socket.emit("TRIPLEDICE", Allresult);
+  socket.on("GET_TRIPLEDICE", (user: User) => {
+    console.log(user);
+    DicesResults.push(getTripleDiceScore(user));
+    console.log(DicesResults);
+    io.emit("TRIPLEDICE", DicesResults);
   });
 });

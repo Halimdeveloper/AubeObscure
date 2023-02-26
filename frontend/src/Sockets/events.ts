@@ -1,5 +1,6 @@
 import { socket } from ".";
 import { Character } from "../models/characters/Character";
+import { DiceResult } from "../models/Dice";
 import { User, RoleEnum } from "../models/User";
 
 export const socketEvents = (
@@ -33,7 +34,7 @@ export const socketEvents = (
     }
   });
 
-  socket.on("TRIPLEDICE", (resultDice) => {
+  socket.on("TRIPLEDICE", (resultDice: DiceResult[]) => {
     setDices(resultDice);
   });
 
