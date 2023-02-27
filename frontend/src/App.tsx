@@ -1,6 +1,6 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./Components/Home";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import PlayerScene from "./Scenes/PlayerScene";
 import GameMasterScene from "./Scenes/GameMasterScene";
 import { useDiceStore } from "./stores/DiceStore";
@@ -9,12 +9,13 @@ import { socketEvents } from "./Sockets/events";
 import { useCharacterStore } from "./stores/CharacterStore";
 import { User } from "./models/User";
 import { Character } from "./models/characters/Character";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { themeOptions } from "./themes/theme";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { AppBar, Box, Button, CssBaseline, IconButton, Toolbar, Typography } from "@mui/material";
 
 function App() {
-
   const navigate = useNavigate();
   const dices = useDiceStore((state: any) => state.dices);
   const setDices = useDiceStore((state: any) => state.setDices);
@@ -36,26 +37,73 @@ function App() {
     characters: Character[],
     setCharacters: (arg0: any) => void
   ) => {
-    socketEvents(navigate, dices, setDices, users, setUsers, currentUser, setCurrentUser, characters, setCharacters);
+    socketEvents(
+      navigate,
+      dices,
+      setDices,
+      users,
+      setUsers,
+      currentUser,
+      setCurrentUser,
+      characters,
+      setCharacters
+    );
   };
   useEffect(() => {
-    initSockets(navigate, dices, setDices, users, setUsers, currentUser, setCurrentUser, characters, setCharacters);
+    initSockets(
+      navigate,
+      dices,
+      setDices,
+      users,
+      setUsers,
+      currentUser,
+      setCurrentUser,
+      characters,
+      setCharacters
+    );
   }, [
-    navigate, dices, setDices, users, setUsers, currentUser, setCurrentUser, characters, setCharacters
+    navigate,
+    dices,
+    setDices,
+    users,
+    setUsers,
+    currentUser,
+    setCurrentUser,
+    characters,
+    setCharacters,
   ]);
 
-  return (
-    <div className="app">
-      <main className="content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/player" element={<PlayerScene />} />
-          <Route path="/gameMaster" element={<GameMasterScene />} />
-        </Routes>
-        <ToastContainer />
-      </main>
-    </div>
+  const theme = createTheme(themeOptions);
 
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Aube Obscure
+          </Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
+    </Box>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/player" element={<PlayerScene />} />
+        <Route path="/gameMaster" element={<GameMasterScene />} />
+      </Routes>
+      <ToastContainer />
+    </ThemeProvider>
   );
 }
 
