@@ -1,9 +1,81 @@
 .customBtn {
-    background-color: #4CAF50;
-    border: none;
-    color: black 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+  background-color: #4caf50;
+  border: none;
+  color: black 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.bodyHome {
+  background: rgb(7, 0, 124);
+  background: linear-gradient(
+    45deg,
+    #05153f 28.26%,
+    #072561 91.2%
+  ); /* Couleur de fond */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrage vertical */
+  justify-content: space-between; /* Centrage horizontal */
+  height: 100vh; /* Hauteur égale à la hauteur de la fenêtre */
+}
+
+.formCss {
+  width: 50%;
+}
+
+.titreGlobal {
+  font-size: 5rem;
+  color: rgb(134, 0, 0);
+  background: linear-gradient(45deg, #05153f 28.26%, #072561 91.2%);
+  text-shadow: 3px 2px rgba(121, 9, 96, 1);
+  padding: 1rem;
+}
+
+.titreSecond {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: rgba(7, 0, 124, 1);
+}
+
+.formContainer {
+  margin-bottom: 1rem;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 5rem;
+  margin-bottom: 5rem;
+}
+
+.pHomeCss {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  border: 0.15rem solid;
+  border-color: black;
+  border-radius: 30px;
+  border-style: inset;
+  padding: 2rem;
+  box-shadow: 5px 2.5px 2.5px black;
+}
+
+.pHomeCss > div {
+  margin: 10px;
+}
+
+.paperStyle {
+  margin: 1rem;
+  color: white;
+  padding: 1rem;
+  background: linear-gradient(45deg, #05153f 28.26%, #072561 91.2%);
 }
