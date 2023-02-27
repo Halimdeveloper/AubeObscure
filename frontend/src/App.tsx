@@ -9,6 +9,8 @@ import { socketEvents } from "./Sockets/events";
 import { useCharacterStore } from "./stores/CharacterStore";
 import { User } from "./models/User";
 import { Character } from "./models/characters/Character";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -50,6 +52,7 @@ function App() {
           <Route path="/player" element={<PlayerScene />} />
           <Route path="/gameMaster" element={<GameMasterScene />} />
         </Routes>
+        <ToastContainer />
       </main>
     </div>
 
