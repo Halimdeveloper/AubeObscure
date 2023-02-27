@@ -11,10 +11,9 @@
 .bodyHome {
   background: rgb(7, 0, 124);
   background: linear-gradient(
-    180deg,
-    rgba(7, 0, 124, 1) 0%,
-    rgba(121, 9, 96, 1) 35%,
-    rgba(0, 0, 0, 1) 100%
+    45deg,
+    #05153f 28.26%,
+    #072561 91.2%
   ); /* Couleur de fond */
   display: flex;
   flex-direction: column;
@@ -29,8 +28,10 @@
 
 .titreGlobal {
   font-size: 5rem;
-  color: rgba(121, 9, 96, 1);
+  color: rgb(134, 0, 0);
+  background: linear-gradient(45deg, #05153f 28.26%, #072561 91.2%);
   text-shadow: 3px 2px rgba(121, 9, 96, 1);
+  padding: 1rem;
 }
 
 .titreSecond {
@@ -49,6 +50,7 @@
   align-items: center;
   justify-content: space-evenly;
   font-size: 5rem;
+  margin-bottom: 5rem;
 }
 
 .pHomeCss {
@@ -65,9 +67,15 @@
   border-style: inset;
   padding: 2rem;
   box-shadow: 5px 2.5px 2.5px black;
-
 }
 
 .pHomeCss > div {
   margin: 10px;
+}
+
+.paperStyle {
+  margin: 1rem;
+  color: white;
+  padding: 1rem;
+  background: linear-gradient(45deg, #05153f 28.26%, #072561 91.2%);
 }
