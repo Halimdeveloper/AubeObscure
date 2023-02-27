@@ -18,7 +18,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bodyHome">
+    <div>
       <Container maxWidth="md" sx={{ p: 2 }}>
         <Typography variant="h1" fontSize="4rem" fontWeight={500}>
           Aube Obscure
@@ -28,7 +28,7 @@ export default function Home() {
       <Container maxWidth="md">
         <Box sx={{ display: "grid", gap: 2 }}>
           <Card elevation={3} sx={{ p: 2 }}>
-            <Box sx={{py:1}}>
+            <Box sx={{ py: 1 }}>
               <Typography align="justify">
                 Vous êtes sur le point d'entrer dans un monde de ténèbres et de
                 mystères, où la magie règne en maître et où chaque choix peut
@@ -37,7 +37,7 @@ export default function Home() {
                 créatures étranges et de lieux mystérieux.
               </Typography>
             </Box>
-            <Box sx={{py:1}}>
+            <Box sx={{ py: 1 }}>
               <Typography align="justify">
                 En tant qu'aventurier, vous explorerez des donjons sombres et
                 dangereux, combattrez des ennemis redoutables, résoudrez des
@@ -46,7 +46,7 @@ export default function Home() {
                 survivre dans ce monde impitoyable.
               </Typography>
             </Box>
-            <Box sx={{py:1}}>
+            <Box sx={{ py: 1 }}>
               <Typography align="justify">
                 Votre personnage est déterminé aléatoirement, adapté votre
                 stratégie en fonction de votre ligné et de vos dons. Seul la
@@ -55,6 +55,14 @@ export default function Home() {
                 immersive, où la liberté de choix et l'imagination sont les
                 seules limites. Alors, êtes-vous prêt à affronter les ténèbres ?
                 Le sort du monde repose entre vos mains."
+              </Typography>
+            </Box>
+            <Box sx={{ py: 1 }}>
+              <Typography align="justify">
+                Aube Obscure vous propose une expérience de jeu immersive, où la
+                liberté de choix et l'imagination sont les seules limites.
+                Alors, êtes-vous prêt à affronter les ténèbres ? Le sort du
+                monde repose entre vos mains."
               </Typography>
             </Box>
           </Card>

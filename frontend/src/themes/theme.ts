@@ -24,6 +24,6 @@ export const themeOptions: ThemeOptions = {
       fontSize: '6rem',
       fontWeight: 300,
       lineHeight: 1.16,
-    },
+    }
   },
 };

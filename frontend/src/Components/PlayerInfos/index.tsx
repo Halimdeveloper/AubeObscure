@@ -33,24 +33,12 @@ export default function PlayerInfos() {
                 <h4>{character.firstName}</h4>
                 <h4>{character.health + "/" + character.maxHealth}</h4>
               </div>
-            );
+            );  
           })}
       </div>
       <div className="playerButton">
-        <Button
-          variant="outlined"
-          color="success"
-          style={{ backgroundColor: "black" }}
-        >
-          Stats
-        </Button>
-        <Button
-          variant="outlined"
-          color="success"
-          style={{ backgroundColor: "black" }}
-        >
-          Inventaire
-        </Button>
+        <Button variant="outlined">Stats</Button>
+        <Button variant="outlined">Inventaire</Button>
       </div>
     </div>
   );
