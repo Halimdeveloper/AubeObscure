@@ -93,12 +93,14 @@ export const themeOptions: ThemeOptions = {
       fontWeight: 400,
       lineHeight: 1.5,
       letterSpacing: '0.00938em',
+      fontFamily: 'Open Sans',
     },
     body2: {
       fontSize: '0.875rem',
       fontWeight: 400,
       lineHeight: 1.43,
       letterSpacing: '0.01071em',
+      fontFamily: 'Open Sans',
     },
     button: {
       fontSize: '0.875rem',
