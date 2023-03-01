@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import "./style.css";
 import { getCharaters } from "../../Sockets/emit";
 import { useEffect } from "react";
@@ -12,7 +12,7 @@ export default function PlayerInfos() {
     getCharaters();
   }, []);
 
-  const characters = useCharacterStore((state: any) => state.characters);
+  const characters:PlayerCharacter[] = useCharacterStore((state: any) => state.characters);
   const setCharacters = useCharacterStore((state: any) => state.setCharacters);
   const currentUser = useUserStore((state: any) => state.currentUser);
 
@@ -26,12 +26,18 @@ export default function PlayerInfos() {
             (character: PlayerCharacter) =>
               character.userName === currentUser.name
           )
-          .map((character: Character) => {
+          .map((character: PlayerCharacter) => {
             return (
               <div key={character.id}>
-                <h3>{character.lastName}</h3>
-                <h4>{character.firstName}</h4>
-                <h4>{character.health + "/" + character.maxHealth}</h4>
+                <Typography >{character.lastName}</Typography>
+                <Typography >{character.firstName}</Typography>
+                <Typography >{character.health + "/" + character.maxHealth}</Typography>
+                <>  
+                  {Object.keys(character.stats).map( (stat:string, index) => {
+                    console.log(typeof stat)
+                    return <Typography key={index}>{stat}: {character.stats[stat]}</Typography>
+                  }) }
+                </>
               </div>
             );  
           })}

@@ -1,10 +1,24 @@
 import { UserNameEnum } from "../User";
 import { Character } from "./Character";
 
+export type stats = {
+  [key: string]: number;
+}
+
+export enum FamilyEnum {
+  Brisefer = "Brisefer",
+  Astrebrume = "Astrebrume",
+  Fulgurine = "Fulgurine",
+  Clairebene = "Clairebene",
+}
+
 export interface PlayerCharacter extends Character {
-  class: string;
+  family: {
+    fatherFamily: FamilyEnum;
+    motherFamily: FamilyEnum;
+  };
   stats: {
-    agility: number;
+    [agility:string]: number;
     fighting: number;
     erudition: number;
     influence: number;
