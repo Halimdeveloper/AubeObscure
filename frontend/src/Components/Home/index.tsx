@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
-import { setCurrentUser } from "../../Sockets/emit";
+import { emitCurrentUser } from "../../Sockets/emit";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -9,13 +9,19 @@ import Button from "@mui/material/Button";
 import { RoleEnum, UserNameEnum } from "../../models/User";
 import { Box, Card, Typography } from "@mui/material";
 import { Container } from "@mui/material";
+import { useUserStore } from "../../stores/UserStore";
 
 export default function Home() {
   const [userName, setUserName] = useState("");
+  const setCurrentUser = useUserStore((state: any) => state.setCurrentUser);
 
   const setUserLocally = (event: SelectChangeEvent) => {
     setUserName(event.target.value as string);
   };
+
+  useEffect(() => {
+    setCurrentUser({});
+  }, []);
 
   return (
     <div>
@@ -93,7 +99,7 @@ export default function Home() {
               <Button
                 variant="contained"
                 onClick={() =>
-                  setCurrentUser({
+                  emitCurrentUser({
                     name: UserNameEnum[userName],
                     role: RoleEnum.Player,
                   })
@@ -105,7 +111,7 @@ export default function Home() {
               <Button
                 variant="contained"
                 onClick={() =>
-                  setCurrentUser({
+                  emitCurrentUser({
                     name: UserNameEnum[userName],
                     role: RoleEnum.GM,
                   })

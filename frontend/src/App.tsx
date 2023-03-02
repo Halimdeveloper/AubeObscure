@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { themeOptions } from "./themes/theme";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AppBar, Box, Button, CssBaseline, IconButton, Toolbar, Typography } from "@mui/material";
+import { ArrowBack } from "@mui/icons-material";
 
 function App() {
   const navigate = useNavigate();
@@ -79,23 +80,26 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Aube Obscure
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
+        <AppBar position="static">
+          <Toolbar>
+            {currentUser.name && <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              onClick={() => { navigate('/') }}
+            >
+              <ArrowBack />
+            </IconButton>}
+
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} onClick={() => { navigate('/') }}>
+              Aube Obscure
+            </Typography>
+
+          </Toolbar>
+        </AppBar>
+      </Box>
 
       <Routes>
         <Route path="/" element={<Home />} />

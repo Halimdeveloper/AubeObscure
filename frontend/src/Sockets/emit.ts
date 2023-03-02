@@ -1,7 +1,7 @@
 import { socket } from "./index";
 import { User } from "../models/User";
 
-export const setCurrentUser = (currentUser: User) => {
+export const emitCurrentUser = (currentUser: User) => {
   if (!currentUser.name) {
     throw new Error("User name is required");
   }
