@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { Character } from "./Character";
 
+
 export enum UserNameEnum {
   Halim = "Halim",
   Pierre = "Pierre",
   Matthieu = "Matthieu",
 }
+
 
 export enum FamilyEnum {
   Brisefer = "Brisefer",

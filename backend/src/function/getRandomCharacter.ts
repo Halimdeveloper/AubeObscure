@@ -10,7 +10,7 @@ export function getRandomCharacter(user: User): PlayerCharacter {
   const randomStats = getRandomStats(randomFatherFamily);
   const toughness = randomStats.toughness;
 
-  let randomCharacter = {
+  const randomCharacter = {
     id: getId(),
     firstName: getRandomFirstName(),
     lastName: randomFatherFamily + "-" + randomMotherFamily,
@@ -211,11 +211,7 @@ function getRandomFirstName(): string {
   return NameTable[randomIndex];
 }
 
-function getRandomLastName(): FamilyEnum {
-  return getRandomEnum(FamilyEnum);
-}
-
-function getRandomEnum<T>(enumType: any): any {
+function getRandomEnum(enumType: any): any {
   const enumValues = Object.values(enumType);
   const randomIndex = Math.floor(Math.random() * enumValues.length);
   return enumValues[randomIndex];
