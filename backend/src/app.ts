@@ -11,9 +11,11 @@ import { User } from "./models/User";
 import { getRandomCharacter } from "./function/getRandomCharacter";
 import { DiceResult } from "./models/history/Dice";
 import clientPromise from "../db/db";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 const http = require("http");
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3333;

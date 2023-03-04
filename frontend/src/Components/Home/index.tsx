@@ -6,16 +6,25 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Button from "@mui/material/Button";
-import { RoleEnum, UserNameEnum } from "../../models/User";
+import { RoleEnum, User, UserNameEnum } from "../../models/User";
 import { Box, Card, Typography } from "@mui/material";
 import { Container } from "@mui/material";
+import axios from "axios";
 
 export default function Home() {
   const [userName, setUserName] = useState("");
+  const [usersFormServer, setUsersFormServer] = useState([]);
 
-  const setUserLocally = (event: SelectChangeEvent) => {
+  const handleChange = (event: SelectChangeEvent) => {
     setUserName(event.target.value as string);
   };
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios.get("http://localhost:3333/users");
+      setUsersFormServer(data);
+    })();
+  }, []);
 
   return (
     <div>
@@ -80,11 +89,11 @@ export default function Home() {
                     id="name-select"
                     value={userName}
                     label="Votre nom"
-                    onChange={setUserLocally}
+                    onChange={handleChange}
                   >
-                    <MenuItem value={"Halim"}>Halim</MenuItem>
-                    <MenuItem value={"Pierre"}>Pierre</MenuItem>
-                    <MenuItem value={"Matthieu"}>Matthieu</MenuItem>
+                    {usersFormServer.map((user: User) => (
+                      <MenuItem key={user.name} value={user.name}>{user.name}</MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
