@@ -1,3 +1,4 @@
+import { Box, Paper } from "@mui/material";
 import CharactersInGame from "../CharactersInGame";
 import GameHistory from "../GameHistory";
 import PlayerInfos from "../PlayerInfos";
@@ -10,11 +11,12 @@ export default function PlayerDashBoard() {
 
     return (
         <>
-            <div className="playerInfosContainer">
+            <Paper>
                 <PlayerInfos />
-                <GameHistory />
-            </div>
-            <CharactersInGame />
+            </ Paper>
+            <Paper>
+                <CharactersInGame />
+            </Paper>
         </>
     );
 }
