@@ -17,7 +17,9 @@ export default function GameMasterScene() {
                 gridAutoFlow: 'row',
                 gridTemplateColumns: 'repeat(4, 1fr)',
                 gridTemplateRows: 'repeat(10, 1fr)',
-                height: 'calc(100vh - 64px)'
+                height: 'calc(100vh - 64px)',
+                gap: 1,
+                mt: 1,
             }}
         >
             <Box sx={{ gridColumn: '1', gridRow: '1 / 10' }}><InfosPlayersForGameMaster /></Box>

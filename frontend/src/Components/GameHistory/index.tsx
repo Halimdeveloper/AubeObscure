@@ -26,25 +26,31 @@ export default function GameHistory() {
   ].sort((a, b) => a.timeStamp - b.timeStamp)
 
 
+
   return (
-    <Paper sx={{ m: 1 }}>
-      <Typography sx={{ m: 1 }} variant="h5" textAlign={'center'}>Historique</Typography>
-      <Box >
-        {history.map((event) => {
-          console.log(event)
-          switch (event.type) {
-            case "dice":
-              const dice = event as DiceResult
-              return (
-                <Typography sx={{ color: 'primary.main', py: .5, mx: 1 }} >{`${dice.userName}: ${dice.dice1} + ${dice.dice2} = ${dice.dice1 + dice.dice2}`}</Typography>
-              );
-            case "combat":
-              return (<Typography sx={{ py: .5, mx: 1 }} >{`Combat Event Test Message`}</Typography>)
-            default:
-              return null
-          }
-        })}
-      </Box>
-    </Paper >
+    <>
+      <Paper elevation={3}>
+        <Typography sx={{ p: 1 }} variant="h5" textAlign={'center'}>Historique</Typography>
+      </Paper>
+      <Paper sx={{ overflow: "scroll", maxHeight: "100%" }}>
+        <Box >
+          {history.map((event) => {
+            console.log(event)
+            switch (event.type) {
+              case "dice":
+                const dice = event as DiceResult
+                return (
+                  <Typography sx={{ color: 'primary.main', py: .5, mx: 1 }} >{`${dice.userName}: ${dice.dice1} + ${dice.dice2} = ${dice.dice1 + dice.dice2}`}</Typography>
+                );
+              case "combat":
+                return (<Typography sx={{ py: .5, mx: 1 }} >{`Combat Event Test Message`}</Typography>)
+              default:
+                return null
+            }
+          })}
+        </Box>
+      </Paper >
+    </>
+
   );
 }
