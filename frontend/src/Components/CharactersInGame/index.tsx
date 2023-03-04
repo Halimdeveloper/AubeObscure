@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Avatar,
   Box,
@@ -6,8 +5,6 @@ import {
   Grid,
   List,
   ListItem,
-  ListItemAvatar,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import "./style.css";
@@ -16,23 +13,16 @@ import {
   FamilyEnum,
   PlayerCharacter,
 } from "../../models/characters/PlayerCharacter";
-import { Character } from "../../models/characters/Character";
 import { UserNameEnum } from "../../models/User";
-import { styled } from "@mui/material/styles";
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
+import LifeBar from "../LifeBar";
 
 export default function CharactersInGame() {
   // Dans votre composant qui a besoin d'accéder aux données des "PlayerCharacter"
   const characters: PlayerCharacter[] = useCharacterStore(
     (state: any) => state.characters
   );
-  const setCharacters = useCharacterStore((state: any) => state.setCharacters);
 
-  function generate(element: React.ReactElement) {
-    return characters.map((character) => React.cloneElement(element));
-  }
+
 
   const charactersHardCoded: PlayerCharacter[] = [
     {
@@ -117,19 +107,6 @@ export default function CharactersInGame() {
     },
   ];
 
-  const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-    height: 10,
-    borderRadius: 5,
-    [`&.${linearProgressClasses.colorPrimary}`]: {
-      backgroundColor:
-        theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
-    },
-    [`& .${linearProgressClasses.bar}`]: {
-      borderRadius: 5,
-      backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
-    },
-  }));
-
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid item xs={12} md={6}>
@@ -137,8 +114,7 @@ export default function CharactersInGame() {
           Personnages en jeu
         </Typography>
         <List dense={true} sx={{ display: "flex", flexWrap: "wrap" }}>
-          {/* {characters.map((character: PlayerCharacter, index: number) => ( */}
-          {charactersHardCoded.map(
+          {characters.map(
             (character: PlayerCharacter, index: number) => (
               <ListItem
                 sx={{ width: "50%" }}
@@ -153,7 +129,7 @@ export default function CharactersInGame() {
                     label={character.firstName}
                     variant="outlined"
                   />
-                  <BorderLinearProgress variant="determinate" value={50} sx={{ mt:1 }} />
+                  <LifeBar charactere={character} />
                 </Box>
               </ListItem>
             )
