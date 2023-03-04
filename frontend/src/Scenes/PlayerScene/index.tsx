@@ -1,6 +1,6 @@
 
 
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import EventGameMaster from "../../Components/EventGameMaster";
 import GameHistory from "../../Components/GameHistory";
 import PlayerDashBoard from "../../Components/PlayerDashBoard";
@@ -9,27 +9,22 @@ import ToolBar from "../../Components/ToolBar";
 export default function PlayerScene() {
 
 
-    return (
-        <>
-            <Grid container spacing={2} >
-                <Grid item xs={6}>
-                    <Grid container spacing={2}>
-                        <Grid item xs>
-                            <PlayerDashBoard />
-                        </Grid>
-                        <Grid item xs>
-                            <GameHistory />
-                        </Grid>
-                    </Grid>
-                </Grid>
-                <Grid item xs={6}>
-                    <Grid item xs={12}>
-                        <EventGameMaster />
-                    </Grid>
-                </Grid>
-            </Grid >
-            <ToolBar />
-        </>
 
+
+    return (
+        <Box
+            sx={{
+                display: 'grid',
+                gridAutoFlow: 'row',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gridTemplateRows: 'repeat(10, 1fr)',
+                height: 'calc(100vh - 64px)'
+            }}
+        >
+            <Box sx={{ gridColumn: '1', gridRow: '1 / 10' }}><PlayerDashBoard /></Box>
+            <Box sx={{ gridColumn: '2', gridRow: '1 / 10' }}><GameHistory /></Box>
+            <Box sx={{ gridColumn: '3 / 5', gridRow: '1 / 10' }}><EventGameMaster /></Box>
+            <Box sx={{ gridColumn: '1 / 5', gridRow: '10 / 11' }}><ToolBar /></Box>
+        </Box>
     );
 }
