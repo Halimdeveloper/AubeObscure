@@ -1,4 +1,4 @@
-import express, { response } from "express";
+import express from "express";
 import { Socket } from "socket.io";
 import setupRoutes from "../routes";
 import { getTripleDiceScore } from "./function/getDice";
@@ -7,9 +7,10 @@ import {
   PlayerCharacter,
   UserNameEnum,
 } from "./models/characters/PlayerCharacter";
-import { DiceResult } from "./models/Dice";
 import { User } from "./models/User";
 import { getRandomCharacter } from "./function/getRandomCharacter";
+import { DiceResult } from "./models/history/Dice";
+import clientPromise from "../db/db";
 
 const app = express();
 const http = require("http");
@@ -116,3 +117,14 @@ io.on("connection", (socket: Socket) => {
     io.emit("CHARACTERS", characters);
   });
 });
+
+export async function getUsersFromDB() {
+  const client = await clientPromise;
+  const db = client.db("AubeObscureDB");
+  const collection = db.collection("users");
+  const users = await collection.find({}).toArray();
+
+    console.log(JSON.parse(JSON.stringify(users)));
+}
+
+getUsersFromDB();
