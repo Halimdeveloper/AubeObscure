@@ -13,6 +13,7 @@ import { DiceResult } from "./models/history/Dice";
 import clientPromise from "../db/db";
 
 const app = express();
+app.use(express.json());
 const http = require("http");
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3333;
@@ -124,7 +125,7 @@ export async function getUsersFromDB() {
   const collection = db.collection("users");
   const users = await collection.find({}).toArray();
 
-    console.log(JSON.parse(JSON.stringify(users)));
+  console.log(JSON.parse(JSON.stringify(users)));
 }
 
 getUsersFromDB();
