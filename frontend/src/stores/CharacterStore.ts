@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { Character } from "../models/characters/Character";
+import { PlayerCharacter } from "../models/characters/PlayerCharacter";
 
 export const useCharacterStore = create()(
   devtools(
     persist(
       (set) => ({
-        characters: [],
-        setCharacters: (characters: Character[]) => set({ characters }),
+        characters: [] as PlayerCharacter[],
+        setCharacters: (characters: PlayerCharacter[]) => set({ characters }),
       }),
       {
         name: "User-storage",

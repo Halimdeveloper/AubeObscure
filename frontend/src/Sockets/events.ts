@@ -1,6 +1,6 @@
 import { socket } from ".";
 import { Character } from "../models/characters/Character";
-import { DiceResult } from "../models/Dice";
+import { DiceResult } from "../models/history/Dice";
 import { User, RoleEnum } from "../models/User";
 
 export const socketEvents = (

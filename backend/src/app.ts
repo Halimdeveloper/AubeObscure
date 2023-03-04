@@ -24,8 +24,30 @@ server.listen(PORT, () => {
 const { Server } = require("socket.io");
 const io = new Server(server, { cors: { origin: "*" } });
 
-const characters: Array<PlayerCharacter> = [];
+const characters: Array<PlayerCharacter> = [
+  {
+    id: 1,
+    firstName: "Aelith",
+    lastName: "Aelith",
+    health: 10,
+    maxHealth: 10,
+    family: {
+      fatherFamily: FamilyEnum.Brisefer,
+      motherFamily: FamilyEnum.Brisefer,
+    },
+    stats: {
+      agility: 10,
+      fighting: 1,
+      erudition: 1,
+      influence: 1,
+      toughness: 1,
+      survival: 1,
+    },
+    userName: UserNameEnum.Pierre,
+  },
+];
 const DicesResults: DiceResult[] = [];
+console.log("Server started");
 
 io.on("connection", (socket: Socket) => {
   console.log("a user connected");
@@ -67,5 +89,30 @@ io.on("connection", (socket: Socket) => {
     DicesResults.push(getTripleDiceScore(user));
     console.log(DicesResults);
     io.emit("TRIPLEDICE", DicesResults);
+  });
+
+  socket.on("ATTACK_PLAYER", ({ playerId, value }) => {
+    const playerIndex = characters.findIndex(
+      (player) => player.id === playerId
+    );
+    if (characters[playerIndex].health > 0) {
+      characters[playerIndex].health -= value;
+      socket.emit("CHARACTERS", characters);
+    }
+    io.emit("CHARACTERS", characters);
+  });
+  socket.on("HEALTH_PLAYER", ({ playerId, value }) => {
+    console.log(playerId, value);
+    const playerIndex = characters.findIndex(
+      (player) => player.id === playerId
+    );
+    if (
+      characters[playerIndex].health > 0 &&
+      characters[playerIndex].health < characters[playerIndex].maxHealth
+    ) {
+      characters[playerIndex].health += value;
+      socket.emit("CHARACTERS", characters);
+    }
+    io.emit("CHARACTERS", characters);
   });
 });

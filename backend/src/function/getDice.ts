@@ -1,11 +1,11 @@
 import { User } from "src/models/User";
-import { DiceResult } from "src/models/Dice";
+import { DiceResult } from "src/models/history/Dice";
 
 export function getTripleDiceScore(user: User): DiceResult {
   const dice = {
     sides: 6,
     roll: function () {
-      var randomNumber = Math.floor(Math.random() * this.sides) + 1;
+      const randomNumber = Math.floor(Math.random() * this.sides) + 1;
       return randomNumber;
     },
   };
@@ -14,6 +14,8 @@ export function getTripleDiceScore(user: User): DiceResult {
     dice1: dice.roll(),
     dice2: dice.roll(),
     userName: user.name,
-    timestamp: Date.now(),
+    timeStamp: Date.now(),
+    id: Date.now(),
+    type: "dice",
   };
 }
