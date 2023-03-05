@@ -1,6 +1,6 @@
 import express from "express";
 import { Socket } from "socket.io";
-import setupRoutes from "../routes";
+import setupRoutes from "./routes";
 import { getTripleDiceScore } from "./function/getDice";
 import {
   FamilyEnum,
@@ -10,24 +10,23 @@ import {
 import { getRandomCharacter } from "./function/getRandomCharacter";
 import { DiceResult } from "./models/history/Dice";
 import cors from "cors";
+import User, { IUser } from "./models/User";
+import mongoose from "mongoose";
+import http from "http";
+import { Server } from "socket.io";
 
 
 //db INIT
-const mongoose = require("mongoose");
 mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect("mongodb+srv://hizzouzi:iX4uXyW04T1ohwI7@clusteraubeobscure.ic15muw.mongodb.net/AubeObscureDB")
   .then(() => console.log("Connexion à MongoDB réussie !"))
-  .catch(() => console.log("Connexion à MongoDB échouée !"));
+  .catch((e:any) => console.log("Connexion à MongoDB échouée : " + e));
 
 
 //Express INIT
 const app = express();
-app.use(express.json());
 app.use(cors());
-const http = require("http");
+app.use(express.json());
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3333;
 setupRoutes(app);
@@ -38,7 +37,6 @@ server.listen(PORT, () => {
 
 
 //Socket INIT
-const { Server } = require("socket.io");
 const io = new Server(server, { cors: { origin: "*" } });
 
 const characters: Array<PlayerCharacter> = [
@@ -67,7 +65,7 @@ const DicesResults: DiceResult[] = [];
 
 io.on("connection", (socket: Socket) => {
   console.log("a user connected");
-  socket.on("SET_USER", (user: User) => {
+  socket.on("SET_USER", (user: IUser) => {
     const aliveCharacters = characters.filter(
       (character) => character.health > 0 && character.userName == user.name
     );
@@ -100,7 +98,7 @@ io.on("connection", (socket: Socket) => {
     console.log("EMIT CHARACTERS");
   });
 
-  socket.on("GET_TRIPLEDICE", (user: User) => {
+  socket.on("GET_TRIPLEDICE", (user: IUser) => {
     console.log(user);
     DicesResults.push(getTripleDiceScore(user));
     console.log(DicesResults);

@@ -1,5 +1,7 @@
-const users = require("express").Router();
-const User = require("./../src/models/User").default;
+import { Router } from "express";
+import User from "./../models/User";
+
+const users = Router();
 
 users.get("/", async (req, res) => {
   //mangoose get all users
@@ -21,7 +23,7 @@ users.post("/", async (req, res) => {
 users.put("/:id", async (req, res) => {
   //mangoose update user by id
   const user = await User.findOne({ _id: req.params.id });
-  user
+  user && user
     .updateOne(
       //with $set
       { $set: { ...req.body } }
@@ -33,10 +35,10 @@ users.put("/:id", async (req, res) => {
 //delete user by id
 users.delete("/:id", async (req, res) => {
   const user = await User.findOne({ _id: req.params.id });
-  user
+  user && user
     .deleteOne()
     .then(() => res.status(200).json({ message: "Objet supprimé !" }))
     .catch((error) => res.status(400).json({ error }));
 });
 
-module.exports = users;
+export default users

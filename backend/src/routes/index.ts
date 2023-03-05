@@ -1,5 +1,5 @@
 import { Application } from "express";
-const usersRoutes = require("./users");
+import usersRoutes from "./users";
 
 const setupRoutes = (app: Application) => {
   app.use("/users", usersRoutes);
