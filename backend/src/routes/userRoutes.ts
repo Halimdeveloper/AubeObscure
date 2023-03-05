@@ -6,9 +6,11 @@ import {
   deleteUserById,
 } from "../controllers/userCtrl";
 
+import auth from "../middleware/authGuard";
+
 const users = Router();
 
-users.get("/", getUsers);
+users.get("/", auth, getUsers);
 
 users.post("/", createUser);
 

@@ -16,20 +16,22 @@ export enum UserNameEnum {
 // 1. Create an interface representing a document in MongoDB.
 export type IUser = {
   name: string;
-  role: RoleEnum;
+  role?: RoleEnum;
   currentCharacter?: PlayerCharacter;
   characters?: PlayerCharacter[];
   inGame?: boolean;
+  password: string;
 };
 
 // 2. Create a Schema corresponding to the document interface.
 const userSchema = new Schema<IUser>(
   {
     name: { type: String, required: true, unique: true },
-    role: { type: String, required: true },
+    role: { type: String },
     currentCharacter: { type: Object },
     characters: { type: Array },
     inGame: { type: Boolean },
+    password: { type: String, required: true },
   },
   { collection: "users" }
 );
