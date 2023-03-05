@@ -14,8 +14,10 @@ import User, { IUser } from "./models/User";
 import mongoose from "mongoose";
 import http from "http";
 import { Server } from "socket.io";
+import dotenv from "dotenv";
 
 //db INIT
+dotenv.config();
 const MongoDB_URI : string = process.env.MongoDB_URI!;
 mongoose
   .connect(MongoDB_URI)
