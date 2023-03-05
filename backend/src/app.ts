@@ -10,7 +10,7 @@ import {
 import { getRandomCharacter } from "./function/getRandomCharacter";
 import { DiceResult } from "./models/history/Dice";
 import cors from "cors";
-import User, { IUser } from "./models/User";
+import { IUser } from "./models/User";
 import mongoose from "mongoose";
 import http from "http";
 import { Server } from "socket.io";
@@ -18,12 +18,12 @@ import dotenv from "dotenv";
 
 //db INIT
 dotenv.config();
-const MongoDB_URI : string = process.env.MongoDB_URI!;
+
+const MongoDB_URI: string = process.env.MONGODB_URI!;
 mongoose
   .connect(MongoDB_URI)
   .then(() => console.log("Connexion à MongoDB réussie !"))
-  .catch((e:any) => console.log("Connexion à MongoDB échouée : " + e));
-
+  .catch((e: any) => console.log("Connexion à MongoDB échouée : " + e));
 
 //Express INIT
 const app = express();
@@ -36,7 +36,6 @@ setupRoutes(app);
 server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
-
 
 //Socket INIT
 const io = new Server(server, { cors: { origin: "*" } });
