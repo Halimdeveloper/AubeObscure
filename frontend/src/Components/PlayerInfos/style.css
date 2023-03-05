@@ -1,16 +1,26 @@
 .playerInfos {
-    background-color: red;
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-content: space-between;
-    flex-wrap: w;
-
+  background-color: red;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: space-between;
+  flex-wrap: w;
 }
 
-.playerButton{
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 1vh;
+.playerButton {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1vh;
+}
+
+.paperStatsContent {
+  background-color: #ccad64;
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+}
+
+.paperStatsHeader {
+  text-align: center;
+  background-color: #4d3a15;
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
 }

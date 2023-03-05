@@ -1,4 +1,13 @@
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardHeader,
+  Paper,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import "./style.css";
 import { getCharaters } from "../../Sockets/emit";
 import { useEffect } from "react";
@@ -43,7 +52,7 @@ export default function PlayerInfos() {
         {...other}
       >
         {value === index && (
-          <Box sx={{ p: 1 }}>
+          <Box sx={{ p: 1, height:"100%" }}>
             <Typography>{children}</Typography>
           </Box>
         )}
@@ -58,7 +67,7 @@ export default function PlayerInfos() {
     };
   }
 
-  console.log("characters: "+characters.map(c => c.firstName))
+  console.log("characters: " + characters.map((c) => c.firstName));
 
   return (
     <>
@@ -73,13 +82,13 @@ export default function PlayerInfos() {
           Personnage joueur
         </Typography>
       </Box>
-      <Box sx={{ p: 1 }}>
+      <Box sx={{ p: 1, height:"100%" }}>
         <Tabs value={value} onChange={handleChange} centered>
           <Tab label="Stats" {...a11yProps(0)} />
           <Tab label="Inventaire" {...a11yProps(1)} />
           <Tab label="Abilités" {...a11yProps(2)} />
         </Tabs>
-        <TabPanel value={value} index={0}>
+        <TabPanel value={value} index={0} >
           {characters
             .filter(
               (character: PlayerCharacter) =>
@@ -91,18 +100,25 @@ export default function PlayerInfos() {
                   <Typography>{character.lastName}</Typography>
                   <Typography>{character.firstName}</Typography>
                   <Typography>
-                    {character.health + "/" + character.maxHealth}
+                    Vie: {character.health + "/" + character.maxHealth}
                   </Typography>
-                  <>
-                    {Object.keys(character.stats).map((stat: string, index) => {
-                      console.log(typeof stat);
-                      return (
-                        <Typography key={index}>
-                          {stat}: {character.stats[stat]}
-                        </Typography>
-                      );
-                    })}
-                  </>
+                  <Card sx={{ height: "100%", position:"relative" }}>
+                    <CardHeader title="Statistiques" className="paperStatsHeader" titleTypographyProps={{variant:'h6'}} sx={{ p:0 }} />
+                    <CardContent className="paperStatsContent">
+                      <Typography>
+                        {Object.keys(character.stats).map(
+                          (stat: string, index) => {
+                            console.log(typeof stat);
+                            return (
+                              <Typography key={index}>
+                                {stat}: {character.stats[stat]}
+                              </Typography>
+                            );
+                          }
+                        )}
+                      </Typography>
+                    </CardContent>
+                  </Card>
                 </div>
               );
             })}

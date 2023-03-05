@@ -129,7 +129,7 @@ export default function CharactersInGame() {
                   label={character.firstName}
                   variant="outlined"
                 />
-                <LifeBar charactere={character} />
+                <LifeBar character={character} />
               </Box>
             </ListItem>
           ))}

@@ -18,9 +18,9 @@ export const themeOptions: ThemeOptions = {
           }),
           //scrollbarWidth for Firefox
           scrollbarWidth: "thin",
-        },
+        }
       },
-    },
+    }
   },
   palette: {
     mode: "dark",
