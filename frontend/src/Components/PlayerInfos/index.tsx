@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Tab, Tabs, Typography } from "@mui/material";
 import "./style.css";
 import { getCharaters } from "../../Sockets/emit";
 import { useEffect } from "react";
@@ -6,6 +6,7 @@ import { useCharacterStore } from "../../stores/CharacterStore";
 import { Character } from "../../models/characters/Character";
 import { PlayerCharacter } from "../../models/characters/PlayerCharacter";
 import { useUserStore } from "../../stores/UserStore";
+import React from "react";
 
 export default function PlayerInfos() {
   useEffect(() => {
@@ -17,6 +18,12 @@ export default function PlayerInfos() {
   );
   const setCharacters = useCharacterStore((state: any) => state.setCharacters);
   const currentUser = useUserStore((state: any) => state.currentUser);
+
+  const [value, setValue] = React.useState('one');
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
 
   return (
     <>
@@ -32,8 +39,11 @@ export default function PlayerInfos() {
         </Typography>
       </Box>
       <Box sx={{ p: 1 }}>
-        <h1>Name</h1>
-        <h2>Stats</h2>
+        <Tabs value={value} onChange={handleChange} centered>
+          <Tab label="Stats" />
+          <Tab label="Inventaire" />
+          <Tab label="Abilités" />
+        </Tabs>
         {characters
           .filter(
             (character: PlayerCharacter) =>
@@ -60,10 +70,6 @@ export default function PlayerInfos() {
               </div>
             );
           })}
-      </Box>
-      <Box sx={{ p: 1, m: 1 }}>
-        <Button variant="outlined">Stats</Button>
-        <Button variant="outlined">Inventaire</Button>
       </Box>
     </>
   );
