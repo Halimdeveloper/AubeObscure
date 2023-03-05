@@ -7,12 +7,23 @@ import {
   PlayerCharacter,
   UserNameEnum,
 } from "./models/characters/PlayerCharacter";
-import { User } from "./models/User";
 import { getRandomCharacter } from "./function/getRandomCharacter";
 import { DiceResult } from "./models/history/Dice";
-import clientPromise from "../db/db";
 import cors from "cors";
 
+
+//db INIT
+const mongoose = require("mongoose");
+mongoose
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connexion à MongoDB réussie !"))
+  .catch(() => console.log("Connexion à MongoDB échouée !"));
+
+
+//Express INIT
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -25,6 +36,8 @@ server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
+
+//Socket INIT
 const { Server } = require("socket.io");
 const io = new Server(server, { cors: { origin: "*" } });
 
@@ -51,7 +64,6 @@ const characters: Array<PlayerCharacter> = [
   },
 ];
 const DicesResults: DiceResult[] = [];
-console.log("Server started");
 
 io.on("connection", (socket: Socket) => {
   console.log("a user connected");
@@ -120,14 +132,3 @@ io.on("connection", (socket: Socket) => {
     io.emit("CHARACTERS", characters);
   });
 });
-
-export async function getUsersFromDB() {
-  const client = await clientPromise;
-  const db = client.db("AubeObscureDB");
-  const collection = db.collection("users");
-  const users = await collection.find({}).toArray();
-
-  console.log(JSON.parse(JSON.stringify(users)));
-}
-
-getUsersFromDB();

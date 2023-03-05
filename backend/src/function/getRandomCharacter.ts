@@ -1,10 +1,11 @@
-import { User, UserNameEnum } from "../models/User";
+import { UserNameEnum } from "src/models/User";
 import {
   FamilyEnum,
   PlayerCharacter,
 } from "../models/characters/PlayerCharacter";
+import { IUser } from "../models/User";
 
-export function getRandomCharacter(user: User): PlayerCharacter {
+export function getRandomCharacter(user: IUser): PlayerCharacter {
   const randomFatherFamily = getRandomFamily();
   const randomMotherFamily = getRandomFamily();
   const randomStats = getRandomStats(randomFatherFamily);
@@ -21,7 +22,7 @@ export function getRandomCharacter(user: User): PlayerCharacter {
       motherFamily: randomMotherFamily,
     },
     stats: randomStats,
-    userName: UserNameEnum[user.name],
+    userName: user.name as UserNameEnum,
   };
 
   return randomCharacter;

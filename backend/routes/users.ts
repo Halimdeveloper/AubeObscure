@@ -1,55 +1,42 @@
 const users = require("express").Router();
-import clientPromise from "../db/db";
-import { ObjectId } from "mongodb";
+const User = require("./../src/models/User").default;
 
 users.get("/", async (req, res) => {
-  const client = await clientPromise;
-  const db = client.db("AubeObscureDB");
-  const collection = db.collection("users");
-  const users = await collection.find({}).toArray();
+  //mangoose get all users
+  const users = await User.find();
   res.send(users);
 });
 
 users.post("/", async (req, res) => {
-  const client = await clientPromise;
-  const db = client.db("AubeObscureDB");
-  const collection = db.collection("users");
-  const user = req.body;
-  const result = await collection.insertOne(user);
-  res.send(result);
+  const user = new User({
+    ...req.body,
+  });
+  user
+    .save()
+    .then(() => res.status(201).json({ message: "Objet enregistré !" }))
+    .catch((error) => res.status(400).json({ error }));
 });
 
 //update user by id
 users.put("/:id", async (req, res) => {
-  const client = await clientPromise;
-  const db = client.db("AubeObscureDB");
-  const collection = db.collection("users");
-  const id = req.params.id;
-  const user = req.body;
-
-  const result = await collection.updateOne(
-    {
-      _id: new ObjectId(id),
-    },
-    {
-      $set: {
-        test: user.test,
-      },
-    }
-  );
-  res.send(result);
+  //mangoose update user by id
+  const user = await User.findOne({ _id: req.params.id });
+  user
+    .updateOne(
+      //with $set
+      { $set: { ...req.body } }
+    )
+    .then(() => res.status(200).json({ message: "Objet modifié !" }))
+    .catch((error) => res.status(400).json({ error }));
 });
 
 //delete user by id
 users.delete("/:id", async (req, res) => {
-  const client = await clientPromise;
-  const db = client.db("AubeObscureDB");
-  const collection = db.collection("users");
-  const id = req.params.id;
-  const result = await collection.deleteOne({
-    _id: new ObjectId(id),
-  });
-  res.send(result);
+  const user = await User.findOne({ _id: req.params.id });
+  user
+    .deleteOne()
+    .then(() => res.status(200).json({ message: "Objet supprimé !" }))
+    .catch((error) => res.status(400).json({ error }));
 });
 
 module.exports = users;

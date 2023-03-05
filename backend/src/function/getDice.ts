@@ -1,7 +1,7 @@
-import { User } from "src/models/User";
+import { IUser } from "src/models/User";
 import { DiceResult } from "src/models/history/Dice";
 
-export function getTripleDiceScore(user: User): DiceResult {
+export function getTripleDiceScore(user: IUser): DiceResult {
   const dice = {
     sides: 6,
     roll: function () {
