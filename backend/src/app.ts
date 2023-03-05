@@ -15,10 +15,10 @@ import mongoose from "mongoose";
 import http from "http";
 import { Server } from "socket.io";
 
-
 //db INIT
+const MongoDB_URI : string = process.env.MongoDB_URI!;
 mongoose
-  .connect("mongodb+srv://hizzouzi:iX4uXyW04T1ohwI7@clusteraubeobscure.ic15muw.mongodb.net/AubeObscureDB")
+  .connect(MongoDB_URI)
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch((e:any) => console.log("Connexion à MongoDB échouée : " + e));
 
