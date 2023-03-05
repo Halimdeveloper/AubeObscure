@@ -15,6 +15,7 @@ import mongoose from "mongoose";
 import http from "http";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
+import Logger from "./lib/winston";
 
 //db INIT
 dotenv.config();
@@ -22,8 +23,8 @@ dotenv.config();
 const MongoDB_URI: string = process.env.MONGODB_URI!;
 mongoose
   .connect(MongoDB_URI)
-  .then(() => console.log("Connexion à MongoDB réussie !"))
-  .catch((e: any) => console.log("Connexion à MongoDB échouée : " + e));
+  .then(() => Logger.info("Connexion à MongoDB réussie !"))
+  .catch((e: any) => Logger.error("Connexion à MongoDB échouée : " + e));
 
 //Express INIT
 const app = express();
@@ -79,24 +80,24 @@ io.on("connection", (socket: Socket) => {
       currentUser: user,
     };
     socket.emit("CONFIRM_USER_SET", response);
-    console.log("Le " + user.role + " " + user.name + " est connecté");
+    Logger.info("Le " + user.role + " " + user.name + " est connecté");
   });
 
   socket.on("disconnect", () => {
-    console.log("user disconnected");
+    Logger.info("user disconnected");
   });
 
   socket.on("GET_CHARACTERS", () => {
     socket.emit("CHARACTERS", characters);
-    console.log("GET_CHARACTERS");
+    Logger.info("GET_CHARACTERS");
     console.log(characters);
   });
 
   socket.on("HIT", () => {
     // characters.health -= 1;
-    console.log("HIT");
+    Logger.info("HIT");
     socket.emit("CHARACTERS", characters);
-    console.log("EMIT CHARACTERS");
+    Logger.info("EMIT CHARACTERS");
   });
 
   socket.on("GET_TRIPLEDICE", (user: IUser) => {
@@ -117,6 +118,7 @@ io.on("connection", (socket: Socket) => {
     io.emit("CHARACTERS", characters);
   });
   socket.on("HEALTH_PLAYER", ({ playerId, value }) => {
+    Logger.info("Player healing")
     console.log(playerId, value);
     const playerIndex = characters.findIndex(
       (player) => player.id === playerId
