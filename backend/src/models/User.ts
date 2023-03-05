@@ -18,6 +18,7 @@ export type IUser = {
   role: RoleEnum;
   currentCharacter?: PlayerCharacter;
   characters?: PlayerCharacter[];
+  inGame?: boolean;
 };
 
 // 2. Create a Schema corresponding to the document interface.
@@ -27,6 +28,7 @@ const userSchema = new Schema<IUser>(
     role: { type: String, required: true },
     currentCharacter: { type: Object },
     characters: { type: Array },
+    inGame: { type: Boolean },
   },
   { collection: "users" }
 );
