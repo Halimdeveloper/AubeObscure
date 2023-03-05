@@ -2,14 +2,19 @@
 import User from "../models/User";
 import { Request, Response } from "express";
 
-export const createUser = async (req: Request, res: Response) => {
-  const user = new User({
-    ...req.body,
-  });
-  user
-    .save()
-    .then(() => res.status(201).json({ message: "Objet enregistré !" }))
-    .catch((error) => res.status(400).json({ error }));
+export const createUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const user = new User({
+      ...req.body,
+    });
+    await user.save();
+    res.status(201).json({ message: "Objet enregistré !" });
+  } catch (error) {
+    res.status(400).json({ error });
+  }
 };
 
 export const getUsers = async (req: Request, res: Response) => {
@@ -43,5 +48,5 @@ export const deleteUserById = async (req: Request, res: Response) => {
     user
       .deleteOne()
       .then(() => res.status(200).json({ message: "Objet supprimé !" }))
-      .catch((error) => res.status(400).json({ error }));
+      .catch((error: Error) => res.status(400).json({ error }));
 };

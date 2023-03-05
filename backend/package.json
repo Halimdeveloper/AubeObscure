@@ -14,6 +14,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^25.2.1",
+    "@types/mongoose-unique-validator": "^1.0.7",
     "@types/node": "^18.14.6",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
@@ -33,7 +34,8 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongodb": "^5.1.0",
-    "mongoose": "^7.0.0",
+    "mongoose": "^6.10.0",
+    "mongoose-unique-validator": "^3.1.0",
     "socket.io": "^4.6.0",
     "winston": "^3.8.2"
   }
