@@ -12,13 +12,26 @@ export default function PlayerInfos() {
     getCharaters();
   }, []);
 
-  const characters: PlayerCharacter[] = useCharacterStore((state: any) => state.characters);
+  const characters: PlayerCharacter[] = useCharacterStore(
+    (state: any) => state.characters
+  );
   const setCharacters = useCharacterStore((state: any) => state.setCharacters);
   const currentUser = useUserStore((state: any) => state.currentUser);
 
   return (
     <>
-      <Box sx={{ p: 1, m: 1 }}>
+      <Box
+        sx={{
+          backgroundColor: "primary.main",
+          borderRadius: ".25rem .25rem 0 0",
+          height: "5.7%",
+        }}
+      >
+        <Typography sx={{ px: 1 }} variant="h6" textAlign={"center"}>
+          Personnage joueur
+        </Typography>
+      </Box>
+      <Box sx={{ p: 1 }}>
         <h1>Name</h1>
         <h2>Stats</h2>
         {characters
@@ -29,13 +42,19 @@ export default function PlayerInfos() {
           .map((character: PlayerCharacter) => {
             return (
               <div key={character.id}>
-                <Typography >{character.lastName}</Typography>
-                <Typography >{character.firstName}</Typography>
-                <Typography >{character.health + "/" + character.maxHealth}</Typography>
+                <Typography>{character.lastName}</Typography>
+                <Typography>{character.firstName}</Typography>
+                <Typography>
+                  {character.health + "/" + character.maxHealth}
+                </Typography>
                 <>
                   {Object.keys(character.stats).map((stat: string, index) => {
-                    console.log(typeof stat)
-                    return <Typography key={index}>{stat}: {character.stats[stat]}</Typography>
+                    console.log(typeof stat);
+                    return (
+                      <Typography key={index}>
+                        {stat}: {character.stats[stat]}
+                      </Typography>
+                    );
                   })}
                 </>
               </div>

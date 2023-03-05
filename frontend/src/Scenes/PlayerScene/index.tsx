@@ -18,8 +18,9 @@ export default function PlayerScene() {
                 gridAutoFlow: 'row',
                 gridTemplateColumns: 'repeat(4, 1fr)',
                 gridTemplateRows: 'repeat(10, 1fr)',
-                height: 'calc(100vh - 64px)',
+                height: 'calc(100vh - 80px)',
                 gap: 1,
+                m:1
             }}
         >
             <Box sx={{ gridColumn: '1', gridRow: '1 / 10' }}><PlayerDashBoard /></Box>

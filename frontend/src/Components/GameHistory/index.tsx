@@ -1,9 +1,9 @@
-import * as React from "react";
-import { Box, Paper, Typography, useTheme } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import "./style.css";
 import { useDiceStore } from "../../stores/DiceStore";
 import { DiceResult } from "../../models/history/Dice";
 import HistoryEvent from "../../models/history/HistoryEvent";
+
 
 export default function GameHistory() {
   // Dans votre composant qui a besoin d'accéder aux données de "dices"
@@ -23,20 +23,20 @@ export default function GameHistory() {
 
   return (
     <>
-      <Paper sx={{ height: "100%", m: 1 }}>
-        <Box sx={{ backgroundColor: "primary.main", borderRadius:".25rem .25rem 0 0" }}>
-          <Typography sx={{ p: 1 }} variant="h6" textAlign={"center"}>
+      <Paper sx={{ height: "100%"}}>
+        <Box sx={{ backgroundColor: "primary.main", borderRadius:".25rem .25rem 0 0", height:"4%" }}>
+          <Typography sx={{ px: 1 }} variant="h6" textAlign={"center"}>
             Historique
           </Typography>
         </Box>
-        <Box>
+        <Box sx={{ overflowY: "scroll", height:"96%"}}>
           {history.map((event) => {
             console.log(event);
             switch (event.type) {
               case "dice":
                 const dice = event as DiceResult;
                 return (
-                  <Typography
+                  <Typography variant="body2"
                     sx={{ color: "primary.main", py: 0.5, mx: 1 }}
                   >{`${dice.userName}: ${dice.dice1} + ${dice.dice2} = ${
                     dice.dice1 + dice.dice2
@@ -44,7 +44,7 @@ export default function GameHistory() {
                 );
               case "combat":
                 return (
-                  <Typography
+                  <Typography variant="body2"
                     sx={{ py: 0.5, mx: 1 }}
                   >{`Combat Event Test Message`}</Typography>
                 );
