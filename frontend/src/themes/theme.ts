@@ -13,7 +13,7 @@ export const themeOptions: ThemeOptions = {
         html: {
           ...darkScrollbar({
             track: "#1a1a1a",
-            thumb: "#3e3e47", 
+            thumb: "#3e3e47",
             active: "#2E2E33",
           }),
           //scrollbarWidth for Firefox
