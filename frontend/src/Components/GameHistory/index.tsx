@@ -31,7 +31,6 @@ export default function GameHistory() {
         </Box>
         <Box sx={{ overflowY: "scroll", height: "96%" }}>
           {history.map((event) => {
-            console.log(event);
             switch (event.type) {
               case "dice":
                 const dice = event as DiceResult;

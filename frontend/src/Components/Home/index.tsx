@@ -18,10 +18,6 @@ export default function Home() {
   const [role, setRole] = useState(RoleEnum.Player);
 
   const handleLogin = (username: string, password: string) => {
-    // TODO: Appeler une API ou authentifier l'utilisateur localement avec les informations d'identification fournies
-    // console.log(`Logging in with username '${username}' and password '${password}'`);
-
-    console.log("username", username);
     api.post("/auth/signin", {
       name: username,
       password: password,
@@ -29,7 +25,6 @@ export default function Home() {
       setIdUser(data.userId);
       api.defaults.headers.authorization = `Bearer ${data.token}`;
       api.get("/games").then(({ data }) => {
-        console.log("data", data);
         setGames(data);
       }).catch((err) => {
         toast.error("Erreur lors de la connexion");
@@ -71,7 +66,6 @@ export default function Home() {
 
   const handleCreateNewGame = (game: Game) => {
     api.post("/games", game).then(({ data }) => {
-      console.log("data", data);
       setGames(data);
     }).catch((err) => {
       toast.error("Erreur lors de la connexion");

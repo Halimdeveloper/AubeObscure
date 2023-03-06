@@ -18,7 +18,6 @@ export default function infoPlayerForGameMaster() {
   const setCharacters = useCharacterStore((state: any) => state.setCharacters);
 
   useEffect(() => {
-    console.log(getCharaters());
     setCharacters(getCharaters());
   }, []);
 
