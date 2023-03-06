@@ -18,7 +18,6 @@ export const createGame = async (req: Request, res: Response) => {
   const game = new Game({
     ...req.body,
   });
-  console.log(game);
   try {
     await game.save();
     const games = await Game.find();

@@ -36,7 +36,7 @@ const DicesResults: DiceResult[] = [];
 
 const setupSocketIO = (io: any) => {
   io.on("connection", (socket: Socket) => {
-    console.log("a user connected");
+    Logger.info(`${socket.client} a user connected`);
     socket.on("SET_USER", (user: IUser) => {
       const aliveCharacters = characters.filter(
         (character) => character.health > 0 && character.userName == user.name
@@ -60,7 +60,6 @@ const setupSocketIO = (io: any) => {
     socket.on("GET_CHARACTERS", () => {
       socket.emit("CHARACTERS", characters);
       Logger.info("GET_CHARACTERS");
-      console.log(characters);
     });
 
     socket.on("HIT", () => {
@@ -71,9 +70,7 @@ const setupSocketIO = (io: any) => {
     });
 
     socket.on("GET_TRIPLEDICE", (user: IUser) => {
-      console.log(user);
       DicesResults.push(getTripleDiceScore(user));
-      console.log(DicesResults);
       io.emit("TRIPLEDICE", DicesResults);
     });
 
@@ -89,7 +86,6 @@ const setupSocketIO = (io: any) => {
     });
     socket.on("HEALTH_PLAYER", ({ playerId, value }) => {
       Logger.info("Player healing");
-      console.log(playerId, value);
       const playerIndex = characters.findIndex(
         (player) => player.id === playerId
       );

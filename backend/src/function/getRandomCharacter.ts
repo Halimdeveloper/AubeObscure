@@ -208,7 +208,6 @@ function getRandomFirstName(): string {
     "Zev",
   ];
   const randomIndex = Math.floor(NameTable.length * Math.random());
-  console.log(randomIndex);
   return NameTable[randomIndex];
 }
 
@@ -228,9 +227,6 @@ function getHealth(toughness: number): number {
 
 function getRandomStats(father: FamilyEnum): any {
   const stats = getStatsMatrix();
-  console.log(stats[father]);
-  console.log(father);
-
   return {
     agility: getStatsRange(
       stats[father]["agility"].min,

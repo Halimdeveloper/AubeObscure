@@ -32,7 +32,6 @@ export const signin = async (req: Request, res: Response) => {
 };
 
 export const signup = async (req: Request, res: Response) => {
-  console.log(req.body);
   bcrypt
     .hash(req.body.password, 10)
     .then((hash: string) => {

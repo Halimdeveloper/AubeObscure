@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 3333;
 setupRoutes(app);
 
 server.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+  Logger.info(`Listening on port ${PORT}`);
 });
 
 //Socket INIT
