@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import GamesSelect from "../GamesSelect";
 import { Game } from "../../models/Game";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../../stores/UserStore";
 
 export default function Home() {
   const api = useApi();
@@ -16,14 +17,19 @@ export default function Home() {
   const [idUser, setIdUser] = useState(0);
   const [games, setGames] = useState([]);
   const [role, setRole] = useState(RoleEnum.Player);
+  const setCurrentUser = useUserStore((state: any) => state.setCurrentUser);
+
 
   const handleLogin = (username: string, password: string) => {
     api.post("/auth/signin", {
       name: username,
       password: password,
     }).then(({ data }) => {
-      setIdUser(data.userId);
+      setIdUser(data.user._id);
       api.defaults.headers.authorization = `Bearer ${data.token}`;
+      //set current user in store 
+      setCurrentUser(data.user);
+      //Get all games 
       api.get("/games").then(({ data }) => {
         setGames(data);
       }).catch((err) => {
@@ -134,3 +140,5 @@ export default function Home() {
     </div>
   );
 }
+
+

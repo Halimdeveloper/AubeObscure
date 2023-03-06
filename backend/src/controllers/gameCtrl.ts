@@ -57,7 +57,7 @@ export const joinGame = async (req: any, res: Response) => {
   try {
     const role = req.query.role;
     const game = await Game.findOne({ name: req.params.name });
-    const users = await User.findOne({ userId: req.auth.userId });
+    const users = await User.findById(req.auth.userId);
     const player = game?.players?.find(({ _id }) => {
       return `${_id}` === `${users?._id}`;
     });
