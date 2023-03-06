@@ -1,13 +1,7 @@
-import { socket } from "./index";
+import useSocket from ".";
 import { User } from "../models/User";
 
-export const setCurrentUser = (currentUser: User) => {
-  if (!currentUser.name) {
-    throw new Error("User name is required");
-  }
-  socket.emit("SET_USER", currentUser);
-};
-
+const socket = useSocket();
 export const getTripleDiceScore = (currentUser: User) => {
   if (!currentUser.name) {
     throw new Error("User name is required");

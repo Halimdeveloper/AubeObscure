@@ -1,8 +1,8 @@
-import { socket } from ".";
+import useSocket from ".";
 import { Character } from "../models/characters/Character";
 import { DiceResult } from "../models/history/Dice";
 import { User, RoleEnum } from "../models/User";
-
+const socket = useSocket();
 export const socketEvents = (
   navigate: (arg0: string) => void,
   dices: any,
