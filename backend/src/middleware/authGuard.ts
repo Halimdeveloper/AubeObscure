@@ -1,14 +1,14 @@
 import jwt from "jsonwebtoken";
 interface JwtPayload {
-  _id: string;
+  userId: string;
 }
 export default (req: any, res: any, next: any) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, process.env.KEYHASH!) as JwtPayload;
-    const userId = decodedToken._id;
+    const userId = decodedToken.userId;
     req.auth = {
-      _id: userId,
+      userId,
     };
     next();
   } catch (error) {

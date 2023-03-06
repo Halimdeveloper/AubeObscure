@@ -23,13 +23,13 @@ export default function GameHistory() {
 
   return (
     <>
-      <Paper sx={{ height: "100%"}}>
-        <Box sx={{ backgroundColor: "primary.main", borderRadius:".25rem .25rem 0 0", height:"4%" }}>
+      <Paper sx={{ height: "100%" }}>
+        <Box sx={{ backgroundColor: "primary.main", borderRadius: ".25rem .25rem 0 0", height: "4%" }}>
           <Typography sx={{ px: 1 }} variant="h6" textAlign={"center"}>
             Historique
           </Typography>
         </Box>
-        <Box sx={{ overflowY: "scroll", height:"96%"}}>
+        <Box sx={{ overflowY: "scroll", height: "96%" }}>
           {history.map((event) => {
             console.log(event);
             switch (event.type) {
@@ -37,14 +37,13 @@ export default function GameHistory() {
                 const dice = event as DiceResult;
                 return (
                   <Typography variant="body2"
-                    sx={{ color: "primary.main", py: 0.5, mx: 1 }}
-                  >{`${dice.userName}: ${dice.dice1} + ${dice.dice2} = ${
-                    dice.dice1 + dice.dice2
-                  }`}</Typography>
+                    sx={{ color: "primary.main", py: 0.5, mx: 1 }} key={event.id}
+                  >{`${dice.userName}: ${dice.dice1} + ${dice.dice2} = ${dice.dice1 + dice.dice2
+                    }`}</Typography>
                 );
               case "combat":
                 return (
-                  <Typography variant="body2"
+                  <Typography variant="body2" key={event.id}
                     sx={{ py: 0.5, mx: 1 }}
                   >{`Combat Event Test Message`}</Typography>
                 );

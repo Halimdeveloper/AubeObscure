@@ -10,21 +10,85 @@ import { RoleEnum, User, UserNameEnum } from "../../models/User";
 import { Box, Card, Typography } from "@mui/material";
 import { Container } from "@mui/material";
 import axios from "axios";
+import { Login } from "@mui/icons-material";
+import AuthComponent from "../Auth/authComponent";
+import useApi from "../../services/axiosSingleton";
+import { toast } from "react-toastify";
+import GamesSelect from "../GamesSelect";
+import { Game } from "../../models/Game";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-  const [userName, setUserName] = useState("");
-  const [usersFormServer, setUsersFormServer] = useState([]);
+  const api = useApi();
+  const navigate = useNavigate();
+  const [idUser, setIdUser] = useState(0);
+  const [games, setGames] = useState([]);
+  const [role, setRole] = useState(RoleEnum.Player);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setUserName(event.target.value as string);
+  const handleLogin = (username: string, password: string) => {
+    // TODO: Appeler une API ou authentifier l'utilisateur localement avec les informations d'identification fournies
+    // console.log(`Logging in with username '${username}' and password '${password}'`);
+
+    console.log("username", username);
+    api.post("/auth/signin", {
+      name: username,
+      password: password,
+    }).then(({ data }) => {
+      setIdUser(data.userId);
+      api.defaults.headers.authorization = `Bearer ${data.token}`;
+      api.get("/games").then(({ data }) => {
+        console.log("data", data);
+        setGames(data);
+      }).catch((err) => {
+        toast.error("Erreur lors de la connexion");
+      }
+      );
+
+    }).catch((err) => {
+      toast.error("Erreur lors de la connexion");
+    }
+    );
+
+
   };
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await axios.get("http://localhost:3333/users");
-      setUsersFormServer(data);
-    })();
-  }, []);
+  const handleSignup = (username: string, password: string) => {
+    // TODO: Appeler une API ou enregistrer l'utilisateur localement avec les informations d'identification fournies
+    console.log(`Signing up with username '${username}' and password '${password}'`);
+  };
+
+  const handleGamesSelect = (nameGame: string) => {
+    //call api to enter in this game
+    api.get(`/games/${nameGame}/joinGame?role=${role}`).then(({ data }) => {
+      if (role === RoleEnum.Player) {
+        navigate("/player");
+      } else {
+        navigate("/master");
+      }
+    }).catch((err) => {
+      if (err.response.status === 401) {
+        toast.error("Action non autorisée");
+      }
+      else {
+        toast.error("Une erreur est survenue");
+      }
+
+    }
+    );
+  }
+
+  const handleCreateNewGame = (game: Game) => {
+    api.post("/games", game).then(({ data }) => {
+      console.log("data", data);
+      setGames(data);
+    }).catch((err) => {
+      toast.error("Erreur lors de la connexion");
+    }
+    );
+  }
+
+
+
 
   return (
     <div>
@@ -76,55 +140,10 @@ export default function Home() {
             </Box>
           </Card>
           <Card elevation={3} sx={{ p: 2 }}>
-            <Typography variant="h5" sx={{ pb: 2 }}>
-              Identifie-toi :
-            </Typography>
-            <Box sx={{ py: 2 }}>
-              {/* <input type="text" name="name" value={namePlayer} onChange={e => setNamePlayer(e.target.value)} /> */}
-              <div className="formContainer">
-                <FormControl fullWidth style={{ color: "rgba(7, 0, 124, 1)" }}>
-                  <InputLabel id="name-select-label">Votre nom</InputLabel>
-                  <Select
-                    labelId="name-select-label"
-                    id="name-select"
-                    value={userName}
-                    label="Votre nom"
-                    onChange={handleChange}
-                  >
-                    {usersFormServer.map((user: User) => (
-                      <MenuItem key={user.name} value={user.name}>{user.name}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-            </Box>
-            <div className="buttonContainer">
-              <Button
-                variant="contained"
-                onClick={() =>
-                  setCurrentUser({
-                    name: UserNameEnum[userName],
-                    role: RoleEnum.Player,
-                  })
-                }
-                sx={{ mr: 1 }}
-              >
-                Joueur
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() =>
-                  setCurrentUser({
-                    name: UserNameEnum[userName],
-                    role: RoleEnum.GM,
-                  })
-                }
-                sx={{ ml: 1 }}
-              >
-                Maître de jeu
-              </Button>
-            </div>
+            {!idUser && <AuthComponent onLogin={handleLogin} onSignup={handleSignup} />}
+            {idUser ? <GamesSelect activeGames={games} onSelectGame={handleGamesSelect} onCreateGame={handleCreateNewGame} /> : null}
           </Card>
+          {JSON.stringify(games)}
         </Box>
       </Container>
     </div>
