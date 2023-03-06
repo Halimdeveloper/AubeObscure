@@ -143,7 +143,6 @@ export default function Home() {
             {!idUser && <AuthComponent onLogin={handleLogin} onSignup={handleSignup} />}
             {idUser ? <GamesSelect activeGames={games} onSelectGame={handleGamesSelect} onCreateGame={handleCreateNewGame} /> : null}
           </Card>
-          {JSON.stringify(games)}
         </Box>
       </Container>
     </div>
