@@ -17,6 +17,9 @@ export const healthPlayer = (playerId: number, value?: number) => {
   socket.emit("HEALTH_PLAYER", { playerId, value });
 };
 
-export const getCharaters = () => {
-  socket.emit("GET_CHARACTERS");
+
+
+export const getCharaters = (currentUser: User) => {
+  console.log("getCharaters");
+  socket.emit("GET_CHARACTERS", currentUser);
 };

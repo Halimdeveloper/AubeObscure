@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../models/User";
 import Game from "../models/Game";
 import Logger from "../lib/winston";
+import { getRandomCharacter } from "../function/getRandomCharacter";
 
 export const getGames = async (req: Request, res: Response) => {
   const query = req.query;
@@ -16,7 +17,9 @@ export const getGames = async (req: Request, res: Response) => {
 
 export const createGame = async (req: Request, res: Response) => {
   const game = new Game({
-    ...req.body,
+    name: req.body.name,
+    players: [],
+    gm: null,
   });
   try {
     await game.save();
@@ -57,25 +60,23 @@ export const joinGame = async (req: any, res: Response) => {
   try {
     const role = req.query.role;
     const game = await Game.findOne({ name: req.params.name });
-    const users = await User.findById(req.auth.userId);
-    const player = game?.players?.find(({ _id }) => {
-      return `${_id}` === `${users?._id}`;
-    });
-    const gm = `${game?.gm}` === `${users?._id}`;
-
-    if (!role) {
-      Logger.error("Role not found !");
-      return res.status(400).json({ error: "Role not found !" });
-    }
-
     if (!game) {
       Logger.error("Game not found !");
       return res.status(400).json({ error: "Game not found !" });
     }
-
-    if (!users) {
+    const user = await User.findById(req.auth.userId);
+    if (!user) {
       Logger.error("User not found !");
       return res.status(400).json({ error: "User not found !" });
+    }
+    const player = game.players.find(({ _id }) => {
+      return `${_id}` === `${user._id}`;
+    });
+    const gm = `${game.gm}` === `${user._id}`;
+
+    if (!role) {
+      Logger.error("Role not found !");
+      return res.status(400).json({ error: "Role not found !" });
     }
 
     if (player || gm) {
@@ -88,15 +89,18 @@ export const joinGame = async (req: any, res: Response) => {
     }
 
     if (role === "Player") {
-      game.players?.push(users!);
-      await game?.save();
+      const randomCharacter = getRandomCharacter(user);
+      user.characters.push(randomCharacter);
+      user.currentCharacter = randomCharacter;
+      game.players.push(user);
+      await game.save();
       return res
         .status(200)
         .send({ message: "Player added to game !", game: game });
     } else if (role === "GM") {
       //get info of player in token and add it to game
-      game.gm = users;
-      await game?.save();
+      game.gm = user;
+      await game.save();
       return res
         .status(200)
         .send({ message: "GM added to game !", game: game });

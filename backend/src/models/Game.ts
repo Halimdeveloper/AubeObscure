@@ -7,8 +7,8 @@ export type IGame = {
   _id: ObjectId;
   name: string;
   description?: string;
-  players?: IUser[];
-  gm?: IUser;
+  players: IUser[];
+  gm: IUser | null;
 };
 
 // 2. Create a Schema corresponding to the document interface.
@@ -16,7 +16,7 @@ const gameSchema = new Schema<IGame>(
   {
     name: { type: String, required: true, unique: true },
     description: { type: String },
-    players: { type: Array },
+    players: [{ type: Object, required: true }],
     gm: { type: Object },
   },
   { collection: "games" }

@@ -18,8 +18,8 @@ export type IUser = {
   _id: ObjectId;
   name: string;
   role?: RoleEnum;
-  currentCharacter?: PlayerCharacter;
-  characters?: PlayerCharacter[];
+  currentCharacter: PlayerCharacter | null;
+  characters: PlayerCharacter[];
   inGame?: boolean;
   password: string;
 };
@@ -30,7 +30,7 @@ const userSchema = new Schema<IUser>(
     name: { type: String, required: true, unique: true },
     role: { type: String },
     currentCharacter: { type: Object },
-    characters: { type: Array },
+    characters: [{ type: Array, required: true }],
     inGame: { type: Boolean },
     password: { type: String, required: true },
   },

@@ -37,6 +37,7 @@ const DicesResults: DiceResult[] = [];
 const setupSocketIO = (io: any) => {
   io.on("connection", (socket: Socket) => {
     Logger.info(`${socket.client} a user connected`);
+    //TODO need refactor
     socket.on("SET_USER", (user: IUser) => {
       const aliveCharacters = characters.filter(
         (character) => character.health > 0 && character.userName == user.name
