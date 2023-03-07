@@ -12,6 +12,7 @@ export enum UserNameEnum {
 }
 
 export type User = {
+  _id: string;
   name: UserNameEnum;
   role: RoleEnum;
   currentCharacter?: PlayerCharacter;

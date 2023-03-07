@@ -41,4 +41,16 @@ export const socketEvents = (
   socket.on("CHARACTERS", (characters) => {
     setCharacters(characters);
   });
+
+  socket.on("GAME", (game) => {
+    //init list of characters in game
+    const charactersInGame = game.players.map(
+      (player: any) => player.currentCharacter
+    );
+    if (charactersInGame.length) {
+      setCharacters(charactersInGame);
+    }
+    //init list of game history events
+    //TODO
+  });
 };

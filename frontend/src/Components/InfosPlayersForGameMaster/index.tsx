@@ -9,7 +9,7 @@ import {
 import { PlayerCharacter } from "../../models/characters/PlayerCharacter";
 import { useCharacterStore } from "../../stores/CharacterStore";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { attackPlayer, getCharaters, healthPlayer } from "../../Sockets/emit";
+import { attackPlayer, healthPlayer } from "../../Sockets/emit";
 import { useEffect } from "react";
 import LifeBar from "../LifeBar";
 
@@ -18,7 +18,6 @@ export default function infoPlayerForGameMaster() {
   const setCharacters = useCharacterStore((state: any) => state.setCharacters);
 
   useEffect(() => {
-    setCharacters(getCharaters());
   }, []);
 
   return (
@@ -43,7 +42,7 @@ export default function infoPlayerForGameMaster() {
                     {character.firstName + " " + character.lastName}
                   </Typography>
                   <Box sx={{ flexGrow: 1 }}>
-                    <LifeBar charactere={character} />
+                    <LifeBar character={character} />
                   </Box>
                 </Box>
               </AccordionSummary>

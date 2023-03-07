@@ -108,14 +108,14 @@ export default function CharactersInGame() {
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid item xs={12} md={6}>
-        <Box sx={{ backgroundColor: "primary.main", borderRadius:".25rem .25rem 0 0", height:"6%" }}>
+        <Box sx={{ backgroundColor: "primary.main", borderRadius: ".25rem .25rem 0 0", height: "6%" }}>
           <Typography variant="h6" component="div" sx={{ px: 1 }} textAlign={"center"}>
             Personnages en jeu
           </Typography>
         </Box>
 
         <List dense={true} sx={{ display: "flex", flexWrap: "wrap" }}>
-          {characters.map((character: PlayerCharacter, index: number) => (
+          {false && characters.map((character: PlayerCharacter, index: number) => (
             <ListItem
               sx={{ width: "50%" }}
               key={index}

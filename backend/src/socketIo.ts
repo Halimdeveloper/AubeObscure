@@ -8,7 +8,7 @@ import {
 } from "./models/characters/PlayerCharacter";
 import { DiceResult } from "./models/history/Dice";
 import { UserNameEnum } from "./models/User";
-import { getRandomCharacter } from "./function/getRandomCharacter";
+import Game from "./models/Game";
 
 const characters: Array<PlayerCharacter> = [
   {
@@ -36,23 +36,7 @@ const DicesResults: DiceResult[] = [];
 
 const setupSocketIO = (io: any) => {
   io.on("connection", (socket: Socket) => {
-    Logger.info(`${socket.client} a user connected`);
-    //TODO need refactor
-    socket.on("SET_USER", (user: IUser) => {
-      const aliveCharacters = characters.filter(
-        (character) => character.health > 0 && character.userName == user.name
-      );
-      if (aliveCharacters.length > 1) {
-        throw new Error("Plus d'un personnage est vivant pour cet utilisateur");
-      } else if (aliveCharacters.length === 0) {
-        characters.push(getRandomCharacter(user));
-      }
-      const response = {
-        currentUser: user,
-      };
-      socket.emit("CONFIRM_USER_SET", response);
-      Logger.info("Le " + user.role + " " + user.name + " est connecté");
-    });
+    Logger.info(`User connected with id ${socket.id}`);
 
     socket.on("disconnect", () => {
       Logger.info("user disconnected");
@@ -98,6 +82,15 @@ const setupSocketIO = (io: any) => {
         socket.emit("CHARACTERS", characters);
       }
       io.emit("CHARACTERS", characters);
+    });
+
+    socket.on("GET_GAME", async (gameId: string) => {
+      try {
+        const game = await Game.findById(gameId);
+        socket.emit("GAME", game);
+      } catch (error) {
+        Logger.error(error);
+      }
     });
   });
 };
