@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Schema, model } from "mongoose";
+import { Schema, model, ObjectId } from "mongoose";
 import { PlayerCharacter } from "./characters/PlayerCharacter";
 import uniqueValidator from "mongoose-unique-validator";
 
@@ -15,10 +15,11 @@ export enum UserNameEnum {
 }
 // 1. Create an interface representing a document in MongoDB.
 export type IUser = {
+  _id: ObjectId;
   name: string;
   role?: RoleEnum;
-  currentCharacter?: PlayerCharacter;
-  characters?: PlayerCharacter[];
+  currentCharacter: PlayerCharacter | null;
+  characters: PlayerCharacter[];
   inGame?: boolean;
   password: string;
 };
@@ -29,7 +30,7 @@ const userSchema = new Schema<IUser>(
     name: { type: String, required: true, unique: true },
     role: { type: String },
     currentCharacter: { type: Object },
-    characters: { type: Array },
+    characters: [{ type: Array, required: true }],
     inGame: { type: Boolean },
     password: { type: String, required: true },
   },

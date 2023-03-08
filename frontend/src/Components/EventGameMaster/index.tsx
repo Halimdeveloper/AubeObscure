@@ -1,6 +1,10 @@
 import { Box, Paper, Typography } from "@mui/material";
+import { useUserStore } from "../../stores/UserStore";
 
 export default function EventGameMaster() {
+
+  const currentUser = useUserStore( (state:any) => state.currentUser)
+
   return (
     <>
       <Paper sx={{ height: "100%" }}>
@@ -15,7 +19,11 @@ export default function EventGameMaster() {
             Événements du jeu
           </Typography>
         </Box>
-        <Box sx={{ height: "96%" }}></Box>
+        <Box sx={{ height: "96%" }}>
+          <Typography>
+            { currentUser.name }
+          </Typography>
+        </Box>
       </Paper>
     </>
   );

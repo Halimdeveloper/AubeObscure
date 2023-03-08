@@ -14,6 +14,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { themeOptions } from "./themes/theme";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AppBar, Box, Button, CssBaseline, IconButton, Toolbar, Typography } from "@mui/material";
+import { useGameStore } from "./stores/GameStore";
+import { Game } from "./models/Game";
 
 function App() {
   const navigate = useNavigate();
@@ -25,6 +27,8 @@ function App() {
   const setCurrentUser = useUserStore((state: any) => state.setCurrentUser);
   const characters = useCharacterStore((state: any) => state.characters);
   const setCharacters = useCharacterStore((state: any) => state.setCharacters);
+  const game = useGameStore((state: any) => state.game);
+  const setGame = useGameStore((state: any) => state.setGame);
 
   const initSockets = (
     navigate: (arg0: string) => void,
@@ -35,7 +39,9 @@ function App() {
     currentUser: User,
     setCurrentUser: (arg0: any) => void,
     characters: Character[],
-    setCharacters: (arg0: any) => void
+    setCharacters: (arg0: any) => void,
+    game: Game,
+    setGame: (arg0: any) => void,
   ) => {
     socketEvents(
       navigate,
@@ -46,7 +52,9 @@ function App() {
       currentUser,
       setCurrentUser,
       characters,
-      setCharacters
+      setCharacters,
+      game,
+      setGame,
     );
   };
   useEffect(() => {
@@ -59,19 +67,11 @@ function App() {
       currentUser,
       setCurrentUser,
       characters,
-      setCharacters
+      setCharacters,
+      game,
+      setGame,
     );
-  }, [
-    navigate,
-    dices,
-    setDices,
-    users,
-    setUsers,
-    currentUser,
-    setCurrentUser,
-    characters,
-    setCharacters,
-  ]);
+  }, []);
 
   const theme = createTheme(themeOptions);
 
@@ -79,23 +79,23 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Aube Obscure
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Aube Obscure
+            </Typography>
+            <Button color="inherit">Login</Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
 
       <Routes>
         <Route path="/" element={<Home />} />

@@ -20,7 +20,7 @@ export const signin = async (req: Request, res: Response) => {
               .json({ message: "Paire login/mot de passe incorrecte" });
           }
           res.status(200).json({
-            userId: user._id,
+            user,
             token: jwt.sign({ userId: user._id }, process.env.KEYHASH!, {
               expiresIn: "24h",
             }),
@@ -32,13 +32,14 @@ export const signin = async (req: Request, res: Response) => {
 };
 
 export const signup = async (req: Request, res: Response) => {
-  console.log(req.body);
   bcrypt
     .hash(req.body.password, 10)
     .then((hash: string) => {
       const user = new User({
         name: req.body.name,
         password: hash,
+        currentCharacter: null,
+        characters: [],
       });
       user
         .save()

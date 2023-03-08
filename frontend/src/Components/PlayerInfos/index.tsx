@@ -9,18 +9,15 @@ import {
   Typography,
 } from "@mui/material";
 import "./style.css";
-import { getCharaters } from "../../Sockets/emit";
-import { useEffect } from "react";
+import { getGame } from "../../Sockets/emit";
+import { useEffect, useState } from "react";
 import { useCharacterStore } from "../../stores/CharacterStore";
-import { Character } from "../../models/characters/Character";
 import { PlayerCharacter } from "../../models/characters/PlayerCharacter";
 import { useUserStore } from "../../stores/UserStore";
 import React from "react";
 
 export default function PlayerInfos() {
-  useEffect(() => {
-    getCharaters();
-  }, []);
+  useEffect(() => getGame("640672d1ec3445b826749dc7"), []);
 
   const characters: PlayerCharacter[] = useCharacterStore(
     (state: any) => state.characters
@@ -28,9 +25,9 @@ export default function PlayerInfos() {
   const setCharacters = useCharacterStore((state: any) => state.setCharacters);
   const currentUser = useUserStore((state: any) => state.currentUser);
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
@@ -52,8 +49,8 @@ export default function PlayerInfos() {
         {...other}
       >
         {value === index && (
-          <Box sx={{ p: 1, height:"100%" }}>
-            <Typography>{children}</Typography>
+          <Box sx={{ p: 1, height: "100%" }}>
+            {children}
           </Box>
         )}
       </div>
@@ -66,8 +63,6 @@ export default function PlayerInfos() {
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
-
-  console.log("characters: " + characters.map((c) => c.firstName));
 
   return (
     <>
@@ -82,7 +77,7 @@ export default function PlayerInfos() {
           Personnage joueur
         </Typography>
       </Box>
-      <Box sx={{ p: 1, height:"100%" }}>
+      <Box sx={{ p: 1, height: "100%" }}>
         <Tabs value={value} onChange={handleChange} centered>
           <Tab label="Stats" {...a11yProps(0)} />
           <Tab label="Inventaire" {...a11yProps(1)} />
@@ -91,8 +86,10 @@ export default function PlayerInfos() {
         <TabPanel value={value} index={0} >
           {characters
             .filter(
-              (character: PlayerCharacter) =>
-                character.userName === currentUser.name
+              (character: PlayerCharacter) => {
+                console.log(characters);
+                return character.userName === currentUser.name
+              }
             )
             .map((character: PlayerCharacter) => {
               return (
@@ -102,21 +99,18 @@ export default function PlayerInfos() {
                   <Typography>
                     Vie: {character.health + "/" + character.maxHealth}
                   </Typography>
-                  <Card sx={{ height: "100%", position:"relative" }}>
-                    <CardHeader title="Statistiques" className="paperStatsHeader" titleTypographyProps={{variant:'h6'}} sx={{ p:0 }} />
+                  <Card sx={{ height: "100%", position: "relative" }}>
+                    <CardHeader title="Statistiques" className="paperStatsHeader" titleTypographyProps={{ variant: 'h6' }} sx={{ p: 0 }} />
                     <CardContent className="paperStatsContent">
-                      <Typography>
-                        {Object.keys(character.stats).map(
-                          (stat: string, index) => {
-                            console.log(typeof stat);
-                            return (
-                              <Typography key={index}>
-                                {stat}: {character.stats[stat]}
-                              </Typography>
-                            );
-                          }
-                        )}
-                      </Typography>
+                      {Object.keys(character.stats).map(
+                        (stat: string, index) => {
+                          return (
+                            <Typography key={index}>
+                              {stat}: {character.stats[stat]}
+                            </Typography>
+                          );
+                        }
+                      )}
                     </CardContent>
                   </Card>
                 </div>
