@@ -14,8 +14,9 @@ export function getTripleDiceScore(user: IUser): DiceResult {
     dice1: dice.roll(),
     dice2: dice.roll(),
     userName: user.name,
+    userid: user._id,
     timeStamp: Date.now(),
     id: Date.now(),
-    type: "dice",
+    type: "dice6",
   };
 }
