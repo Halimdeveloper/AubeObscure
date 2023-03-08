@@ -55,11 +55,13 @@ const setupSocketIO = (io: any) => {
     });
 
     socket.on("GET_TRIPLEDICE", (user: IUser) => {
+      Logger.info("GET_TRIPLEDICE");
       DicesResults.push(getTripleDiceScore(user));
       io.emit("TRIPLEDICE", DicesResults);
     });
 
     socket.on("ATTACK_PLAYER", ({ playerId, value }) => {
+      Logger.info("Player attacking");
       const playerIndex = characters.findIndex(
         (player) => player.id === playerId
       );
@@ -85,6 +87,7 @@ const setupSocketIO = (io: any) => {
     });
 
     socket.on("GET_GAME", async (gameId: string) => {
+      Logger.info("GET_GAME");
       try {
         const game = await Game.findById(gameId);
         socket.emit("GAME", game);

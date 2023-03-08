@@ -71,19 +71,7 @@ function App() {
       game,
       setGame,
     );
-  }, [
-    navigate,
-    dices,
-    setDices,
-    users,
-    setUsers,
-    currentUser,
-    setCurrentUser,
-    characters,
-    setCharacters,
-    game,
-    setGame,
-  ]);
+  }, []);
 
   const theme = createTheme(themeOptions);
 
