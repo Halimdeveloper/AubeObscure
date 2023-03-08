@@ -22,89 +22,6 @@ export default function CharactersInGame() {
     (state: any) => state.characters
   );
 
-  const charactersHardCoded: PlayerCharacter[] = [
-    {
-      id: 1,
-      firstName: "Haliiiiiim",
-      lastName: "Haliiiiiim",
-      health: 4,
-      maxHealth: 5,
-      family: {
-        fatherFamily: FamilyEnum.Astrebrume,
-        motherFamily: FamilyEnum.Astrebrume,
-      },
-      stats: {
-        agility: 10,
-        fighting: 8,
-        erudition: 6,
-        influence: 4,
-        toughness: 7,
-        survival: 9,
-      },
-      userName: UserNameEnum.Matthieu,
-    },
-    {
-      id: 1,
-      firstName: "Haliiiiiim",
-      lastName: "Haliiiiiim",
-      health: 4,
-      maxHealth: 5,
-      family: {
-        fatherFamily: FamilyEnum.Astrebrume,
-        motherFamily: FamilyEnum.Astrebrume,
-      },
-      stats: {
-        agility: 7,
-        fighting: 9,
-        erudition: 5,
-        influence: 8,
-        toughness: 6,
-        survival: 7,
-      },
-      userName: UserNameEnum.Matthieu,
-    },
-    {
-      id: 1,
-      firstName: "Haliiiiiim",
-      lastName: "Haliiiiiim",
-      health: 4,
-      maxHealth: 5,
-      family: {
-        fatherFamily: FamilyEnum.Astrebrume,
-        motherFamily: FamilyEnum.Astrebrume,
-      },
-      stats: {
-        agility: 6,
-        fighting: 7,
-        erudition: 9,
-        influence: 10,
-        toughness: 8,
-        survival: 5,
-      },
-      userName: UserNameEnum.Matthieu,
-    },
-    {
-      id: 1,
-      firstName: "Haliiiiiim",
-      lastName: "Haliiiiiim",
-      health: 4,
-      maxHealth: 5,
-      family: {
-        fatherFamily: FamilyEnum.Astrebrume,
-        motherFamily: FamilyEnum.Astrebrume,
-      },
-      stats: {
-        agility: 8,
-        fighting: 10,
-        erudition: 4,
-        influence: 6,
-        toughness: 9,
-        survival: 7,
-      },
-      userName: UserNameEnum.Matthieu,
-    },
-  ];
-
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid item xs={12} md={6}>
@@ -115,7 +32,7 @@ export default function CharactersInGame() {
         </Box>
 
         <List dense={true} sx={{ display: "flex", flexWrap: "wrap" }}>
-          {false && characters.map((character: PlayerCharacter, index: number) => (
+          {characters && characters.map((character: PlayerCharacter, index: number) => (
             <ListItem
               sx={{ width: "50%" }}
               key={index}

@@ -9,15 +9,15 @@ import { useNavigate } from "react-router-dom";
 
 export default function Dice() {
   const currentUser = useUserStore((state: any) => state.currentUser);
-  const notify = (error: Error) => toast.error(`${error.message}`);
   const navigate = useNavigate();
 
   function rollDices() {
     try {
-      getTripleDiceScore(currentUser);
+      console.log("ROLL DICES TRIGGERED PAR :" + currentUser.name);
+      getTripleDiceScore(currentUser.name);
     } catch (error: any) {
-      navigate("/");
-      notify(error);
+      console.log(error);
+      toast.error("erreur lors du lancer de dé dans l'objet Dice");
     }
   }
 
