@@ -104,7 +104,6 @@ export default function PlayerInfos() {
                     <CardContent className="paperStatsContent">
                       {Object.keys(character.stats).map(
                         (stat: string, index) => {
-                          console.log(typeof stat);
                           return (
                             <Typography key={index}>
                               {stat}: {character.stats[stat]}
