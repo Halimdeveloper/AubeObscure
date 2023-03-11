@@ -28,7 +28,9 @@ export const signin = async (req: Request, res: Response) => {
         })
         .catch((error) => res.status(500).json({ error }));
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error) => {
+      return res.status(500).json({ error });
+    });
 };
 
 export const signup = async (req: Request, res: Response) => {

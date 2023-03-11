@@ -15,9 +15,17 @@ import { useCharacterStore } from "../../stores/CharacterStore";
 import { PlayerCharacter } from "../../models/characters/PlayerCharacter";
 import { useUserStore } from "../../stores/UserStore";
 import React from "react";
+import { useGameStore } from "../../stores/GameStore";
+import { Game } from "../../models/Game";
+import { toast } from "react-toastify";
 
 export default function PlayerInfos() {
-  useEffect(() => getGame("640672d1ec3445b826749dc7"), []);
+  const game: Game = useGameStore((state: any) => state.game);
+  try {
+    useEffect(() => getGame(game._id), []);
+  } catch (error) {
+    toast.error("Outch, la game n'a pas pu etre trouvée");
+  }
 
   const characters: PlayerCharacter[] = useCharacterStore(
     (state: any) => state.characters
@@ -48,11 +56,7 @@ export default function PlayerInfos() {
         aria-labelledby={`simple-tab-${index}`}
         {...other}
       >
-        {value === index && (
-          <Box sx={{ p: 1, height: "100%" }}>
-            {children}
-          </Box>
-        )}
+        {value === index && <Box sx={{ p: 1, height: "100%" }}>{children}</Box>}
       </div>
     );
   }
@@ -83,14 +87,12 @@ export default function PlayerInfos() {
           <Tab label="Inventaire" {...a11yProps(1)} />
           <Tab label="Abilités" {...a11yProps(2)} />
         </Tabs>
-        <TabPanel value={value} index={0} >
+        <TabPanel value={value} index={0}>
           {characters
-            .filter(
-              (character: PlayerCharacter) => {
-                console.log(characters);
-                return character.userName === currentUser.name
-              }
-            )
+            .filter((character: PlayerCharacter) => {
+              console.log(characters);
+              return character.userName === currentUser.name;
+            })
             .map((character: PlayerCharacter) => {
               return (
                 <div key={character.id}>
@@ -100,7 +102,12 @@ export default function PlayerInfos() {
                     Vie: {character.health + "/" + character.maxHealth}
                   </Typography>
                   <Card sx={{ height: "100%", position: "relative" }}>
-                    <CardHeader title="Statistiques" className="paperStatsHeader" titleTypographyProps={{ variant: 'h6' }} sx={{ p: 0 }} />
+                    <CardHeader
+                      title="Statistiques"
+                      className="paperStatsHeader"
+                      titleTypographyProps={{ variant: "h6" }}
+                      sx={{ p: 0 }}
+                    />
                     <CardContent className="paperStatsContent">
                       {Object.keys(character.stats).map(
                         (stat: string, index) => {
@@ -127,5 +134,3 @@ export default function PlayerInfos() {
     </>
   );
 }
-
-

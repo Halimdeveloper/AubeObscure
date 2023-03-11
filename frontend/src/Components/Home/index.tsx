@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./style.css";
-import { RoleEnum, } from "../../models/User";
+import { RoleEnum } from "../../models/User";
 import { Box, Card, Typography } from "@mui/material";
 import { Container } from "@mui/material";
 import AuthComponent from "../Auth/authComponent";
@@ -10,6 +10,7 @@ import GamesSelect from "../GamesSelect";
 import { Game } from "../../models/Game";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/UserStore";
+import { useGameStore } from "../../stores/GameStore";
 
 export default function Home() {
   const api = useApi();
@@ -18,77 +19,83 @@ export default function Home() {
   const [games, setGames] = useState([]);
   const [role, setRole] = useState(RoleEnum.Player);
   const setCurrentUser = useUserStore((state: any) => state.setCurrentUser);
-
+  const setGame = useGameStore((state: any) => state.setGame);
 
   const handleLogin = (username: string, password: string) => {
-    api.post("/auth/signin", {
-      name: username,
-      password: password,
-    }).then(({ data }) => {
-      console.log("DATA INDEX.TSX HOME : ");
-      console.log(JSON.stringify(data));
-      setIdUser(data.user._id);
-      api.defaults.headers.authorization = `Bearer ${data.token}`;
-      //set current user in store 
-      setCurrentUser(data.user);
-      console.log("CURRENT USER SET/RESET")
-      //Get all games 
-      api.get("/games").then(({ data }) => {
-        setGames(data);
-      }).catch((err) => {
+    api
+      .post("/auth/signin", {
+        name: username,
+        password: password,
+      })
+      .then(({ data }) => {
+        console.log("DATA INDEX.TSX HOME : ");
+        console.log(JSON.stringify(data));
+        setIdUser(data.user._id);
+        api.defaults.headers.authorization = `Bearer ${data.token}`;
+        //set current user in store
+        setCurrentUser(data.user);
+        console.log("CURRENT USER SET/RESET");
+        //Get all games
+        api
+          .get("/games")
+          .then(({ data }) => {
+            setGames(data);
+          })
+          .catch((err) => {
+            toast.error("Erreur lors de la connexion");
+            console.log("Erreur Home : index.tsx l.39");
+            console.log(err);
+          });
+      })
+      .catch((err) => {
         toast.error("Erreur lors de la connexion");
-        console.log("Erreur Home : index.tsx l.39");
+        console.log("Erreur Home : index.tsx l.46");
         console.log(err);
-      }
-      );
-
-    }).catch((err) => {
-      toast.error("Erreur lors de la connexion");
-      console.log("Erreur Home : index.tsx l.46");
-      console.log(err);
-    }
-    );
-
-
+      });
   };
 
   const handleSignup = (username: string, password: string) => {
     // TODO: Appeler une API ou enregistrer l'utilisateur localement avec les informations d'identification fournies
-    console.log(`Signing up with username '${username}' and password '${password}'`);
+    console.log(
+      `Signing up with username '${username}' and password '${password}'`
+    );
   };
 
-  const handleGameSelect = (nameGame: string) => {
+  const handleGameSelect = (gameId: string) => {
     //call api to enter in this game
-    api.get(`/games/${nameGame}/joinGame?role=${role}`).then(({ data }) => {
-      if (role === RoleEnum.Player) {
-        navigate("/player");
-      } else {
-        navigate("/gameMaster");
-      }
-    }).catch((err) => {
-      if (err.response.status === 401) {
-        toast.error("Action non autorisée");
-      }
-      else {
-        toast.error("Une erreur est survenue");
-        console.log("Erreur Home : index.tsx l.73");
-      }
-
-    }
-    );
-  }
+    console.log(gameId);
+    api
+      .get(`/games/${gameId}/joinGame?role=${role}`)
+      .then(({ data }) => {
+        setGame({
+          _id: gameId
+        });
+        if (role === RoleEnum.Player) {
+          navigate("/player");
+        } else {
+          navigate("/gameMaster");
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          toast.error("Action non autorisée");
+        } else {
+          toast.error("Une erreur est survenue");
+          console.log("Erreur Home : index.tsx l.73");
+        }
+      });
+  };
 
   const handleCreateNewGame = (game: Game) => {
-    api.post("/games", game).then(({ data }) => {
-      setGames(data);
-    }).catch((err) => {
-      toast.error("Erreur lors de la connexion");
-    }
-    );
-  }
-
-
-
+    api
+      .post("/games", game)
+      .then(({ data }) => {
+        setGames(data);
+      })
+      .catch((err) => {
+        toast.error("Erreur lors de la connexion");
+      });
+  };
 
   return (
     <div>
@@ -140,13 +147,19 @@ export default function Home() {
             </Box>
           </Card>
           <Card elevation={3} sx={{ p: 2 }}>
-            {!idUser && <AuthComponent onLogin={handleLogin} onSignup={handleSignup} />}
-            {idUser ? <GamesSelect activeGames={games} onSelectGame={handleGameSelect} onCreateGame={handleCreateNewGame} /> : null}
+            {!idUser && (
+              <AuthComponent onLogin={handleLogin} onSignup={handleSignup} />
+            )}
+            {idUser ? (
+              <GamesSelect
+                activeGames={games}
+                onSelectGame={handleGameSelect}
+                onCreateGame={handleCreateNewGame}
+              />
+            ) : null}
           </Card>
         </Box>
       </Container>
     </div>
   );
 }
-
-
