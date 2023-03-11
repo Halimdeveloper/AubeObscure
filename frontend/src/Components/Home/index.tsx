@@ -1,7 +1,15 @@
 import { useState } from "react";
 import "./style.css";
 import { RoleEnum } from "../../models/User";
-import { Box, Card, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  SelectChangeEvent,
+  Typography,
+} from "@mui/material";
 import { Container } from "@mui/material";
 import AuthComponent from "../Auth/authComponent";
 import useApi from "../../services/axiosSingleton";
@@ -17,7 +25,7 @@ export default function Home() {
   const navigate = useNavigate();
   const [idUser, setIdUser] = useState(0);
   const [games, setGames] = useState([]);
-  const [role, setRole] = useState(RoleEnum.Player);
+  const [role, setRole] = useState("");
   const setCurrentUser = useUserStore((state: any) => state.setCurrentUser);
   const setGame = useGameStore((state: any) => state.setGame);
 
@@ -68,9 +76,9 @@ export default function Home() {
       .get(`/games/${gameId}/joinGame?role=${role}`)
       .then(({ data }) => {
         setGame({
-          _id: gameId
+          _id: gameId,
         });
-        if (role === RoleEnum.Player) {
+        if (data.role === RoleEnum.Player) {
           navigate("/player");
         } else {
           navigate("/gameMaster");
@@ -91,10 +99,15 @@ export default function Home() {
       .post("/games", game)
       .then(({ data }) => {
         setGames(data);
+        toast.success(`La partie ${game.name}`);
       })
       .catch((err) => {
         toast.error("Erreur lors de la connexion");
       });
+  };
+
+  const handleChange = (event: SelectChangeEvent<string>) => {
+    setRole(event.target.value as any);
   };
 
   return (
@@ -150,12 +163,33 @@ export default function Home() {
             {!idUser && (
               <AuthComponent onLogin={handleLogin} onSignup={handleSignup} />
             )}
+
             {idUser ? (
-              <GamesSelect
-                activeGames={games}
-                onSelectGame={handleGameSelect}
-                onCreateGame={handleCreateNewGame}
-              />
+              <>
+                <RadioGroup
+                  row
+                  sx={{ justifyContent: "center" }}
+                  defaultValue={RoleEnum.Player}
+                  name="radio-buttons-group"
+                  onChange={handleChange}
+                >
+                  <FormControlLabel
+                    value={RoleEnum.Player}
+                    control={<Radio />}
+                    label="Joueur"
+                  />
+                  <FormControlLabel
+                    value={RoleEnum.GM}
+                    control={<Radio />}
+                    label="Maître de jeu"
+                  />
+                </RadioGroup>
+                <GamesSelect
+                  activeGames={games}
+                  onSelectGame={handleGameSelect}
+                  onCreateGame={handleCreateNewGame}
+                />
+              </>
             ) : null}
           </Card>
         </Box>

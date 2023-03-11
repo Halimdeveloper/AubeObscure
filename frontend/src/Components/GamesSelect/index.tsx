@@ -42,7 +42,6 @@ const GamesSelect: React.FC<ActiveGamesProps> = ({
     <div>
       <Typography variant="h6">Parties en cours :</Typography>
       <Box component="form" onSubmit={handleSubmit}>
-        <pre>{JSON.stringify(activeGames)}</pre>
         <Select
           value={selectedGame}
           onChange={handleChange}
