@@ -54,10 +54,20 @@ const setupSocketIO = (io: any) => {
       Logger.info("EMIT CHARACTERS");
     });
 
-    socket.on("GET_TRIPLEDICE", (user: IUser) => {
-      Logger.info("GET_TRIPLEDICE");
-      DicesResults.push(getTripleDiceScore(user));
-      io.emit("TRIPLEDICE", DicesResults);
+    socket.on("GET_TRIPLEDICE", ({ currentUser, gameId }) => {
+      Game.findById(gameId).then((game) => {
+        try {
+          if (game) {
+            const diceResult = getTripleDiceScore(currentUser);
+            game.events.push(diceResult);
+            game.save();
+            Logger.info("GET_TRIPLEDICE");
+            socket.emit("GAME", game);
+          }
+        } catch (error) {
+          Logger.error(error);
+        }
+      });
     });
 
     socket.on("ATTACK_PLAYER", ({ playerId, value }) => {

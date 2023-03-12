@@ -1,25 +1,20 @@
 import { Box, Paper, Typography } from "@mui/material";
 import "./style.css";
-import { useDiceStore } from "../../stores/DiceStore";
 import { DiceResult } from "../../models/history/Dice";
 import HistoryEvent from "../../models/history/HistoryEvent";
+import { useGameStore } from "../../stores/GameStore";
+import { useEffect, useState } from "react";
 
 
 export default function GameHistory() {
-  // Dans votre composant qui a besoin d'accéder aux données de "dices"
-  const dices: DiceResult[] = useDiceStore((state: any) => state.dices);
-  //test
-  const combatHistory: HistoryEvent[] = [
-    {
-      id: 1,
-      type: "combat",
-      timeStamp: 1234123,
-    },
-  ];
+  const game = useGameStore((state: any) => state.game);
+  const [history, setHistory] = useState<HistoryEvent[]>([]);
 
-  const history: HistoryEvent[] = [...dices, ...combatHistory].sort(
-    (a, b) => a.timeStamp - b.timeStamp
-  );
+  useEffect(() => {
+    setHistory(game.events);
+  }, [game.events]);
+
+
 
   return (
     <>
@@ -30,9 +25,9 @@ export default function GameHistory() {
           </Typography>
         </Box>
         <Box sx={{ overflowY: "scroll", height: "96%" }}>
-          {history.map((event) => {
+          {history && history.map((event: HistoryEvent) => {
             switch (event.type) {
-              case "dice":
+              case "dice6":
                 const dice = event as DiceResult;
                 return (
                   <Typography variant="body2"

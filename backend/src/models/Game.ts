@@ -2,6 +2,18 @@ import { Schema, model, ObjectId } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
 import { IUser } from "./User";
 
+export interface HistoryEvent {
+  id: number;
+  type: string;
+  timeStamp: number;
+}
+
+export interface DiceResult extends HistoryEvent {
+  dice1: number;
+  dice2: number;
+  userID: string;
+}
+
 // 1. Create an interface representing a document in MongoDB.
 export type IGame = {
   _id: ObjectId;
@@ -9,6 +21,7 @@ export type IGame = {
   description?: string;
   players: IUser[];
   gm: IUser | null;
+  events: HistoryEvent[];
 };
 
 // 2. Create a Schema corresponding to the document interface.
@@ -18,6 +31,7 @@ const gameSchema = new Schema<IGame>(
     description: { type: String },
     players: [{ type: Object, required: true }],
     gm: { type: Object },
+    events: [{ type: Object }],
   },
   { collection: "games" }
 );

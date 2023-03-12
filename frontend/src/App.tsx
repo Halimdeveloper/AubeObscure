@@ -75,6 +75,36 @@ function App() {
 
   const theme = createTheme(themeOptions);
 
+  function handleLogout() {
+    navigate("/");
+    //reset all stores
+    setDices([]);
+    setUsers([]);
+    setCurrentUser(null);
+    setCharacters([]);
+    setGame(null);
+
+    //reset all sockets
+    socketEvents(
+      navigate,
+      dices,
+      setDices,
+      users,
+      setUsers,
+      currentUser,
+      setCurrentUser,
+      characters,
+      setCharacters,
+      game,
+      setGame,
+    );
+
+    //reset all local storage
+    localStorage.clear();
+
+    toast.info("Vous avez été déconnecté");
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -92,7 +122,7 @@ function App() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Aube Obscure
             </Typography>
-            <Button color="inherit">Login</Button>
+            <Button color="inherit" onClick={handleLogout}>Logout</Button>
           </Toolbar>
         </AppBar>
       </Box>
