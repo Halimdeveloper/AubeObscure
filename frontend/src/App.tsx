@@ -6,9 +6,7 @@ import GameMasterScene from "./Scenes/GameMasterScene";
 import { useDiceStore } from "./stores/DiceStore";
 import { useUserStore } from "./stores/UserStore";
 import { socketEvents } from "./Sockets/events";
-import { useCharacterStore } from "./stores/CharacterStore";
 import { User } from "./models/User";
-import { Character } from "./models/characters/Character";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { themeOptions } from "./themes/theme";
@@ -25,8 +23,6 @@ function App() {
   const setUsers = useUserStore((state: any) => state.setUsers);
   const currentUser = useUserStore((state: any) => state.currentUser);
   const setCurrentUser = useUserStore((state: any) => state.setCurrentUser);
-  const characters = useCharacterStore((state: any) => state.characters);
-  const setCharacters = useCharacterStore((state: any) => state.setCharacters);
   const game = useGameStore((state: any) => state.game);
   const setGame = useGameStore((state: any) => state.setGame);
 
@@ -38,8 +34,6 @@ function App() {
     setUsers: (arg0: any) => void,
     currentUser: User,
     setCurrentUser: (arg0: any) => void,
-    characters: Character[],
-    setCharacters: (arg0: any) => void,
     game: Game,
     setGame: (arg0: any) => void,
   ) => {
@@ -51,8 +45,6 @@ function App() {
       setUsers,
       currentUser,
       setCurrentUser,
-      characters,
-      setCharacters,
       game,
       setGame,
     );
@@ -66,8 +58,6 @@ function App() {
       setUsers,
       currentUser,
       setCurrentUser,
-      characters,
-      setCharacters,
       game,
       setGame,
     );

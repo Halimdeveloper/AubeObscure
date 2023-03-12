@@ -13,10 +13,8 @@ export const socketEvents = (
   setUsers: (arg0: any) => void,
   currentUser: User,
   setCurrentUser: (arg0: any) => void,
-  characters: Character[],
-  setCharacters: (arg0: any) => void,
   game: Game,
-  setGame: (arg0: any) => void,
+  setGame: (arg0: any) => void
 ) => {
   socket.on("connect", () => {
     console.log("Socket is connected: " + socket.connected);
@@ -30,20 +28,9 @@ export const socketEvents = (
     setDices(resultDice);
   });
 
-  socket.on("CHARACTERS", (characters) => {
-    setCharacters(characters);
-  });
-
   socket.on("GAME", (game) => {
     // set game
     setGame(game);
-    //init list of characters in game
-    const charactersInGame = game.players.map(
-      (player: any) => player.currentCharacter
-    );
-    if (charactersInGame.length) {
-      setCharacters(charactersInGame);
-    }
     //init list of game history events
     //TODO
   });

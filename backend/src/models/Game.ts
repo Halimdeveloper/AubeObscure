@@ -1,5 +1,8 @@
 import { Schema, model, ObjectId } from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
+import { PlayerCharacter } from "./characters/PlayerCharacter";
+import { NonPlayerCharacter } from "./characters/NonPlayerCharacter";
+import { EnemyCharacter } from "./characters/EnemyCharacter";
 import { IUser } from "./User";
 
 // 1. Create an interface representing a document in MongoDB.
@@ -9,6 +12,9 @@ export type IGame = {
   description?: string;
   players: IUser[];
   gm: IUser | null;
+  playerCharacters: PlayerCharacter[];
+  nonPlayerChatacters: NonPlayerCharacter[];
+  enemyCharacters: EnemyCharacter[];
 };
 
 // 2. Create a Schema corresponding to the document interface.
@@ -18,6 +24,10 @@ const gameSchema = new Schema<IGame>(
     description: { type: String },
     players: [{ type: Object, required: true }],
     gm: { type: Object },
+    playerCharacters: [{ type: Object }],
+    nonPlayerChatacters: [{ type: Object }],
+    enemyCharacters: [{ type: Object }],
+
   },
   { collection: "games" }
 );

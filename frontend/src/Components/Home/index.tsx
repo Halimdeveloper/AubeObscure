@@ -90,6 +90,7 @@ export default function Home() {
         } else {
           toast.error("Une erreur est survenue");
           console.log("Erreur Home : index.tsx l.73");
+          console.log(err);
         }
       });
   };

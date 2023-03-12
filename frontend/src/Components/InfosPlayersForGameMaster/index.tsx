@@ -7,23 +7,31 @@ import {
   Typography,
 } from "@mui/material";
 import { PlayerCharacter } from "../../models/characters/PlayerCharacter";
-import { useCharacterStore } from "../../stores/CharacterStore";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { attackPlayer, healthPlayer } from "../../Sockets/emit";
 import { useEffect } from "react";
 import LifeBar from "../LifeBar";
+import { useGameStore } from "../../stores/GameStore";
+import { Game } from "../../models/Game";
+import { getGame } from "../../Sockets/emit";
+import { toast } from "react-toastify";
 
 export default function infoPlayerForGameMaster() {
-  const characters = useCharacterStore((state: any) => state.characters);
-  const setCharacters = useCharacterStore((state: any) => state.setCharacters);
+  const game : Game = useGameStore((state: any) => state.game);
+  try {
+    useEffect(() => getGame(game._id), []);
+  } catch (error) {
+    toast.error("Outch, la game n'a pas pu etre trouvée");
+  }
+  const playerCharacters = game.playerCharacters;
 
   useEffect(() => {
   }, []);
 
   return (
     <div className="infoPlayerForGameMaster">
-      {characters &&
-        characters.map((character: PlayerCharacter) => {
+      {playerCharacters &&
+        playerCharacters.map((character: PlayerCharacter) => {
           return (
             <Accordion>
               <AccordionSummary
