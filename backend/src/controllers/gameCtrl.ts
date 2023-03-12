@@ -59,7 +59,7 @@ export const deleteGameByName = async (req: Request, res: Response) => {
 export const joinGame = async (req: any, res: Response) => {
   try {
     const role = req.query.role;
-    const game = await Game.findOne({ name: req.params.name });
+    const game = await Game.findById(req.params.id);
     if (!game) {
       Logger.error("Game not found !");
       return res.status(400).json({ error: "Game not found !" });

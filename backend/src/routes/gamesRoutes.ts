@@ -21,6 +21,6 @@ games.get("/:name", auth, getGameByName);
 
 games.delete("/:name", auth, deleteGameByName);
 
-games.get("/:name/joinGame", auth, joinGame);
+games.get("/:id/joinGame", auth, joinGame);
 
 export default games;
