@@ -14,6 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AppBar, Box, Button, CssBaseline, IconButton, Toolbar, Typography } from "@mui/material";
 import { useGameStore } from "./stores/GameStore";
 import { Game } from "./models/Game";
+import { AuthGuard } from "./services/routerGuard";
 
 function App() {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ function App() {
 
   const theme = createTheme(themeOptions);
 
-  function handleLogout() {
+  function Reset() {
     navigate("/");
     //reset all stores
     setDices([]);
@@ -112,18 +113,27 @@ function App() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Aube Obscure
             </Typography>
-            <Button color="inherit" onClick={handleLogout}>Logout</Button>
+            <Button color="inherit" onClick={Reset}>Logout</Button>
           </Toolbar>
         </AppBar>
       </Box>
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/player" element={<PlayerScene />} />
-        <Route path="/gameMaster" element={<GameMasterScene />} />
+        <Route path="/player" element={
+          <AuthGuard currentUser={currentUser}>
+            <PlayerScene />
+          </AuthGuard>
+        } />
+        <Route path="/gameMaster" element={
+          <AuthGuard currentUser={currentUser}>
+            <GameMasterScene />
+          </AuthGuard>
+        } />
+        <Route path="*" element={<Home />} />
       </Routes>
       <ToastContainer />
-    </ThemeProvider>
+    </ThemeProvider >
   );
 }
 
