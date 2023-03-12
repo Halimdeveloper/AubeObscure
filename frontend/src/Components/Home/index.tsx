@@ -25,7 +25,7 @@ export default function Home() {
   const navigate = useNavigate();
   const [idUser, setIdUser] = useState(0);
   const [games, setGames] = useState([]);
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState(RoleEnum.Player);
   const setCurrentUser = useUserStore((state: any) => state.setCurrentUser);
   const setGame = useGameStore((state: any) => state.setGame);
 

@@ -5,6 +5,18 @@ import { NonPlayerCharacter } from "./characters/NonPlayerCharacter";
 import { EnemyCharacter } from "./characters/EnemyCharacter";
 import { IUser } from "./User";
 
+export interface HistoryEvent {
+  id: number;
+  type: string;
+  timeStamp: number;
+}
+
+export interface DiceResult extends HistoryEvent {
+  dice1: number;
+  dice2: number;
+  userID: string;
+}
+
 // 1. Create an interface representing a document in MongoDB.
 export type IGame = {
   _id: ObjectId;
@@ -15,6 +27,7 @@ export type IGame = {
   playerCharacters: PlayerCharacter[];
   nonPlayerChatacters: NonPlayerCharacter[];
   enemyCharacters: EnemyCharacter[];
+  events: HistoryEvent[];
 };
 
 // 2. Create a Schema corresponding to the document interface.
@@ -28,6 +41,7 @@ const gameSchema = new Schema<IGame>(
     nonPlayerChatacters: [{ type: Object }],
     enemyCharacters: [{ type: Object }],
 
+    events: [{ type: Object }],
   },
   { collection: "games" }
 );

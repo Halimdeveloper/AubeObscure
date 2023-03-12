@@ -110,3 +110,4 @@ export const joinGame = async (req: any, res: Response) => {
     Logger.error(error);
   }
 };
+  

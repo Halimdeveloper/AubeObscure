@@ -2,12 +2,12 @@ import useSocket from ".";
 import { User } from "../models/User";
 
 const socket = useSocket();
-export const getTripleDiceScore = (currentUser: User) => {
-  console.log("GET TRIPLE DICE: " + currentUser)
-  if (!currentUser.name) {
+export const getTripleDiceScore = (currentUser: User, gameId: string) => {
+  console.log("GET TRIPLE DICE: " + currentUser.name, gameId);
+  if (!currentUser) {
     throw new Error("User name is required");
   }
-  socket.emit("GET_TRIPLEDICE", currentUser.name);
+  socket.emit("GET_TRIPLEDICE", { currentUser, gameId });
 };
 
 export const attackPlayer = (playerId: number, value?: number) => {
