@@ -28,6 +28,7 @@ export default function Home() {
   const [role, setRole] = useState(RoleEnum.Player);
   const setCurrentUser = useUserStore((state: any) => state.setCurrentUser);
   const setGame = useGameStore((state: any) => state.setGame);
+  const currentUser = useUserStore((state: any) => state.currentUser);
 
   const handleLogin = (username: string, password: string) => {
     api
@@ -79,8 +80,10 @@ export default function Home() {
           _id: gameId,
         });
         if (data.role === RoleEnum.Player) {
+          setCurrentUser({ ...currentUser, role: RoleEnum.Player })
           navigate("/player");
         } else {
+          setCurrentUser({ ...currentUser, role: RoleEnum.GM })
           navigate("/gameMaster");
         }
       })

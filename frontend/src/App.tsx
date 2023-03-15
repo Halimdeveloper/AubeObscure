@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AppBar, Box, Button, CssBaseline, IconButton, Toolbar, Typography } from "@mui/material";
 import { useGameStore } from "./stores/GameStore";
 import { Game } from "./models/Game";
-import { AuthGuard } from "./services/routerGuard";
+import { AuthGuard, GameMasterGuard, PlayerGuard } from "./services/routerGuard";
 
 function App() {
   const navigate = useNavigate();
@@ -122,12 +122,16 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/player" element={
           <AuthGuard currentUser={currentUser}>
-            <PlayerScene />
+            <PlayerGuard currentUser={currentUser}>
+              <PlayerScene />
+            </PlayerGuard>
           </AuthGuard>
         } />
         <Route path="/gameMaster" element={
           <AuthGuard currentUser={currentUser}>
-            <GameMasterScene />
+            <GameMasterGuard currentUser={currentUser}>
+              <GameMasterScene />
+            </GameMasterGuard>
           </AuthGuard>
         } />
         <Route path="*" element={<Home />} />
