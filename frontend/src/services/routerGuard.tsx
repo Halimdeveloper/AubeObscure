@@ -7,4 +7,17 @@ export const AuthGuard = ({ currentUser, children }) => {
   return children;
 };
 
-export default { AuthGuard };
+export const PlayerGuard = ({ currentUser, children }) => {
+  if (!currentUser._id || currentUser.role !== "Player") {
+    return <Navigate to="/player" replace />;
+  }
+  return children;
+};
+
+export const GameMasterGuard = ({ currentUser, children }) => {
+  if (!currentUser._id || currentUser.role !== "GameMaster") {
+    return <Navigate to="/gameMaster" replace />;
+  }
+  return children;
+};
+export default { AuthGuard, PlayerGuard, GameMasterGuard };
