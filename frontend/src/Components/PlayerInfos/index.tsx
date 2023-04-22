@@ -26,13 +26,10 @@ export default function PlayerInfos() {
   } catch (error) {
     toast.error("Outch, la game n'a pas pu etre trouvée");
   }
-
-  const characters: PlayerCharacter[] = useCharacterStore(
-    (state: any) => state.characters
-  );
-  const setCharacters = useCharacterStore((state: any) => state.setCharacters);
   const currentUser = useUserStore((state: any) => state.currentUser);
-
+  const playerCharacters = game.playerCharacters?.filter((character: PlayerCharacter) => {
+    return character.userName === currentUser.name;
+  })
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -88,41 +85,36 @@ export default function PlayerInfos() {
           <Tab label="Abilités" {...a11yProps(2)} />
         </Tabs>
         <TabPanel value={value} index={0}>
-          {characters
-            .filter((character: PlayerCharacter) => {
-              console.log(characters);
-              return character.userName === currentUser.name;
-            })
-            .map((character: PlayerCharacter) => {
-              return (
-                <div key={character.id}>
-                  <Typography>{character.lastName}</Typography>
-                  <Typography>{character.firstName}</Typography>
-                  <Typography>
-                    Vie: {character.health + "/" + character.maxHealth}
-                  </Typography>
-                  <Card sx={{ height: "100%", position: "relative" }}>
-                    <CardHeader
-                      title="Statistiques"
-                      className="paperStatsHeader"
-                      titleTypographyProps={{ variant: "h6" }}
-                      sx={{ p: 0 }}
-                    />
-                    <CardContent className="paperStatsContent">
-                      {Object.keys(character.stats).map(
-                        (stat: string, index) => {
-                          return (
-                            <Typography key={index}>
-                              {stat}: {character.stats[stat]}
-                            </Typography>
-                          );
-                        }
-                      )}
-                    </CardContent>
-                  </Card>
-                </div>
-              );
-            })}
+          {playerCharacters?.map((character: PlayerCharacter) => {
+            return (
+              <div key={character.id}>
+                <Typography>{character.lastName}</Typography>
+                <Typography>{character.firstName}</Typography>
+                <Typography>
+                  Vie: {character.health + "/" + character.maxHealth}
+                </Typography>
+                <Card sx={{ height: "100%", position: "relative" }}>
+                  <CardHeader
+                    title="Statistiques"
+                    className="paperStatsHeader"
+                    titleTypographyProps={{ variant: "h6" }}
+                    sx={{ p: 0 }}
+                  />
+                  <CardContent className="paperStatsContent">
+                    {Object.keys(character.stats).map(
+                      (stat: string, index) => {
+                        return (
+                          <Typography key={index}>
+                            {stat}: {character.stats[stat]}
+                          </Typography>
+                        );
+                      }
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })}
         </TabPanel>
         <TabPanel value={value} index={1}>
           Item Two
