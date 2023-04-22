@@ -23,11 +23,11 @@ import { useGameStore } from "../../stores/GameStore";
 export default function Home() {
   const api = useApi();
   const navigate = useNavigate();
-  const [idUser, setIdUser] = useState(0);
   const [games, setGames] = useState([]);
   const [role, setRole] = useState(RoleEnum.Player);
   const setCurrentUser = useUserStore((state: any) => state.setCurrentUser);
   const setGame = useGameStore((state: any) => state.setGame);
+  const idUser = useUserStore((state: any) => state.currentUser._id);
 
   const handleLogin = (username: string, password: string) => {
     api
@@ -38,7 +38,6 @@ export default function Home() {
       .then(({ data }) => {
         console.log("DATA INDEX.TSX HOME : ");
         console.log(JSON.stringify(data));
-        setIdUser(data.user._id);
         api.defaults.headers.authorization = `Bearer ${data.token}`;
         //set current user in store
         setCurrentUser(data.user);
@@ -64,9 +63,17 @@ export default function Home() {
 
   const handleSignup = (username: string, password: string) => {
     // TODO: Appeler une API ou enregistrer l'utilisateur localement avec les informations d'identification fournies
-    console.log(
-      `Signing up with username '${username}' and password '${password}'`
-    );
+    api.post("/auth/signup", {
+      name: username,
+      password: password,
+    }).then(data => {
+      console.log(data)
+      toast.success("Inscription réussie");
+    }).catch((err) => {
+      toast.error("Erreur lors de l'inscription");
+      console.log(err);
+    });
+
   };
 
   const handleGameSelect = (gameId: string) => {
