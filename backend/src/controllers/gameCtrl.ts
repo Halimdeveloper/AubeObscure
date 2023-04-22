@@ -72,7 +72,7 @@ export const joinGame = async (req: any, res: Response) => {
     const player = game.players.find(({ _id }) => {
       return `${_id}` === `${user._id}`;
     });
-    const gm = `${game.gm}` === `${user._id}`;
+    const gm = game.gm && `${game.gm._id}` === `${user._id}` ? game.gm : null;
 
     if (!role) {
       Logger.error("Role not found !");
@@ -110,4 +110,3 @@ export const joinGame = async (req: any, res: Response) => {
     Logger.error(error);
   }
 };
-  
