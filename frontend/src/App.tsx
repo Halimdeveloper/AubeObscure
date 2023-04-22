@@ -26,6 +26,7 @@ function App() {
   const setCurrentUser = useUserStore((state: any) => state.setCurrentUser);
   const game = useGameStore((state: any) => state.game);
   const setGame = useGameStore((state: any) => state.setGame);
+  const userReset = useUserStore((state: any) => state.reset);
 
   const initSockets = (
     navigate: (arg0: string) => void,
@@ -72,8 +73,9 @@ function App() {
     setDices([]);
     setUsers([]);
     setCurrentUser(null);
-    setCharacters([]);
     setGame(null);
+    // cache reset
+    userReset()
 
     //reset all sockets
     socketEvents(
@@ -84,8 +86,6 @@ function App() {
       setUsers,
       currentUser,
       setCurrentUser,
-      characters,
-      setCharacters,
       game,
       setGame,
     );

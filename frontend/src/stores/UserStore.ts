@@ -10,6 +10,8 @@ export const useUserStore = create()(
         setUsers: (users: User[]) => set({ users }),
         currentUser: {} as User,
         setCurrentUser: (currentUser: User) => set({ currentUser }),
+        //reset
+        reset: () => set({ users: [], currentUser: {} }),
       }),
       {
         name: "User-storage",
