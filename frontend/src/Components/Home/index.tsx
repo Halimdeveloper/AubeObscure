@@ -71,7 +71,6 @@ export default function Home() {
 
   const handleGameSelect = (gameId: string) => {
     //call api to enter in this game
-    console.log(gameId);
     api
       .get(`/games/${gameId}/joinGame?role=${role}`)
       .then(({ data }) => {
@@ -79,8 +78,14 @@ export default function Home() {
           _id: gameId,
         });
         if (data.role === RoleEnum.Player) {
+          if (role !== data.role) {
+            return toast.error("Vous êtes joueur dans cette partie");
+          }
           navigate("/player");
         } else {
+          if (role !== data.role) {
+            return toast.error("Vous êtes game master dans cette partie");
+          }
           navigate("/gameMaster");
         }
       })
