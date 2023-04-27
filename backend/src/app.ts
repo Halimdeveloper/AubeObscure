@@ -14,6 +14,10 @@ dotenv.config();
 //db INIT
 const MongoDB_URI: string = process.env.MONGODB_URI!;
 mongoose
+  .set("debug", (collectionName, method, query, doc) => {
+    // debug mangoose
+    Logger.info(`${collectionName}.${method}`, JSON.stringify(query), doc);
+  })
   .connect(MongoDB_URI)
   .then(() => Logger.info("Connexion à MongoDB réussie !"))
   .catch((e: any) => Logger.error("Connexion à MongoDB échouée : " + e));
