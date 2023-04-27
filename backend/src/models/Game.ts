@@ -24,7 +24,6 @@ export type IGame = {
   description?: string;
   players: IUser[];
   gm: IUser | null;
-  playerCharacters: PlayerCharacter[];
   nonPlayerChatacters: NonPlayerCharacter[];
   enemyCharacters: EnemyCharacter[];
   events: HistoryEvent[];
@@ -37,7 +36,6 @@ const gameSchema = new Schema<IGame>(
     description: { type: String },
     players: [{ type: Object, required: true }],
     gm: { type: Object },
-    playerCharacters: [{ type: Object }],
     nonPlayerChatacters: [{ type: Object }],
     enemyCharacters: [{ type: Object }],
 

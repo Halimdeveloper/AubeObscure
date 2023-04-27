@@ -93,7 +93,6 @@ export const joinGame = async (req: any, res: Response) => {
       user.characters.push(randomCharacter);
       user.currentCharacter = randomCharacter;
       game.players.push(user);
-      game.playerCharacters.push(randomCharacter);
       await game.save();
       return res
         .status(200)
