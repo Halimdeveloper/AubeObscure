@@ -1,38 +1,7 @@
 import { Socket } from "socket.io";
 import { getTripleDiceScore } from "./function/getDice";
-import { IUser } from "./models/User";
 import Logger from "./lib/winston";
-import {
-  PlayerCharacter,
-  FamilyEnum,
-} from "./models/characters/PlayerCharacter";
-import { DiceResult } from "./models/history/Dice";
-import { UserNameEnum } from "./models/User";
-import Game from "./models/Game";
-
-const characters: Array<PlayerCharacter> = [
-  {
-    id: 1,
-    firstName: "Aelith",
-    lastName: "Aelith",
-    health: 10,
-    maxHealth: 10,
-    family: {
-      fatherFamily: FamilyEnum.Brisefer,
-      motherFamily: FamilyEnum.Brisefer,
-    },
-    stats: {
-      agility: 10,
-      fighting: 1,
-      erudition: 1,
-      influence: 1,
-      toughness: 1,
-      survival: 1,
-    },
-    userName: UserNameEnum.Pierre,
-  },
-];
-const DicesResults: DiceResult[] = [];
+import Game, { IGame } from "./models/Game";
 
 const setupSocketIO = (io: any) => {
   io.on("connection", (socket: Socket) => {
@@ -40,18 +9,6 @@ const setupSocketIO = (io: any) => {
 
     socket.on("disconnect", () => {
       Logger.info("user disconnected");
-    });
-
-    socket.on("GET_CHARACTERS", () => {
-      socket.emit("CHARACTERS", characters);
-      Logger.info("GET_CHARACTERS");
-    });
-
-    socket.on("HIT", () => {
-      // characters.health -= 1;
-      Logger.info("HIT");
-      socket.emit("CHARACTERS", characters);
-      Logger.info("EMIT CHARACTERS");
     });
 
     socket.on("GET_TRIPLEDICE", ({ currentUser, gameId }) => {
@@ -70,30 +27,68 @@ const setupSocketIO = (io: any) => {
       });
     });
 
-    socket.on("ATTACK_PLAYER", ({ playerId, value }) => {
-      Logger.info("Player attacking");
-      const playerIndex = characters.findIndex(
-        (player) => player.id === playerId
-      );
-      if (characters[playerIndex].health > 0) {
-        characters[playerIndex].health -= value;
-        socket.emit("CHARACTERS", characters);
+    socket.on("ATTACK_PLAYER", async ({ characterId, gameId, value }) => {
+      try {
+        let game = await Game.findById(gameId);
+
+        if (!game) {
+          return Logger.error("Game not found");
+        }
+
+        const playerIndex = game.players.findIndex(
+          (p) => p.currentCharacter?.id.toString() === characterId.toString()
+        );
+
+        if (playerIndex === -1) {
+          return Logger.error("Player not found");
+        }
+
+        let updatedPlayer = game.players;
+
+        if (updatedPlayer[playerIndex].currentCharacter!.health <= 0) {
+          return socket.emit("GAME", game);
+        }
+
+        updatedPlayer[playerIndex].currentCharacter!.health -= value;
+        game.players.splice(0, game.players.length, ...updatedPlayer);
+        await game.save();
+        socket.emit("GAME", game);
+      } catch (error) {
+        Logger.error(error);
       }
-      io.emit("CHARACTERS", characters);
     });
-    socket.on("HEALTH_PLAYER", ({ playerId, value }) => {
-      Logger.info("Player healing");
-      const playerIndex = characters.findIndex(
-        (player) => player.id === playerId
-      );
-      if (
-        characters[playerIndex].health > 0 &&
-        characters[playerIndex].health < characters[playerIndex].maxHealth
-      ) {
-        characters[playerIndex].health += value;
-        socket.emit("CHARACTERS", characters);
+
+    socket.on("HEALTH_PLAYER", async ({ characterId, gameId, value }) => {
+      try {
+        let game = await Game.findById(gameId);
+
+        if (!game) {
+          return Logger.error("Game not found");
+        }
+
+        const playerIndex = game.players.findIndex((p) => {
+          return p.currentCharacter && p.currentCharacter.id === characterId;
+        });
+
+        if (playerIndex === -1) {
+          return Logger.error("Player not found");
+        }
+
+        let updatedPlayer = game.players;
+        let health = updatedPlayer[playerIndex].currentCharacter!.health;
+        let maxHealth = updatedPlayer[playerIndex].currentCharacter!.maxHealth;
+
+        if (health >= maxHealth) {
+          return socket.emit("GAME", game);
+        }
+
+        updatedPlayer[playerIndex].currentCharacter!.health += value;
+        game.players.splice(0, game.players.length, ...updatedPlayer);
+        await game.save();
+        socket.emit("GAME", game);
+      } catch (error) {
+        Logger.error(error);
       }
-      io.emit("CHARACTERS", characters);
     });
 
     socket.on("GET_GAME", async (gameId: string) => {

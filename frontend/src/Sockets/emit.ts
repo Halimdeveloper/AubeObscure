@@ -10,18 +10,22 @@ export const getTripleDiceScore = (currentUser: User, gameId: string) => {
   socket.emit("GET_TRIPLEDICE", { currentUser, gameId });
 };
 
-export const attackPlayer = (playerId: number, value?: number) => {
-  socket.emit("ATTACK_PLAYER", { playerId, value });
+export const attackPlayer = (
+  characterId: number,
+  gameId: string,
+  value?: number
+) => {
+  socket.emit("ATTACK_PLAYER", { characterId, gameId, value });
 };
 
-export const healthPlayer = (playerId: number, value?: number) => {
-  socket.emit("HEALTH_PLAYER", { playerId, value });
+export const healthPlayer = (
+  characterId: number,
+  gameId: string,
+  value?: number
+) => {
+  socket.emit("HEALTH_PLAYER", { characterId, gameId, value });
 };
 
-export const getCharaters = (currentUser: User) => {
-  console.log("getCharaters");
-  socket.emit("GET_CHARACTERS", currentUser);
-};
 
 export const getGame = (gameId: string) => {
   socket.emit("GET_GAME", gameId);

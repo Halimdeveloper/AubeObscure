@@ -17,13 +17,13 @@ import { getGame } from "../../Sockets/emit";
 import { toast } from "react-toastify";
 
 export default function infoPlayerForGameMaster() {
-  const game : Game = useGameStore((state: any) => state.game);
+  const game: Game = useGameStore((state: any) => state.game);
+  const playerCharacters = game.players?.map((player) => player.currentCharacter) as PlayerCharacter[];
   try {
     useEffect(() => getGame(game._id), []);
   } catch (error) {
     toast.error("Outch, la game n'a pas pu etre trouvée");
   }
-  const playerCharacters = game.playerCharacters;
 
   useEffect(() => {
   }, []);
@@ -93,7 +93,7 @@ export default function infoPlayerForGameMaster() {
                   variant="contained"
                   sx={{ mr: 2 }}
                   onClick={() => {
-                    attackPlayer(character.id, 1);
+                    attackPlayer(character.id, game._id, 1);
                   }}
                 >
                   Punch it !
@@ -101,7 +101,7 @@ export default function infoPlayerForGameMaster() {
                 <Button
                   variant="contained"
                   onClick={() => {
-                    healthPlayer(character.id, 1);
+                    healthPlayer(character.id, game._id, 1);
                   }}
                 >
                   Health it !

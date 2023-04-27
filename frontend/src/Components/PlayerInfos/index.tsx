@@ -3,7 +3,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Paper,
   Tab,
   Tabs,
   Typography,
@@ -11,25 +10,26 @@ import {
 import "./style.css";
 import { getGame } from "../../Sockets/emit";
 import { useEffect, useState } from "react";
-import { useCharacterStore } from "../../stores/CharacterStore";
-import { PlayerCharacter } from "../../models/characters/PlayerCharacter";
 import { useUserStore } from "../../stores/UserStore";
 import React from "react";
 import { useGameStore } from "../../stores/GameStore";
 import { Game } from "../../models/Game";
 import { toast } from "react-toastify";
+import { User } from "../../models/User";
 
 export default function PlayerInfos() {
   const game: Game = useGameStore((state: any) => state.game);
+  const currentUser = useUserStore((state: any) => state.currentUser);
   try {
     useEffect(() => getGame(game._id), []);
   } catch (error) {
     toast.error("Outch, la game n'a pas pu etre trouvée");
   }
-  const currentUser = useUserStore((state: any) => state.currentUser);
-  const playerCharacters = game.playerCharacters?.filter((character: PlayerCharacter) => {
-    return character.userName === currentUser.name;
-  })
+  //get the current user's character
+  const playerCharacter = game.players?.filter((user: User) => {
+    return user._id === currentUser._id;
+  })[0].currentCharacter;
+
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -84,37 +84,34 @@ export default function PlayerInfos() {
           <Tab label="Inventaire" {...a11yProps(1)} />
           <Tab label="Abilités" {...a11yProps(2)} />
         </Tabs>
+
         <TabPanel value={value} index={0}>
-          {playerCharacters?.map((character: PlayerCharacter) => {
-            return (
-              <div key={character.id}>
-                <Typography>{character.lastName}</Typography>
-                <Typography>{character.firstName}</Typography>
-                <Typography>
-                  Vie: {character.health + "/" + character.maxHealth}
-                </Typography>
-                <Card sx={{ height: "100%", position: "relative" }}>
-                  <CardHeader
-                    title="Statistiques"
-                    className="paperStatsHeader"
-                    titleTypographyProps={{ variant: "h6" }}
-                    sx={{ p: 0 }}
-                  />
-                  <CardContent className="paperStatsContent">
-                    {Object.keys(character.stats).map(
-                      (stat: string, index) => {
-                        return (
-                          <Typography key={index}>
-                            {stat}: {character.stats[stat]}
-                          </Typography>
-                        );
-                      }
-                    )}
-                  </CardContent>
-                </Card>
-              </div>
-            );
-          })}
+          {playerCharacter && <div key={playerCharacter.id}>
+            <Typography>{playerCharacter.lastName}</Typography>
+            <Typography>{playerCharacter.firstName}</Typography>
+            <Typography>
+              Vie: {playerCharacter.health + "/" + playerCharacter.maxHealth}
+            </Typography>
+            <Card sx={{ height: "100%", position: "relative" }}>
+              <CardHeader
+                title="Statistiques"
+                className="paperStatsHeader"
+                titleTypographyProps={{ variant: "h6" }}
+                sx={{ p: 0 }}
+              />
+              <CardContent className="paperStatsContent">
+                {Object.keys(playerCharacter.stats).map(
+                  (stat: string, index) => {
+                    return (
+                      <Typography key={index}>
+                        {stat}: {playerCharacter.stats[stat]}
+                      </Typography>
+                    );
+                  }
+                )}
+              </CardContent>
+            </Card>
+          </div>}
         </TabPanel>
         <TabPanel value={value} index={1}>
           Item Two
