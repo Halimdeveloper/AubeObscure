@@ -8,19 +8,24 @@ import {
   Typography,
 } from "@mui/material";
 import "./style.css";
-import { useCharacterStore } from "../../stores/CharacterStore";
 import {
-  FamilyEnum,
   PlayerCharacter,
 } from "../../models/characters/PlayerCharacter";
-import { UserNameEnum } from "../../models/User";
 import LifeBar from "../LifeBar";
+import { useGameStore } from "../../stores/GameStore";
+import { Game } from "../../models/Game";
+import { useUserStore } from "../../stores/UserStore";
+import { User } from "../../models/User";
 
 export default function CharactersInGame() {
-  // Dans votre composant qui a besoin d'accéder aux données des "PlayerCharacter"
-  const characters: PlayerCharacter[] = useCharacterStore(
-    (state: any) => state.characters
-  );
+  const game = useGameStore((state) => state.game) as Game;
+  const currentUser = useUserStore((state) => state.currentUser) as User;
+
+  //Get all characters in "game" store except the current user's character
+  const otherCharacters: PlayerCharacter[] = game.players
+    ?.filter((player) => player._id !== currentUser._id)
+    .map((player) => player.currentCharacter)
+    .filter((character): character is PlayerCharacter => character !== undefined) || [];
 
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
@@ -32,7 +37,7 @@ export default function CharactersInGame() {
         </Box>
 
         <List dense={true} sx={{ display: "flex", flexWrap: "wrap" }}>
-          {characters && characters.map((character: PlayerCharacter, index: number) => (
+          {otherCharacters && otherCharacters.map((character: PlayerCharacter, index: number) => (
             <ListItem
               sx={{ width: "50%" }}
               key={index}
