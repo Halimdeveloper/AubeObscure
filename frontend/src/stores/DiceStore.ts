@@ -1,6 +1,11 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
+interface DiceState {
+  dices: any;
+  setDices: (dices: any) => void;
+}
+
 // Store pour les données de "dés"
 export const useDiceStore = create()(
   devtools(

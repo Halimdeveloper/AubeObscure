@@ -6,7 +6,15 @@ import { NonPlayerCharacter } from "../models/characters/NonPlayerCharacter";
 import { PlayerCharacter } from "../models/characters/PlayerCharacter";
 import { Game } from "../models/Game";
 
-export const useGameStore = create()(
+interface GameState {
+  game: Game;
+  setGame: (game: Game) => void;
+  updatePlayerCharacter: (character: PlayerCharacter) => void;
+  updateNonPlayerCharacter: (character: NonPlayerCharacter) => void;
+  updateEnemyCharacter: (character: EnemyCharacter) => void;
+}
+
+export const useGameStore = create<GameState>()(
   devtools(
     persist(
       (set, get: any) => ({
@@ -29,7 +37,7 @@ export const useGameStore = create()(
             state.game.enemyCharacters.map((c: EnemyCharacter) =>
               c.id === character.id ? character : c
             )
-          )
+          ),
       }),
       {
         name: "Game-storage",

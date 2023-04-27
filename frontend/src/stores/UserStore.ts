@@ -2,7 +2,15 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { User } from "../models/User";
 
-export const useUserStore = create()(
+interface UserState {
+  users: User[];
+  setUsers: (users: User[]) => void;
+  currentUser: User;
+  setCurrentUser: (currentUser: User) => void;
+  reset: () => void;
+}
+
+export const useUserStore = create<UserState>()(
   devtools(
     persist(
       (set) => ({
@@ -11,7 +19,7 @@ export const useUserStore = create()(
         currentUser: {} as User,
         setCurrentUser: (currentUser: User) => set({ currentUser }),
         //reset
-        reset: () => set({ users: [], currentUser: {} }),
+        reset: () => set({ users: [], currentUser: {} as User }),
       }),
       {
         name: "User-storage",
