@@ -33,7 +33,7 @@ export default function infoPlayerForGameMaster() {
       {playerCharacters &&
         playerCharacters.map((character: PlayerCharacter) => {
           return (
-            <Accordion>
+            <Accordion key={character.id} >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
@@ -59,7 +59,7 @@ export default function infoPlayerForGameMaster() {
                   if (key === "stats") {
                     return Object.keys(character.stats).map((key: string) => {
                       return (
-                        <Typography>
+                        <Typography key={key}>
                           {key + " : " + character.stats[key]}
                         </Typography>
                       );
@@ -69,7 +69,7 @@ export default function infoPlayerForGameMaster() {
                   if (key === "family") {
                     return Object.keys(character.family).map((key: string) => {
                       return (
-                        <Typography>
+                        <Typography key={key}>
                           {key +
                             " : " +
                             character.family[
@@ -84,7 +84,7 @@ export default function infoPlayerForGameMaster() {
                   }
 
                   return (
-                    <Typography>
+                    <Typography key={key}>
                       {key + " : " + character[key as keyof PlayerCharacter]}
                     </Typography>
                   );
@@ -110,6 +110,6 @@ export default function infoPlayerForGameMaster() {
             </Accordion>
           );
         })}
-    </div>
+    </div >
   );
 }
