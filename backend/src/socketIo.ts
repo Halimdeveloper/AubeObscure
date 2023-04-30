@@ -19,7 +19,7 @@ const setupSocketIO = (io: any) => {
             game.events.push(diceResult);
             game.save();
             Logger.info("GET_TRIPLEDICE");
-            socket.emit("GAME", game);
+            io.emit("GAME", game);
           }
         } catch (error) {
           Logger.error(error);
@@ -52,7 +52,8 @@ const setupSocketIO = (io: any) => {
         updatedPlayer[playerIndex].currentCharacter!.health -= value;
         game.players.splice(0, game.players.length, ...updatedPlayer);
         await game.save();
-        socket.emit("GAME", game);
+        io.emit("GAME", game);
+        console.log("game  emit", game);
       } catch (error) {
         Logger.error(error);
       }
@@ -85,7 +86,7 @@ const setupSocketIO = (io: any) => {
         updatedPlayer[playerIndex].currentCharacter!.health += value;
         game.players.splice(0, game.players.length, ...updatedPlayer);
         await game.save();
-        socket.emit("GAME", game);
+        io.emit("GAME", game);
       } catch (error) {
         Logger.error(error);
       }
