@@ -1,5 +1,6 @@
 import useSocket from ".";
 import { User } from "../models/User";
+import { EnemyCharacter } from "../models/characters/EnemyCharacter";
 
 const socket = useSocket();
 export const getTripleDiceScore = (currentUser: User, gameId: string) => {
@@ -29,4 +30,11 @@ export const healthPlayer = (
 
 export const getGame = (gameId: string) => {
   socket.emit("GET_GAME", gameId);
+};
+
+export const addEnemyCharacterInEvent = (
+  enemyCharacter: EnemyCharacter,
+  gameId: string
+) => {
+  socket.emit("ADD_ENEMY_CHARACTER_IN_EVENT", { enemyCharacter, gameId });
 };

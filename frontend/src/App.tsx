@@ -11,7 +11,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { themeOptions } from "./themes/theme";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { AppBar, Box, Button, CssBaseline, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  CssBaseline,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { useGameStore } from "./stores/GameStore";
 import { Game } from "./models/Game";
 import { AuthGuard } from "./services/routerGuard";
@@ -37,7 +45,7 @@ function App() {
     currentUser: User,
     setCurrentUser: (arg0: any) => void,
     game: Game,
-    setGame: (arg0: any) => void,
+    setGame: (arg0: any) => void
   ) => {
     socketEvents(
       navigate,
@@ -48,7 +56,7 @@ function App() {
       currentUser,
       setCurrentUser,
       game,
-      setGame,
+      setGame
     );
   };
   useEffect(() => {
@@ -61,7 +69,7 @@ function App() {
       currentUser,
       setCurrentUser,
       game,
-      setGame,
+      setGame
     );
   }, []);
 
@@ -75,7 +83,7 @@ function App() {
     setCurrentUser(null);
     setGame(null);
     // cache reset
-    userReset()
+    userReset();
 
     //reset all sockets
     socketEvents(
@@ -87,7 +95,7 @@ function App() {
       currentUser,
       setCurrentUser,
       game,
-      setGame,
+      setGame
     );
 
     //reset all local storage
@@ -100,40 +108,47 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+        <AppBar position='static'>
           <Toolbar>
             <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
+              size='large'
+              edge='start'
+              color='inherit'
+              aria-label='menu'
               sx={{ mr: 2 }}
-            >
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            ></IconButton>
+            <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
               Aube Obscure
             </Typography>
-            <Button color="inherit" onClick={Reset}>Logout</Button>
+            <Button color='inherit' onClick={Reset}>
+              Logout
+            </Button>
           </Toolbar>
         </AppBar>
       </Box>
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/player" element={
-          <AuthGuard currentUser={currentUser}>
-            <PlayerScene />
-          </AuthGuard>
-        } />
-        <Route path="/gameMaster" element={
-          <AuthGuard currentUser={currentUser}>
-            <GameMasterScene />
-          </AuthGuard>
-        } />
-        <Route path="*" element={<Home />} />
+        <Route path='/' element={<Home />} />
+        <Route
+          path='/player'
+          element={
+            <AuthGuard currentUser={currentUser}>
+              <PlayerScene />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path='/gameMaster'
+          element={
+            <AuthGuard currentUser={currentUser}>
+              <GameMasterScene />
+            </AuthGuard>
+          }
+        />
+        <Route path='*' element={<Home />} />
       </Routes>
       <ToastContainer />
-    </ThemeProvider >
+    </ThemeProvider>
   );
 }
 

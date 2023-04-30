@@ -101,6 +101,25 @@ const setupSocketIO = (io: any) => {
         Logger.error(error);
       }
     });
+
+    socket.on(
+      "ADD_ENEMY_CHARACTER_IN_EVENT",
+      async ({ enemyCharacter, gameId }) => {
+        try {
+          let game = await Game.findById(gameId);
+          if (game) {
+            game.enemyCharacters.push({
+              ...enemyCharacter,
+              health: enemyCharacter.maxHealth,
+            });
+            game.save();
+            io.emit("GAME", game);
+          }
+        } catch (error) {
+          Logger.error(error);
+        }
+      }
+    );
   });
 };
 
