@@ -38,3 +38,7 @@ export const addEnemyCharacterInEvent = (
 ) => {
   socket.emit("ADD_ENEMY_CHARACTER_IN_EVENT", { enemyCharacter, gameId });
 };
+
+export const emitRemoveMonster = (monsterId: number, gameId: string) => {
+  socket.emit("REMOVE_MONSTER", { monsterId, gameId });
+};

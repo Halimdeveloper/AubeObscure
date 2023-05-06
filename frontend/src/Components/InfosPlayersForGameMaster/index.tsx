@@ -10,7 +10,7 @@ import { PlayerCharacter } from "../../models/characters/PlayerCharacter";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { attackPlayer, healthPlayer } from "../../Sockets/emit";
 import { useEffect } from "react";
-import LifeBar from "../LifeBar";
+import { LifeBar } from "../LifeBar";
 import { useGameStore } from "../../stores/GameStore";
 import { Game } from "../../models/Game";
 import { getGame } from "../../Sockets/emit";
@@ -18,26 +18,27 @@ import { toast } from "react-toastify";
 
 export default function infoPlayerForGameMaster() {
   const game: Game = useGameStore((state: any) => state.game);
-  const playerCharacters = game.players?.map((player) => player.currentCharacter) as PlayerCharacter[];
+  const playerCharacters = game.players?.map(
+    (player) => player.currentCharacter
+  ) as PlayerCharacter[];
   try {
     useEffect(() => getGame(game._id), []);
   } catch (error) {
     toast.error("Outch, la game n'a pas pu etre trouvée");
   }
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   return (
-    <div className="infoPlayerForGameMaster">
+    <div className='infoPlayerForGameMaster'>
       {playerCharacters &&
         playerCharacters.map((character: PlayerCharacter) => {
           return (
-            <Accordion key={character.id} >
+            <Accordion key={character.id}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
+                aria-controls='panel1a-content'
+                id='panel1a-header'
               >
                 <Box
                   sx={{
@@ -73,10 +74,10 @@ export default function infoPlayerForGameMaster() {
                           {key +
                             " : " +
                             character.family[
-                            key as keyof {
-                              fatherFamily: string;
-                              motherFamily: string;
-                            }
+                              key as keyof {
+                                fatherFamily: string;
+                                motherFamily: string;
+                              }
                             ]}
                         </Typography>
                       );
@@ -90,7 +91,7 @@ export default function infoPlayerForGameMaster() {
                   );
                 })}
                 <Button
-                  variant="contained"
+                  variant='contained'
                   sx={{ mr: 2 }}
                   onClick={() => {
                     attackPlayer(character.id, game._id, 1);
@@ -99,7 +100,7 @@ export default function infoPlayerForGameMaster() {
                   Punch it !
                 </Button>
                 <Button
-                  variant="contained"
+                  variant='contained'
                   onClick={() => {
                     healthPlayer(character.id, game._id, 1);
                   }}
@@ -110,6 +111,6 @@ export default function infoPlayerForGameMaster() {
             </Accordion>
           );
         })}
-    </div >
+    </div>
   );
 }

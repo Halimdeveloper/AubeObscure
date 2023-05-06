@@ -1,6 +1,7 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { useGameStore } from "../../stores/GameStore";
 import { EnemyCharacter } from "../../models/characters/EnemyCharacter";
+import CardEnemy from "../CardEnemy";
 
 export default function EventGameMaster() {
   const game = useGameStore((state: any) => state.game);
@@ -19,10 +20,22 @@ export default function EventGameMaster() {
             Événements du jeu
           </Typography>
         </Box>
-        <Box sx={{ height: "96%" }}>
+        <Box
+          sx={{
+            height: "96%",
+            overflowY: "scroll",
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
           {game.enemyCharacters ? (
             game.enemyCharacters.map((enemy: EnemyCharacter) => {
-              return <pre>{enemy.firstName}</pre>;
+              return (
+                <CardEnemy enemy={enemy} />
+              );
             })
           ) : (
             <pre>pas de monstre</pre>

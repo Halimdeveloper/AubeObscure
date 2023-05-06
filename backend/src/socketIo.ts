@@ -5,6 +5,18 @@ import Game, { IGame } from "./models/Game";
 
 const setupSocketIO = (io: any) => {
   io.on("connection", (socket: Socket) => {
+    // Log all SOCKET received
+    socket.onAny((event, ...args) => {
+      Logger.info(`SOCKET: ${JSON.stringify(event)} ${JSON.stringify(args)}`);
+    });
+
+    // logg all SOCKET sent by io
+    const _emit = io.emit;
+    io.emit = function (event: any, ...args: any[]) {
+      Logger.info(`SOCKET: ${JSON.stringify(event)}`);
+      _emit.apply(io, [event, ...args]);
+    };
+
     Logger.info(`User connected with id ${socket.id}`);
 
     socket.on("disconnect", () => {
@@ -108,10 +120,8 @@ const setupSocketIO = (io: any) => {
         try {
           let game = await Game.findById(gameId);
           if (game) {
-            game.enemyCharacters.push({
-              ...enemyCharacter,
-              health: enemyCharacter.maxHealth,
-            });
+            enemyCharacter.id = Math.random() * 100000000000000;
+            game.enemyCharacters.push(enemyCharacter);
             game.save();
             io.emit("GAME", game);
           }
@@ -120,6 +130,21 @@ const setupSocketIO = (io: any) => {
         }
       }
     );
+
+    socket.on("REMOVE_MONSTER", async ({ monsterId, gameId }) => {
+      try {
+        let game = await Game.findById(gameId);
+        if (game) {
+          game.enemyCharacters = game.enemyCharacters.filter(
+            (e) => e.id !== monsterId
+          );
+          game.save();
+          io.emit("GAME", game);
+        }
+      } catch (error) {
+        Logger.error(error);
+      }
+    });
   });
 };
 
