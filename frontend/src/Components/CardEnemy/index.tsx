@@ -58,8 +58,8 @@ export default function CardEnemy({
   }
 
   function saveEditLife() {
-    enemyCharacter.health = temporaryHealth;
-    emitEditEnemyCharacter(enemyCharacter, game._id);
+    enemyCharacter!.health = temporaryHealth;
+    emitEditEnemyCharacter(enemyCharacter!, game._id, "CHANGE_HEALTH");
   }
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

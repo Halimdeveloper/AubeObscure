@@ -39,10 +39,17 @@ export const addEnemyCharacterInEvent = (
   socket.emit("ADD_ENEMY_CHARACTER_IN_EVENT", { enemyCharacter, gameId });
 };
 
-export const emitRemoveEnemyCharacter = (enemyCharacterId: number, gameId: string) => {
+export const emitRemoveEnemyCharacter = (
+  enemyCharacterId: number,
+  gameId: string
+) => {
   socket.emit("REMOVE_ENEMY_CHARACTER", { enemyCharacterId, gameId });
 };
 
-export const emitEditEnemyCharacter = (enemyCharacter: EnemyCharacter, gameId: string) => {
-  socket.emit("EDIT_ENEMY_CHARACTER", { enemyCharacter, gameId });
+export const emitEditEnemyCharacter = (
+  enemyCharacter: EnemyCharacter,
+  gameId: string,
+  type?: string
+) => {
+  socket.emit("EDIT_ENEMY_CHARACTER", { enemyCharacter, gameId, type });
 };

@@ -2,6 +2,8 @@ import { Socket } from "socket.io";
 import { getTripleDiceScore } from "./function/getDice";
 import Logger from "./lib/winston";
 import Game, { IGame } from "./models/Game";
+import updatedEnemyCharacterEvent from "./models/history/EnemyCharacterEvent";
+import { EnemyCharacter } from "./models/characters/EnemyCharacter";
 
 const setupSocketIO = (io: any) => {
   io.on("connection", (socket: Socket) => {
@@ -132,43 +134,64 @@ const setupSocketIO = (io: any) => {
       }
     );
 
-    socket.on("REMOVE_ENEMY_CHARACTER", async ({ enemyCharacterId, gameId }) => {
-      try {
-        let game = await Game.findById(gameId);
-        if (game) {
-          game.enemyCharacters = game.enemyCharacters.filter(
-            (e) => e.id !== enemyCharacterId
-          );
-          game.save();
-          io.emit("GAME", game);
-        }
-      } catch (error) {
-        Logger.error(error);
-      }
-    });
-
-    socket.on("EDIT_ENEMY_CHARACTER", async ({ enemyCharacter, gameId }) => {
-      try {
-        let game = await Game.findById(gameId);
-        if (game) {
-          const enemyCharacterIndex = game.enemyCharacters.findIndex(
-            (e) => e.id === enemyCharacter.id
-          );
-          if (enemyCharacterIndex !== -1) {
-            let updatedEnemyCharacters = game.enemyCharacters;
-            updatedEnemyCharacters[enemyCharacterIndex] = enemyCharacter;
-            game.enemyCharacters.splice(
-              0,
-              game.enemyCharacters.length,
-              ...updatedEnemyCharacters
+    socket.on(
+      "REMOVE_ENEMY_CHARACTER",
+      async ({ enemyCharacterId, gameId }) => {
+        try {
+          let game = await Game.findById(gameId);
+          if (game) {
+            game.enemyCharacters = game.enemyCharacters.filter(
+              (e) => e.id !== enemyCharacterId
             );
-            await game.save();
+            game.save();
             io.emit("GAME", game);
           }
+        } catch (error) {
+          Logger.error(error);
         }
-      } catch (error) {
-        Logger.error(error);
       }
+    );
+
+    socket.on(
+      "EDIT_ENEMY_CHARACTER",
+      async ({
+        enemyCharacter,
+        gameId,
+        type,
+      }: {
+        enemyCharacter: EnemyCharacter;
+        gameId: String;
+        type: String;
+      }) => {
+        try {
+          let game = await Game.findById(gameId);
+          if (game) {
+            const enemyCharacterIndex = game.enemyCharacters.findIndex(
+              (e) => e.id === enemyCharacter.id
+            );
+            if (enemyCharacterIndex !== -1) {
+              let updatedEnemyCharacters = game.enemyCharacters;
+              updatedEnemyCharacters[enemyCharacterIndex] = enemyCharacter;
+              game.enemyCharacters.splice(
+                0,
+                game.enemyCharacters.length,
+                ...updatedEnemyCharacters
+              );
+
+              if (type === "CHANGE_HEALTH") {
+                game.events.push({
+                  type: "CHANGE_HEALTH",
+                  timeStamp: Date.now(),
+                  message: `${enemyCharacter.firstName} ${enemyCharacter.lastName} : ${enemyCharacter.health} points de vies restants`,
+                } as updatedEnemyCharacterEvent);
+              }
+              await game.save();
+              io.emit("GAME", game);
+            }
+          }
+        } catch (error) {
+          Logger.error(error);
+        }
     });
   });
 };
