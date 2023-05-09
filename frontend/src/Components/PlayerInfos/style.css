@@ -16,11 +16,11 @@
 
 .paperStatsContent {
   background-color: #ccad64;
-  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+  background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
 }
 
 .paperStatsHeader {
   text-align: center;
   background-color: #4d3a15;
-  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+  background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
 }

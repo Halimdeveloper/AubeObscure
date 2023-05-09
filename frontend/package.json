@@ -7,16 +7,13 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "tsc && eslint \"src/**/*.{js,ts,tsx}\" --quiet --fix"
+    "lint": "tsc && eslint \"src/**/*.{js,ts,tsx}\" --quiet --fix",
+    "format": "prettier --write \"src/**/*.{js,ts,tsx}\""
   },
   "dependencies": {
-    "@emotion/core": "^11.0.0",
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
     "@fontsource/roboto": "^4.5.8",
-    "@mui/icons-material": "^5.11.9",
-    "@mui/material": "^5.11.8",
-    "@mui/styles": "^5.11.9",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.12.3",
     "axios": "^1.3.4",
     "dotenv": "^16.0.3",
     "formik": "^2.2.9",
@@ -25,19 +22,23 @@
     "react-router-dom": "^6.8.1",
     "react-toastify": "^9.1.1",
     "socket.io-client": "^4.6.0",
-    "styled-components": "^5.3.6",
     "yup": "^1.0.0",
     "zustand": "^4.3.3"
   },
   "devDependencies": {
-    "@types/node": "^18.14.6",
+    "@types/node": "^20.1.1",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@types/styled-components": "^5.1.26",
-    "@vitejs/plugin-react": "^3.1.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.5",
+    "@typescript-eslint/parser": "^5.59.5",
+    "@vitejs/plugin-react": "^4.0.0",
     "css-loader": "^6.7.3",
+    "eslint": "^8.40.0",
+    "eslint-plugin-react": "^7.32.2",
+    "prettier": "^2.8.8",
     "style-loader": "^3.3.1",
-    "typescript": "^4.9.3",
+    "typescript": "^5.0.4",
     "vite": "^4.1.0"
   }
 }

@@ -1,5 +1,5 @@
 export default interface HistoryEvent {
-  id: number;
-  type: string;
-  timeStamp: number;
+  id: number
+  type: string
+  timeStamp: number
 }
