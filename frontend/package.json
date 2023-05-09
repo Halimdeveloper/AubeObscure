@@ -36,15 +36,9 @@
     "css-loader": "^6.7.3",
     "eslint": "^8.40.0",
     "eslint-plugin-react": "^7.32.2",
-    "husky": "^8.0.3",
     "prettier": "^2.8.8",
     "style-loader": "^3.3.1",
     "typescript": "^5.0.4",
     "vite": "^4.1.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "eslint ."
-    }
   }
 }
