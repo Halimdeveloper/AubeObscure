@@ -1,3 +1,3 @@
 export interface WarriorClass {
-  baseStrength: 8 
+  baseStrength: 8
 }

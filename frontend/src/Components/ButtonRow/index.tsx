@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
 interface Props {
-  leftButtonText: string[];
-  rightButtonText: string[];
+  leftButtonText: string[]
+  rightButtonText: string[]
 }
 
 const ButtonRow: React.FC<Props> = ({ leftButtonText, rightButtonText }) => {
@@ -23,7 +23,7 @@ const ButtonRow: React.FC<Props> = ({ leftButtonText, rightButtonText }) => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ButtonRow;
+export default ButtonRow

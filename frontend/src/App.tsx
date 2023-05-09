@@ -1,16 +1,16 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
-import Home from "./Components/Home";
-import { useEffect, useMemo } from "react";
-import PlayerScene from "./Scenes/PlayerScene";
-import GameMasterScene from "./Scenes/GameMasterScene";
-import { useDiceStore } from "./stores/DiceStore";
-import { useUserStore } from "./stores/UserStore";
-import { socketEvents } from "./Sockets/events";
-import { User } from "./models/User";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { themeOptions } from "./themes/theme";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Routes, Route, useNavigate } from 'react-router-dom'
+import Home from './Components/Home'
+import { useEffect, useMemo } from 'react'
+import PlayerScene from './Scenes/PlayerScene'
+import GameMasterScene from './Scenes/GameMasterScene'
+import { useDiceStore } from './stores/DiceStore'
+import { useUserStore } from './stores/UserStore'
+import { socketEvents } from './Sockets/events'
+import { User } from './models/User'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { themeOptions } from './themes/theme'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 import {
   AppBar,
   Box,
@@ -19,22 +19,22 @@ import {
   IconButton,
   Toolbar,
   Typography,
-} from "@mui/material";
-import { useGameStore } from "./stores/GameStore";
-import { Game } from "./models/Game";
-import { AuthGuard } from "./services/routerGuard";
+} from '@mui/material'
+import { useGameStore } from './stores/GameStore'
+import { Game } from './models/Game'
+import { AuthGuard } from './services/routerGuard'
 
 function App() {
-  const navigate = useNavigate();
-  const dices = useDiceStore((state: any) => state.dices);
-  const setDices = useDiceStore((state: any) => state.setDices);
-  const users = useUserStore((state: any) => state.users);
-  const setUsers = useUserStore((state: any) => state.setUsers);
-  const currentUser = useUserStore((state: any) => state.currentUser);
-  const setCurrentUser = useUserStore((state: any) => state.setCurrentUser);
-  const game = useGameStore((state: any) => state.game);
-  const setGame = useGameStore((state: any) => state.setGame);
-  const userReset = useUserStore((state: any) => state.reset);
+  const navigate = useNavigate()
+  const dices = useDiceStore((state: any) => state.dices)
+  const setDices = useDiceStore((state: any) => state.setDices)
+  const users = useUserStore((state: any) => state.users)
+  const setUsers = useUserStore((state: any) => state.setUsers)
+  const currentUser = useUserStore((state: any) => state.currentUser)
+  const setCurrentUser = useUserStore((state: any) => state.setCurrentUser)
+  const game = useGameStore((state: any) => state.game)
+  const setGame = useGameStore((state: any) => state.setGame)
+  const userReset = useUserStore((state: any) => state.reset)
 
   const initSockets = (
     navigate: (arg0: string) => void,
@@ -57,8 +57,8 @@ function App() {
       setCurrentUser,
       game,
       setGame
-    );
-  };
+    )
+  }
   useEffect(() => {
     initSockets(
       navigate,
@@ -70,20 +70,20 @@ function App() {
       setCurrentUser,
       game,
       setGame
-    );
-  }, []);
+    )
+  }, [])
 
-  const theme = createTheme(themeOptions);
+  const theme = createTheme(themeOptions)
 
   function Reset() {
-    navigate("/");
+    navigate('/')
     //reset all stores
-    setDices([]);
-    setUsers([]);
-    setCurrentUser(null);
-    setGame(null);
+    setDices([])
+    setUsers([])
+    setCurrentUser(null)
+    setGame(null)
     // cache reset
-    userReset();
+    userReset()
 
     //reset all sockets
     socketEvents(
@@ -96,12 +96,12 @@ function App() {
       setCurrentUser,
       game,
       setGame
-    );
+    )
 
     //reset all local storage
-    localStorage.clear();
+    localStorage.clear()
 
-    toast.info("Vous avez été déconnecté");
+    toast.info('Vous avez été déconnecté')
   }
 
   return (
@@ -149,7 +149,7 @@ function App() {
       </Routes>
       <ToastContainer />
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App

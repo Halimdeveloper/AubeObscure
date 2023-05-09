@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 import {
   Select,
   MenuItem,
@@ -7,13 +7,13 @@ import {
   SelectChangeEvent,
   Typography,
   TextField,
-} from "@mui/material";
-import { Game } from "../../models/Game";
+} from '@mui/material'
+import { Game } from '../../models/Game'
 
 interface ActiveGamesProps {
-  activeGames: Game[];
-  onSelectGame: (gameId: string) => void;
-  onCreateGame: (game: Game) => void;
+  activeGames: Game[]
+  onSelectGame: (gameId: string) => void
+  onCreateGame: (game: Game) => void
 }
 
 const GamesSelect: React.FC<ActiveGamesProps> = ({
@@ -21,28 +21,33 @@ const GamesSelect: React.FC<ActiveGamesProps> = ({
   onSelectGame,
   onCreateGame,
 }) => {
-  const [selectedGame, setSelectedGame] = useState("");
-  const [newGameName, setNewGameName] = useState("");
+  const [selectedGame, setSelectedGame] = useState('')
+  const [newGameName, setNewGameName] = useState('')
 
   const handleChange = (event: SelectChangeEvent<string>) => {
-    setSelectedGame(event.target.value as string);
-  };
+    setSelectedGame(event.target.value as string)
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSelectGame(selectedGame);
-  };
+    event.preventDefault()
+    onSelectGame(selectedGame)
+  }
 
   const handleCreateGame = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onCreateGame({ name: newGameName });
-  };
+    event.preventDefault()
+    onCreateGame({
+      name: newGameName,
+      _id: '',
+      nonPlayerChatacters: [],
+      enemyCharacters: [],
+    })
+  }
 
   useEffect(() => {
     if (activeGames.length === 1) {
-      setSelectedGame(activeGames[0]._id);
+      setSelectedGame(activeGames[0]._id)
     }
-  }, [activeGames]);
+  }, [activeGames])
 
   return (
     <div>
@@ -92,7 +97,7 @@ const GamesSelect: React.FC<ActiveGamesProps> = ({
         </Button>
       </Box>
     </div>
-  );
-};
+  )
+}
 
-export default GamesSelect;
+export default GamesSelect

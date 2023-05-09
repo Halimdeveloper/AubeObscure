@@ -1,14 +1,14 @@
-import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
-import { EnemyCharacter } from "../models/characters/EnemyCharacter";
-import { NonPlayerCharacter } from "../models/characters/NonPlayerCharacter";
-import { Game } from "../models/Game";
+import { create } from 'zustand'
+import { devtools, persist } from 'zustand/middleware'
+import { EnemyCharacter } from '../models/characters/EnemyCharacter'
+import { NonPlayerCharacter } from '../models/characters/NonPlayerCharacter'
+import { Game } from '../models/Game'
 
 interface GameState {
-  game: Game;
-  setGame: (game: Game) => void;
-  updateNonPlayerCharacter: (character: NonPlayerCharacter) => void;
-  updateEnemyCharacter: (character: EnemyCharacter) => void;
+  game: Game
+  setGame: (game: Game) => void
+  updateNonPlayerCharacter: (character: NonPlayerCharacter) => void
+  updateEnemyCharacter: (character: EnemyCharacter) => void
 }
 
 export const useGameStore = create<GameState>()(
@@ -31,8 +31,8 @@ export const useGameStore = create<GameState>()(
           ),
       }),
       {
-        name: "Game-storage",
+        name: 'Game-storage',
       }
     )
   )
-);
+)
