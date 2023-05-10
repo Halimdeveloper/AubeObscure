@@ -24,7 +24,7 @@ export default function infoPlayerForGameMaster() {
   try {
     useEffect(() => getGame(game._id), [])
   } catch (error) {
-    toast.error("Outch, la game n'a pas pu etre trouvée")
+    toast.error('Outch, la game n\'a pas pu etre trouvée')
   }
 
   useEffect(() => {}, [])

@@ -23,7 +23,7 @@ export default function PlayerInfos() {
   try {
     useEffect(() => getGame(game._id), [])
   } catch (error) {
-    toast.error("Outch, la game n'a pas pu etre trouvée")
+    toast.error('Outch, la game n\'a pas pu etre trouvée')
   }
   //get the current user's character
   const playerCharacter = game.players?.filter((user: User) => {

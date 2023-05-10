@@ -39,8 +39,8 @@ export default function GameHistory() {
                       sx={{ color: 'primary.main', py: 0.5, mx: 1 }}
                       key={event.id}
                     >{`${dice.userName}: ${dice.dice1} + ${dice.dice2} = ${
-                      dice.dice1 + dice.dice2
-                    }`}</Typography>
+                        dice.dice1 + dice.dice2
+                      }`}</Typography>
                   )
                 case 'combat':
                   return (
@@ -48,7 +48,7 @@ export default function GameHistory() {
                       variant='body2'
                       key={event.id}
                       sx={{ py: 0.5, mx: 1 }}
-                    >{`Combat Event Test Message`}</Typography>
+                    >{'Combat Event Test Message'}</Typography>
                   )
                 default:
                   return null

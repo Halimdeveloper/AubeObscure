@@ -19,7 +19,7 @@ import { EnemyCharacter } from '../../../models/characters/EnemyCharacter'
 import { Game } from '../../../models/Game'
 
 const style = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute' as const,
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
@@ -52,7 +52,7 @@ export default function Enemy() {
       toast.success('Monstre ajouté au combat')
       handleClose()
     } catch (error) {
-      toast.error("erreur lors de l'ajout du monstre au combat")
+      toast.error('erreur lors de l\'ajout du monstre au combat')
     }
   }
 
@@ -80,23 +80,23 @@ export default function Enemy() {
           </Typography>
           {monster.length
             ? monster.map((monster) => {
-                return (
-                  <Card sx={{ maxWidth: 200 }} key={monster.id}>
-                    <CardActionArea
-                      onClick={() => {
-                        sendMonsterToBattle(monster)
-                      }}
-                    >
-                      <CardMedia
-                        component='img'
-                        height='300'
-                        image={monster.url}
-                        alt={monster.firstName}
-                      />
-                    </CardActionArea>
-                  </Card>
-                )
-              })
+              return (
+                <Card sx={{ maxWidth: 200 }} key={monster.id}>
+                  <CardActionArea
+                    onClick={() => {
+                      sendMonsterToBattle(monster)
+                    }}
+                  >
+                    <CardMedia
+                      component='img'
+                      height='300'
+                      image={monster.url}
+                      alt={monster.firstName}
+                    />
+                  </CardActionArea>
+                </Card>
+              )
+            })
             : null}
         </Box>
       </Modal>

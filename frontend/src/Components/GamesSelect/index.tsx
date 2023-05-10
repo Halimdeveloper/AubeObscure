@@ -35,7 +35,7 @@ const GamesSelect: React.FC<ActiveGamesProps> = ({
 
   const handleCreateGame = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    onCreateGame({ name: newGameName })
+    onCreateGame({ name: newGameName } as Game)
   }
 
   useEffect(() => {

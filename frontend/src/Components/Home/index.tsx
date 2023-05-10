@@ -73,7 +73,7 @@ export default function Home() {
         toast.success('Inscription réussie')
       })
       .catch((err) => {
-        toast.error("Erreur lors de l'inscription")
+        toast.error('Erreur lors de l\'inscription')
         console.log(err)
       })
   }

@@ -33,7 +33,7 @@ export default function EventGameMaster() {
         >
           {game.enemyCharacters ? (
             game.enemyCharacters.map((enemy: EnemyCharacter) => {
-              return <CardEnemy enemy={enemy} />
+              return <CardEnemy enemy={enemy} key={enemy.id} />
             })
           ) : (
             <pre>pas de monstre</pre>

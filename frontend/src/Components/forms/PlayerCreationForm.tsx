@@ -2,8 +2,6 @@ import { Box, Button, TextField } from '@mui/material'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import React from 'react'
-import Header from '../Header'
 
 const PlayerCreationForm = () => {
   const isNonMobile = useMediaQuery('(min-width:600px)')
@@ -37,11 +35,6 @@ const PlayerCreationForm = () => {
 
   return (
     <Box m='20px'>
-      <Header
-        title='BIENVENUE DANS AUBE OBSCURE'
-        subtitle='Créer un nouveau personnage'
-      />
-
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
