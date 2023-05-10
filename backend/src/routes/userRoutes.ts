@@ -1,14 +1,14 @@
-import { Router } from "express";
+import { Router } from 'express'
 import {
   getUsers,
   createUser,
   getUserById,
   deleteUserById,
-} from "../controllers/userCtrl";
+} from '../controllers/userCtrl'
 
-import auth from "../middleware/authGuard";
+import auth from '../middleware/authGuard'
 
-const users = Router();
+const users = Router()
 /**
  * @swagger
  * /users:
@@ -20,14 +20,14 @@ const users = Router();
  * '401':
  * description: Unauthorized
  */
-users.get("/", auth, getUsers);
+users.get('/', auth, getUsers)
 
-users.post("/", createUser);
+users.post('/', createUser)
 
 //update user by id
-users.put("/:id", getUserById);
+users.put('/:id', getUserById)
 
 //delete user by id
-users.delete("/:id", deleteUserById);
+users.delete('/:id', deleteUserById)
 
-export default users;
+export default users

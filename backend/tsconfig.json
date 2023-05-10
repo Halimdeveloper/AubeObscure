@@ -12,7 +12,7 @@
     "strictFunctionTypes": true,
     "baseUrl": "./",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["./src//*.ts", "./tests//*.ts"],
   "exclude": ["node_modules"]

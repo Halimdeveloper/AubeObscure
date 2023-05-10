@@ -1,0 +1,20 @@
+{
+  "name": "aubeobscure",
+  "version": "1.0.0",
+  "description": "RPG console GM and players",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently -p \"[{name}] {time}\" -n front,back -c green,yellow \"npm --prefix ./frontend run dev\" \"npm --prefix ./backend run start\" -t  \"[HH:mm:ss]\"",
+    "dev-front": "npm --prefix ./frontend run dev",
+    "dev-back": "npm --prefix ./backend run start",
+    "lint": "npm --prefix ./frontend run lint && npm --prefix ./backend run lint",
+    "fix": "npm --prefix ./frontend run fix && npm --prefix ./backend run fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "8.0.1",
+    "husky": "8.0.3"
+  }
+}

@@ -1,12 +1,12 @@
-import { Router } from "express";
+import { Router } from 'express'
 import {
   getEnemyCharacters,
   postEnemyCharacters,
-} from "../controllers/EnemyCharacterCtrl";
+} from '../controllers/EnemyCharacterCtrl'
 
-const EnemyCharacters = Router();
+const EnemyCharacters = Router()
 
-EnemyCharacters.get("/", getEnemyCharacters);
-EnemyCharacters.post("/", postEnemyCharacters);
+EnemyCharacters.get('/', getEnemyCharacters)
+EnemyCharacters.post('/', postEnemyCharacters)
 
-export default EnemyCharacters;
+export default EnemyCharacters

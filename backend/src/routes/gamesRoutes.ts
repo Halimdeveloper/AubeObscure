@@ -1,5 +1,5 @@
-import { Router } from "express";
-import auth from "../middleware/authGuard";
+import { Router } from 'express'
+import auth from '../middleware/authGuard'
 import {
   getGames,
   createGame,
@@ -7,20 +7,20 @@ import {
   getGameByName,
   deleteGameByName,
   joinGame,
-} from "../controllers/gameCtrl";
+} from '../controllers/gameCtrl'
 
-const games = Router();
+const games = Router()
 
-games.get("/", auth, getGames);
+games.get('/', auth, getGames)
 
-games.post("/", auth, createGame);
+games.post('/', auth, createGame)
 
-games.put("/:name", auth, updateGameByName);
+games.put('/:name', auth, updateGameByName)
 
-games.get("/:name", auth, getGameByName);
+games.get('/:name', auth, getGameByName)
 
-games.delete("/:name", auth, deleteGameByName);
+games.delete('/:name', auth, deleteGameByName)
 
-games.get("/:id/joinGame", auth, joinGame);
+games.get('/:id/joinGame', auth, joinGame)
 
-export default games;
+export default games

@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
-import bcrypt from "bcrypt";
-import User from "../models/User";
-import jwt from "jsonwebtoken";
+import { Request, Response } from 'express'
+import bcrypt from 'bcrypt'
+import User from '../models/User'
+import jwt from 'jsonwebtoken'
 
 export const signin = async (req: Request, res: Response) => {
   User.findOne({ name: req.body.name })
@@ -9,7 +9,7 @@ export const signin = async (req: Request, res: Response) => {
       if (!user) {
         return res
           .status(401)
-          .json({ message: "Paire login/mot de passe incorrecte" });
+          .json({ message: 'Paire login/mot de passe incorrecte' })
       }
       bcrypt
         .compare(req.body.password, user.password)
@@ -17,21 +17,21 @@ export const signin = async (req: Request, res: Response) => {
           if (!valid) {
             return res
               .status(401)
-              .json({ message: "Paire login/mot de passe incorrecte" });
+              .json({ message: 'Paire login/mot de passe incorrecte' })
           }
           res.status(200).json({
             user,
             token: jwt.sign({ userId: user._id }, process.env.KEYHASH!, {
-              expiresIn: "24h",
+              expiresIn: '24h',
             }),
-          });
+          })
         })
-        .catch((error) => res.status(500).json({ error }));
+        .catch((error) => res.status(500).json({ error }))
     })
     .catch((error) => {
-      return res.status(500).json({ error });
-    });
-};
+      return res.status(500).json({ error })
+    })
+}
 
 export const signup = async (req: Request, res: Response) => {
   bcrypt
@@ -42,11 +42,11 @@ export const signup = async (req: Request, res: Response) => {
         password: hash,
         currentCharacter: null,
         characters: [],
-      });
+      })
       user
         .save()
-        .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
-        .catch((error) => res.status(400).json({ error }));
+        .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+        .catch((error) => res.status(400).json({ error }))
     })
-    .catch((error: Error) => res.status(500).json({ error }));
-};
+    .catch((error: Error) => res.status(500).json({ error }))
+}
