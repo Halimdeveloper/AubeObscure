@@ -1,6 +1,5 @@
 import { Schema, model, ObjectId } from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
-import { PlayerCharacter } from './characters/PlayerCharacter'
 import { NonPlayerCharacter } from './characters/NonPlayerCharacter'
 import { EnemyCharacter } from './characters/EnemyCharacter'
 import { IUser } from './User'

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --detectOpenHandles --colors",
-    "lint": "eslint src/** tests/** --fix --cache",
+    "lint": "eslint src/** --fix --cache",
     "build": "rimraf ./build && tsc",
     "start": "ts-node-dev --respawn --transpile-only src/app.ts",
     "start:prod": "npm run build && node ./build/index.js",

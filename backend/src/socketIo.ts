@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io'
 import { getTripleDiceScore } from './function/getDice'
 import Logger from './lib/winston'
-import Game, { IGame } from './models/Game'
+import Game from './models/Game'
 
 const setupSocketIO = (io: any) => {
   io.on('connection', (socket: Socket) => {
@@ -41,7 +41,7 @@ const setupSocketIO = (io: any) => {
 
     socket.on('ATTACK_PLAYER', async ({ characterId, gameId, value }) => {
       try {
-        let game = await Game.findById(gameId)
+        const game = await Game.findById(gameId)
 
         if (!game) {
           return Logger.error('Game not found')
@@ -55,7 +55,7 @@ const setupSocketIO = (io: any) => {
           return Logger.error('Player not found')
         }
 
-        let updatedPlayer = game.players
+        const updatedPlayer = game.players
 
         if (updatedPlayer[playerIndex].currentCharacter!.health <= 0) {
           return socket.emit('GAME', game)
@@ -73,7 +73,7 @@ const setupSocketIO = (io: any) => {
 
     socket.on('HEALTH_PLAYER', async ({ characterId, gameId, value }) => {
       try {
-        let game = await Game.findById(gameId)
+        const game = await Game.findById(gameId)
 
         if (!game) {
           return Logger.error('Game not found')
@@ -87,9 +87,9 @@ const setupSocketIO = (io: any) => {
           return Logger.error('Player not found')
         }
 
-        let updatedPlayer = game.players
-        let health = updatedPlayer[playerIndex].currentCharacter!.health
-        let maxHealth = updatedPlayer[playerIndex].currentCharacter!.maxHealth
+        const updatedPlayer = game.players
+        const health = updatedPlayer[playerIndex].currentCharacter!.health
+        const maxHealth = updatedPlayer[playerIndex].currentCharacter!.maxHealth
 
         if (health >= maxHealth) {
           return socket.emit('GAME', game)
@@ -118,7 +118,7 @@ const setupSocketIO = (io: any) => {
       'ADD_ENEMY_CHARACTER_IN_EVENT',
       async ({ enemyCharacter, gameId }) => {
         try {
-          let game = await Game.findById(gameId)
+          const game = await Game.findById(gameId)
           if (game) {
             enemyCharacter.id = Math.random() * 100000000000000
             game.enemyCharacters.push(enemyCharacter)
@@ -133,7 +133,7 @@ const setupSocketIO = (io: any) => {
 
     socket.on('REMOVE_MONSTER', async ({ monsterId, gameId }) => {
       try {
-        let game = await Game.findById(gameId)
+        const game = await Game.findById(gameId)
         if (game) {
           game.enemyCharacters = game.enemyCharacters.filter(
             (e) => e.id !== monsterId
