@@ -32,6 +32,7 @@ export default function GameHistory() {
             history.map((event: HistoryEvent) => {
               switch (event.type) {
                 case 'dice6':
+                  // eslint-disable-next-line no-case-declarations
                   const dice = event as DiceResult
                   return (
                     <Typography

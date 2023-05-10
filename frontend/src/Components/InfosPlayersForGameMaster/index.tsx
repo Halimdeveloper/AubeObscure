@@ -27,8 +27,6 @@ export default function infoPlayerForGameMaster() {
     toast.error('Outch, la game n\'a pas pu etre trouvée')
   }
 
-  useEffect(() => {}, [])
-
   return (
     <div className='infoPlayerForGameMaster'>
       {playerCharacters &&
