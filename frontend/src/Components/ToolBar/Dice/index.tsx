@@ -18,7 +18,7 @@ export default function Dice() {
       getTripleDiceScore(currentUser, game._id)
     } catch (error: any) {
       console.log(error)
-      toast.error('erreur lors du lancer de dé dans l\'objet Dice')
+      toast.error("erreur lors du lancer de dé dans l'objet Dice")
     }
   }
 
