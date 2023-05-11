@@ -14,7 +14,20 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
+    "@commitlint/cz-commitlint": "^17.5.0",
+    "commitizen": "^4.3.0",
     "concurrently": "8.0.1",
-    "husky": "8.0.3"
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^8.0.3",
+    "inquirer": "^8.2.5",
+    "lint-staged": "^13.2.2",
+    "standard-version": "^9.5.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
