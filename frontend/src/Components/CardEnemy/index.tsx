@@ -43,7 +43,7 @@ export default function CardEnemy({
   const isGameMaster = useGameStore((state: any) => state.isGameMaster);
   // search  this item in the store
   const enemyCharacter = game.enemyCharacters.find(
-    (e: EnemyCharacter) => e.id.toString() === _id.toString()
+    (e: EnemyCharacter) => e._id.toString() === _id.toString()
   );
 
   const [temporaryHealth, setTemporaryHealth] = useState(health);
@@ -57,6 +57,7 @@ export default function CardEnemy({
   }
 
   function saveEditLife() {
+    console.log("saveEditLife")
     enemyCharacter!.health = temporaryHealth;
     emitEditEnemyCharacter(enemyCharacter!, game._id, "CHANGE_HEALTH");
   }
