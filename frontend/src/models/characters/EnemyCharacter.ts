@@ -1,8 +1,9 @@
-import { Character } from './Character'
+import { Character } from "./Character";
 
 export interface EnemyCharacter extends Character {
-  type: string
-  difficulty: number
-  url: string
-  description: string
+  _id: string;
+  type: string;
+  difficulty: number;
+  url: string;
+  description: string;
 }

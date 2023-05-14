@@ -2,8 +2,9 @@ import { Socket } from "socket.io";
 import { getTripleDiceScore } from "./function/getDice";
 import Logger from "./lib/winston";
 import Game, { IGame } from "./models/Game";
+import EnemyCharacter from "./models/EnemyCharacter";
 import updatedEnemyCharacterEvent from "./models/history/EnemyCharacterEvent";
-import { EnemyCharacter } from "./models/characters/EnemyCharacter";
+import mongoose from "mongoose";
 
 const setupSocketIO = (io: any) => {
   io.on("connection", (socket: Socket) => {
@@ -122,9 +123,11 @@ const setupSocketIO = (io: any) => {
         try {
           let game = await Game.findById(gameId);
           if (game) {
-            enemyCharacter.id = (Math.random() * 100000000000000).toFixed(0);
             enemyCharacter.health = enemyCharacter.maxHealth;
-            game.enemyCharacters.push(enemyCharacter);
+            game.enemyCharacters.push({
+              ...enemyCharacter,
+              _id: new mongoose.Types.ObjectId(),
+            });
             game.save();
             io.emit("GAME", game);
           }
@@ -141,7 +144,7 @@ const setupSocketIO = (io: any) => {
           let game = await Game.findById(gameId);
           if (game) {
             game.enemyCharacters = game.enemyCharacters.filter(
-              (e) => e.id !== enemyCharacterId
+              (e) => e._id.toString() !== enemyCharacterId
             );
             game.save();
             io.emit("GAME", game);

@@ -32,7 +32,7 @@ export default function CardEnemy({
     url,
     lastName,
     description,
-    id,
+    _id,
     health,
     maxHealth,
     ...props
@@ -43,15 +43,14 @@ export default function CardEnemy({
   const isGameMaster = useGameStore((state: any) => state.isGameMaster);
   // search  this item in the store
   const enemyCharacter = game.enemyCharacters.find(
-    (e: EnemyCharacter) => e.id === id
+    (e: EnemyCharacter) => e.id.toString() === _id.toString()
   );
 
   const [temporaryHealth, setTemporaryHealth] = useState(health);
 
   function removeEnemyCharacter() {
     try {
-      emitRemoveMonster(id, game._id)
-      emitRemoveEnemyCharacter(id, game._id);
+      emitRemoveEnemyCharacter(_id, game._id);
     } catch (error) {
       console.log(error)
     }

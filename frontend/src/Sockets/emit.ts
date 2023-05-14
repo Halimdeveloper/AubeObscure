@@ -40,7 +40,7 @@ export const addEnemyCharacterInEvent = (
 };
 
 export const emitRemoveEnemyCharacter = (
-  enemyCharacterId: number,
+  enemyCharacterId: string,
   gameId: string
 ) => {
   socket.emit("REMOVE_ENEMY_CHARACTER", { enemyCharacterId, gameId });
