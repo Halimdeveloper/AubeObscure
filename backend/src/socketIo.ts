@@ -1,7 +1,10 @@
 import { Socket } from 'socket.io'
 import { getTripleDiceScore } from './function/getDice'
 import Logger from './lib/winston'
-import Game from './models/Game'
+import Game, { IGame } from './models/Game'
+import EnemyCharacter from './models/EnemyCharacter'
+import updatedEnemyCharacterEvent from './models/history/EnemyCharacterEvent'
+import mongoose from 'mongoose'
 
 const setupSocketIO = (io: any) => {
   io.on('connection', (socket: Socket) => {
@@ -41,7 +44,7 @@ const setupSocketIO = (io: any) => {
 
     socket.on('ATTACK_PLAYER', async ({ characterId, gameId, value }) => {
       try {
-        const game = await Game.findById(gameId)
+        let game = await Game.findById(gameId)
 
         if (!game) {
           return Logger.error('Game not found')
@@ -55,7 +58,7 @@ const setupSocketIO = (io: any) => {
           return Logger.error('Player not found')
         }
 
-        const updatedPlayer = game.players
+        let updatedPlayer = game.players
 
         if (updatedPlayer[playerIndex].currentCharacter!.health <= 0) {
           return socket.emit('GAME', game)
@@ -73,7 +76,7 @@ const setupSocketIO = (io: any) => {
 
     socket.on('HEALTH_PLAYER', async ({ characterId, gameId, value }) => {
       try {
-        const game = await Game.findById(gameId)
+        let game = await Game.findById(gameId)
 
         if (!game) {
           return Logger.error('Game not found')
@@ -87,9 +90,9 @@ const setupSocketIO = (io: any) => {
           return Logger.error('Player not found')
         }
 
-        const updatedPlayer = game.players
-        const health = updatedPlayer[playerIndex].currentCharacter!.health
-        const maxHealth = updatedPlayer[playerIndex].currentCharacter!.maxHealth
+        let updatedPlayer = game.players
+        let health = updatedPlayer[playerIndex].currentCharacter!.health
+        let maxHealth = updatedPlayer[playerIndex].currentCharacter!.maxHealth
 
         if (health >= maxHealth) {
           return socket.emit('GAME', game)
@@ -118,10 +121,13 @@ const setupSocketIO = (io: any) => {
       'ADD_ENEMY_CHARACTER_IN_EVENT',
       async ({ enemyCharacter, gameId }) => {
         try {
-          const game = await Game.findById(gameId)
+          let game = await Game.findById(gameId)
           if (game) {
-            enemyCharacter.id = Math.random() * 100000000000000
-            game.enemyCharacters.push(enemyCharacter)
+            enemyCharacter.health = enemyCharacter.maxHealth
+            game.enemyCharacters.push({
+              ...enemyCharacter,
+              _id: new mongoose.Types.ObjectId(),
+            })
             game.save()
             io.emit('GAME', game)
           }
@@ -131,21 +137,69 @@ const setupSocketIO = (io: any) => {
       }
     )
 
-    socket.on('REMOVE_MONSTER', async ({ monsterId, gameId }) => {
-      try {
-        const game = await Game.findById(gameId)
-        if (game) {
-          game.enemyCharacters = game.enemyCharacters.filter(
-            (e) => e.id !== monsterId
-          )
-          game.save()
-          io.emit('GAME', game)
+    socket.on(
+      'REMOVE_ENEMY_CHARACTER',
+      async ({ enemyCharacterId, gameId }) => {
+        try {
+          let game = await Game.findById(gameId)
+          if (game) {
+            game.enemyCharacters = game.enemyCharacters.filter(
+              (e) => e._id.toString() !== enemyCharacterId
+            )
+            game.save()
+            io.emit('GAME', game)
+          }
+        } catch (error) {
+          Logger.error(error)
         }
-      } catch (error) {
-        Logger.error(error)
       }
-    })
+    )
+
+    socket.on(
+      'EDIT_ENEMY_CHARACTER',
+      async ({
+        enemyCharacter,
+        gameId,
+        type,
+      }: {
+        enemyCharacter: EnemyCharacter
+        gameId: String
+        type: String
+      }) => {
+        try {
+          let game = await Game.findById(gameId)
+          console.log('game', game)
+          if (game) {
+            const enemyCharacterIndex = game.enemyCharacters.findIndex(
+              (e) => e._id === enemyCharacter.id
+            )
+            if (enemyCharacterIndex !== -1) {
+              let updatedEnemyCharacters = game.enemyCharacters
+              updatedEnemyCharacters[enemyCharacterIndex] = enemyCharacter
+              game.enemyCharacters.splice(
+                0,
+                game.enemyCharacters.length,
+                ...updatedEnemyCharacters
+              )
+
+              if (type === 'CHANGE_HEALTH') {
+                game.events.push({
+                  type: 'CHANGE_HEALTH',
+                  timeStamp: Date.now(),
+                  message: `${enemyCharacter.firstName} ${enemyCharacter.lastName} : ${enemyCharacter.health} points de vies restants`,
+                } as updatedEnemyCharacterEvent)
+              }
+              await game.save()
+              io.emit('GAME', game)
+            }
+          }
+        } catch (error) {
+          Logger.error(error)
+        }
+      }
+    )
   })
 }
 
 export default setupSocketIO
+

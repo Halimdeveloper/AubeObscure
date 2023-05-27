@@ -1,33 +1,75 @@
-import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
-import CardMedia from '@mui/material/CardMedia'
-import CardContent from '@mui/material/CardContent'
-import CardActions from '@mui/material/CardActions'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { EnemyCharacter } from '../../models/characters/EnemyCharacter'
-import { LifeBarEnemy } from '../LifeBar'
-import CancelIcon from '@mui/icons-material/Cancel'
-import { emitRemoveMonster } from '../../Sockets/emit'
-import { useGameStore } from '../../stores/GameStore'
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { EnemyCharacter } from "../../models/characters/EnemyCharacter";
+import { LifeBarEnemy } from "../LifeBar";
+import CancelIcon from "@mui/icons-material/Cancel";
+import HeartIcon from "@mui/icons-material/Favorite";
+import {
+  emitEditEnemyCharacter,
+  emitRemoveEnemyCharacter,
+} from "../../Sockets/emit";
+import { useGameStore } from "../../stores/GameStore";
+import Slider from "@mui/material/Slider";
+import { Box, Menu } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Game } from "../../models/Game";
+import { User } from "../../models/User";
+import { useUserStore } from "../../stores/UserStore";
 
 interface Props {
   enemy: EnemyCharacter
 }
 
 export default function CardEnemy({
-  enemy: { firstName, url, lastName, description, id, ...props },
+  enemy: {
+    firstName,
+    url,
+    lastName,
+    description,
+    _id,
+    health,
+    maxHealth,
+    ...props
+  },
 }: Props) {
-  const game = useGameStore((state: any) => state.game)
+  const game = useGameStore((state: any) => state.game) as Game;
+  const currentUser = useUserStore((state: any) => state.currentUser) as User;
+  const isGameMaster = useGameStore((state: any) => state.isGameMaster);
+  // search  this item in the store
+  const enemyCharacter = game.enemyCharacters.find(
+    (e: EnemyCharacter) => e._id.toString() === _id.toString()
+  );
 
-  function removeMonster() {
+  const [temporaryHealth, setTemporaryHealth] = useState(health);
+
+  function removeEnemyCharacter() {
     try {
-      emitRemoveMonster(id, game._id)
+      emitRemoveEnemyCharacter(_id, game._id);
     } catch (error) {
       console.log(error)
     }
   }
+
+  function saveEditLife() {
+    console.log("saveEditLife")
+    enemyCharacter!.health = temporaryHealth;
+    emitEditEnemyCharacter(enemyCharacter!, game._id, "CHANGE_HEALTH");
+  }
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Card
@@ -58,16 +100,52 @@ export default function CardEnemy({
         }}
       />
       <CardContent>
-        <LifeBarEnemy character={{ health: 100, maxHealth: 100 }} />
+        <LifeBarEnemy character={{ health: health, maxHealth: maxHealth }} />
         <Typography variant='body2' color='text.secondary'>
           {description}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label='cancel' onClick={removeMonster}>
-          <CancelIcon />
-        </IconButton>
-      </CardActions>
+
+      {isGameMaster(currentUser._id) && (
+        <CardActions disableSpacing>
+          <IconButton aria-label='cancel' onClick={removeEnemyCharacter}>
+            <CancelIcon />
+          </IconButton>
+          <IconButton
+            id='basic-button'
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup='true'
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+          >
+            <HeartIcon />
+          </IconButton>
+          <Menu
+            id='basic-menu'
+            anchorEl={anchorEl}
+            open={open}
+            onClose={() => {
+              handleClose(), saveEditLife();
+            }}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <Box sx={{ width: 300, padding: "30px 25px 0px 25px" }}>
+              <Slider
+                aria-label='Small steps'
+                onChange={(e) => setTemporaryHealth(e.target.value)}
+                value={temporaryHealth}
+                step={1}
+                marks
+                min={0}
+                max={maxHealth}
+                valueLabelDisplay='on'
+              />
+            </Box>
+          </Menu>
+        </CardActions>
+      )}
     </Card>
   )
 }
